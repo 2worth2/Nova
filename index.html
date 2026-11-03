@@ -5,35 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nova</title>
 <style>
-:root{--bg:#F3F5F9;--surface:#fff;--surface2:#EEF1F6;--line:#DDE2EC;--ink:#121A2D;--muted:#566077;--accent:#0F766E;--on-accent:#fff;--accent-soft:#DDF3EF;--accent-ink:#0B5F58;--danger:#B42318;--glass:rgba(255,255,255,.6);--glass-line:rgba(255,255,255,.75);--shadow:0 8px 24px rgba(18,26,45,.14)}
-@media (prefers-color-scheme:dark){:root{--bg:#0D121F;--surface:#161C2E;--surface2:#1E2640;--line:#2B3552;--ink:#E9EDF6;--muted:#A0AABF;--accent:#2DD4BF;--on-accent:#052E2A;--accent-soft:#153B3A;--accent-ink:#5EEAD4;--danger:#FDA29B;--glass:rgba(30,38,64,.6);--glass-line:rgba(255,255,255,.12);--shadow:0 8px 24px rgba(0,0,0,.45)}}
+:root{--bg:#F3F5F9;--surface:#fff;--surface2:#EEF1F6;--line:#DDE2EC;--ink:#121A2D;--muted:#566077;--accent:#0F766E;--on-accent:#fff;--accent-soft:#DDF3EF;--accent-ink:#0B5F58;--danger:#B42318;--gold:#B7791F;--glass:rgba(255,255,255,.6);--glass-line:rgba(255,255,255,.75);--shadow:0 8px 24px rgba(18,26,45,.14);--neon:#0B5F58;--neon-glow:rgba(15,118,110,.45)}
+@media (prefers-color-scheme:dark){:root{--bg:#0D121F;--surface:#161C2E;--surface2:#1E2640;--line:#2B3552;--ink:#E9EDF6;--muted:#A0AABF;--accent:#2DD4BF;--on-accent:#052E2A;--accent-soft:#153B3A;--accent-ink:#5EEAD4;--danger:#FDA29B;--gold:#F5C451;--glass:rgba(30,38,64,.6);--glass-line:rgba(255,255,255,.12);--shadow:0 8px 24px rgba(0,0,0,.45);--neon:#5EEAD4;--neon-glow:rgba(45,212,191,.55)}}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 h1{margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em}
+h2{margin:0;font-size:16px}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 110px;display:flex;flex-direction:column;gap:16px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
 .in{width:100%;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 textarea.in{resize:vertical;min-height:80px}
-.btn{min-height:44px;padding:0 20px;border:none;border-radius:12px;background:var(--accent);color:var(--on-accent);font-weight:700}
+.btn{min-height:44px;padding:0 20px;border:none;border-radius:12px;background:var(--accent);color:var(--on-accent);font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
 .btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn.on{background:var(--accent);color:var(--on-accent);border-color:transparent}
+.btn.bad{background:var(--danger);color:var(--surface)}
 .btn:disabled{opacity:.5;cursor:default}
 .muted{color:var(--muted);font-size:13px}
 .err{color:var(--danger);font-weight:600;font-size:14px}
 .row{display:flex;align-items:center;gap:12px}
+.wrapr{flex-wrap:wrap}
 .grow{flex:1;min-width:0}
-.ava{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
-.name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.col{display:flex;flex-direction:column;gap:12px}
+.ava{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;overflow:hidden;position:relative}
+.ava img{width:100%;height:100%;object-fit:cover}
+.name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;max-width:100%}
+.name>span:first-child{overflow:hidden;text-overflow:ellipsis}
 .post-body{white-space:pre-wrap;word-break:break-word;margin:8px 0}
+.pimg{display:block;max-width:100%;max-height:480px;border-radius:12px;margin:8px 0;object-fit:contain;background:var(--surface2)}
 .link{background:none;border:none;color:var(--accent-ink);font-weight:700;padding:6px 0}
+.tag{padding:2px 10px;border-radius:10px;background:var(--accent-soft);color:var(--accent-ink);font-size:12px;font-weight:700}
 .auth{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
 .auth .card{width:100%;max-width:400px;padding:32px;display:flex;flex-direction:column;gap:16px;border-radius:20px}
 .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
 .logo i{width:40px;height:40px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-style:normal}
 nav{position:fixed;left:0;right:0;bottom:0;padding:0 12px calc(12px + env(safe-area-inset-bottom));pointer-events:none;z-index:20}
-nav div{pointer-events:auto;display:flex;gap:2px;max-width:360px;margin:0 auto;padding:5px;border-radius:28px;background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6)}
+nav div{pointer-events:auto;display:flex;gap:2px;max-width:420px;margin:0 auto;padding:5px;border-radius:28px;background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6)}
 nav button{flex:1;min-height:48px;border:none;border-radius:22px;background:transparent;color:var(--muted);font-size:13px;font-weight:600}
 nav button.on{background:var(--accent-soft);color:var(--accent-ink)}
 .chat{display:flex;flex-direction:column;height:100dvh;max-width:720px;margin:0 auto}
@@ -47,6 +56,39 @@ nav button.on{background:var(--accent-soft);color:var(--accent-ink)}
 .item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 16px;border:none;border-bottom:1px solid var(--line);background:transparent}
 .list{padding:0;overflow:hidden}
 .list .item:last-child{border-bottom:none}
+.banner{height:110px;background-size:cover;background-position:center;position:relative;overflow:hidden}
+.banner img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.pad{padding:0 20px 20px}
+.lift{margin-top:-40px;position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.lift .ava{border:4px solid var(--surface);width:84px;height:84px;font-size:32px}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{display:flex;flex-direction:column;align-items:center;gap:8px;width:92px;padding:10px 6px;border-radius:12px;border:2px solid var(--line);background:var(--surface);font-size:12px;color:var(--muted);text-align:center}
+.opt.sel{border-color:var(--accent)}
+.opt:disabled{opacity:.45}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.sw button{width:46px;height:26px;border-radius:13px;border:none;background:var(--muted);position:relative;flex:none}
+.sw button::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .15s}
+.sw button.on{background:var(--accent)}
+.sw button.on::after{left:23px}
+.pop{max-height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.file{position:relative;overflow:hidden}
+.file input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.nm-rose{color:#C2255C}.nm-blue{color:#1C5FD4}.nm-violet{color:#6741D9}.nm-gold{color:#8A5A00}
+@media (prefers-color-scheme:dark){.nm-rose{color:#FF8FB1}.nm-blue{color:#7FB2FF}.nm-violet{color:#B9A5FF}.nm-gold{color:#F5C451}}
+.nm-grad{background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:nmshift 4s linear infinite}
+.nm-aurora{background-image:linear-gradient(90deg,#34D399,#3B82F6,#8B5CF6,#34D399)}
+.nm-sunset{background-image:linear-gradient(90deg,#F97316,#EC4899,#F59E0B,#F97316)}
+.nm-neon{color:var(--neon);text-shadow:0 0 6px var(--neon-glow),0 0 14px var(--neon-glow)}
+@keyframes nmshift{from{background-position:0 0}to{background-position:200% 0}}
+.fr-gold{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #D69E2E}
+.fr-rose{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #E0457B}
+.fr-blue{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #3B82F6}
+.fr-violet{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #8B5CF6}
+.fr-double{box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px var(--accent),0 0 0 5.5px var(--surface),0 0 0 7px var(--accent)}
+.fr-neon{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--neon),0 0 14px 4px var(--neon-glow)}
+.fr-rainbow{animation:frhue 4s linear infinite;box-shadow:0 0 0 2px var(--surface),0 0 0 4px #F43F5E}
+@keyframes frhue{0%,100%{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #F43F5E}25%{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #F59E0B}50%{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #10B981}75%{box-shadow:0 0 0 2px var(--surface),0 0 0 4px #3B82F6}}
+@media (prefers-reduced-motion:reduce){.nm-grad,.fr-rainbow{animation:none}}
 #toast{position:fixed;left:0;right:0;bottom:84px;display:flex;justify-content:center;pointer-events:none;z-index:30;padding:0 16px}
 #toast span{background:rgba(15,23,42,.88);color:#fff;padding:10px 16px;border-radius:14px;font-weight:600;max-width:420px}
 #toast span.bad{background:rgba(180,35,24,.92)}
@@ -56,25 +98,42 @@ nav button.on{background:var(--accent-soft);color:var(--accent-ink)}
 <div id="app"></div>
 <div id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
 <script>
-/* ===== НАСТРОЙКА: вставьте данные из Supabase (Project Settings -> API) ===== */
-const SUPABASE_URL = 'https://htnhaqbenpykcnqslkkn.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0bmhhcWJlbnB5a2NucXNsa2tuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2MDc0NTQsImV4cCI6MjEwOTE4MzQ1NH0.64uXtohqLgIoJ2dhiKTGuK2xbeSv2dI8bt1XzeXpkmk';
-/* ============================================================================ */
-
 const $app = document.getElementById('app');
-const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const COLORS = ['#0F766E', '#1C5FD4', '#6741D9', '#C2255C', '#C2410C', '#8A5A00', '#2F855A'];
 const colorOf = (n) => COLORS[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % COLORS.length];
-const ava = (p) => `<span class="ava" style="background:${colorOf(p.username)}">${esc(p.username[0].toUpperCase())}</span>`;
-const nameOf = (p) => p.display_name || p.username;
 const EMAIL = (u) => u.toLowerCase() + '@nova.example.com';
+const PCOLS = 'id,username,display_name,bio,status,avatar_url,banner_url,banner_color,name_color,frame,hide_online,gr_public,last_seen,is_admin,is_premium,is_verified,title,is_banned,gr';
+const NAMEFX = { default: ['Обычный', ''], rose: ['Розовый', 'nm-rose'], blue: ['Синий', 'nm-blue'], violet: ['Фиолетовый', 'nm-violet'], gold: ['Золотой', 'nm-gold'], aurora: ['Аврора · переливается', 'nm-grad nm-aurora'], sunset: ['Закат · переливается', 'nm-grad nm-sunset'], neon: ['Неон · свечение', 'nm-neon'] };
+const FRAMES = { none: ['Без рамки', 0], gold: ['Золотая', 0], rose: ['Розовая', 0], blue: ['Синяя', 0], violet: ['Фиолетовая', 0], double: ['Двойная', 1], neon: ['Неон', 1], rainbow: ['Радужная', 1] };
+const BANNERS = { sky: ['linear-gradient(135deg,#7DB4F5,#4B7BEC)', 0], mint: ['linear-gradient(135deg,#6EE7B7,#0F9488)', 0], lilac: ['linear-gradient(135deg,#C4B5FD,#7C5CE0)', 0], sunset: ['linear-gradient(135deg,#FDBA74,#EC4899)', 0], sand: ['linear-gradient(135deg,#E9D8A6,#C9A227)', 0], aurora: ['linear-gradient(135deg,#34D399,#7C5CE0)', 1] };
+const prem = (p) => !!p.is_premium;
+const nameOf = (p) => p.display_name || p.username;
+const nameCls = (p) => (prem(p) && NAMEFX[p.name_color] ? NAMEFX[p.name_color][1] : '');
+const frameCls = (p) => (p.frame && p.frame !== 'none' && FRAMES[p.frame] && (!FRAMES[p.frame][1] || prem(p)) ? 'fr-' + p.frame : '');
+const bannerCss = (p) => { const b = BANNERS[p.banner_color]; return (b && (!b[1] || prem(p)) ? b : BANNERS.sky)[0]; };
+const av = (p, s = 44) => `<span class="ava ${frameCls(p)}" style="width:${s}px;height:${s}px;font-size:${Math.round(s * .4)}px;background:${colorOf(p.username)}">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" alt="">` : esc(p.username[0].toUpperCase())}</span>`;
+const SVG_OK = '<svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="Подтверждённый профиль" style="flex:none;color:var(--accent)"><circle cx="12" cy="12" r="11" fill="currentColor"/><polyline points="7 12.5 10.5 16 17 9" style="fill:none;stroke:var(--on-accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"/></svg>';
+const SVG_STAR = '<svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="Premium" style="flex:none;color:var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"/></svg>';
+const nm = (p) => `<span class="name"><span class="${nameCls(p)}">${esc(nameOf(p))}</span>${p.is_verified ? SVG_OK : ''}${prem(p) ? SVG_STAR : ''}</span>`;
+const hm = (d) => d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 const timeStr = (iso) => {
   const d = new Date(iso), now = new Date();
-  const hm = d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-  if (d.toDateString() === now.toDateString()) return hm;
-  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ' + hm;
+  if (d.toDateString() === now.toDateString()) return hm(d);
+  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ' + hm(d);
 };
+function seenText(p) {
+  if (me && p.id === me.id) return p.hide_online ? 'в сети · скрыто от других' : 'в сети';
+  if (p.hide_online) return 'был(а) недавно';
+  if (!p.last_seen) return 'был(а) давно';
+  const d = new Date(p.last_seen), now = new Date();
+  if (now - d < 180000) return 'в сети';
+  if (d.toDateString() === now.toDateString()) return 'был(а) сегодня в ' + hm(d);
+  if (new Date(now - 86400000).toDateString() === d.toDateString()) return 'был(а) вчера в ' + hm(d);
+  return 'был(а) ' + d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+}
 let toastT;
 function toast(text, bad) {
   const t = document.getElementById('toast');
@@ -83,22 +142,51 @@ function toast(text, bad) {
   toastT = setTimeout(() => { t.innerHTML = ''; }, 3000);
 }
 
-const configured = !SUPABASE_URL.startsWith('ВСТАВЬТЕ') && !SUPABASE_KEY.startsWith('ВСТАВЬТЕ');
-const sb = configured ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-let me = null, tab = 'feed', chatWith = null, channel = null, openPost = null;
+const CFG = window.NOVA || {};
+const configured = CFG.url && CFG.key && !String(CFG.url).startsWith('ВСТАВЬТЕ') && !String(CFG.key).startsWith('ВСТАВЬТЕ');
+const sb = configured ? supabase.createClient(CFG.url, CFG.key) : null;
+let me = null, tab = 'feed', chatWith = null, channel = null, back = 'feed', seenTimer = null;
 const pcache = {};
+const remember = (p) => { if (p && p.id) pcache[p.id] = Object.assign(pcache[p.id] || {}, p); return p; };
 
-async function getProfile(id) {
-  if (pcache[id]) return pcache[id];
-  const { data } = await sb.from('profiles').select('id,username,display_name').eq('id', id).single();
-  if (data) pcache[id] = data;
-  return data;
+async function getProfile(id, fresh) {
+  if (pcache[id] && !fresh) return pcache[id];
+  const { data } = await sb.from('profiles').select(PCOLS).eq('id', id).single();
+  return remember(data);
+}
+
+/* ---------- картинки: сжатие и загрузка ---------- */
+function prepImage(file, o) {
+  return new Promise((resolve, reject) => {
+    if (!/^image\//.test(file.type)) return reject(new Error('Выберите изображение или GIF'));
+    if (file.type === 'image/gif') return file.size <= 2 * 1024 * 1024 ? resolve(file) : reject(new Error('GIF больше 2 МБ: выберите файл поменьше'));
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Не удалось прочитать файл')); };
+    img.onload = () => {
+      let w = img.width, h = img.height, sx = 0, sy = 0, sw = w, sh = h;
+      if (o.square) { const m = Math.min(w, h); sx = (w - m) / 2; sy = (h - m) / 2; sw = sh = m; w = h = m; }
+      const k = Math.min(1, o.max / Math.max(w, h));
+      const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
+      c.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob((b) => b ? resolve(b) : reject(new Error('Не удалось сжать фото')), 'image/jpeg', o.q || 0.85);
+    };
+    img.src = url;
+  });
+}
+async function uploadImage(file, o) {
+  const blob = await prepImage(file, o);
+  const ext = blob.type === 'image/gif' ? 'gif' : 'jpg';
+  const path = me.id + '/' + Date.now() + '.' + ext;
+  const { error } = await sb.storage.from('media').upload(path, blob, { contentType: blob.type });
+  if (error) throw new Error('Не удалось загрузить файл');
+  return sb.storage.from('media').getPublicUrl(path).data.publicUrl;
 }
 
 /* ---------- вход и регистрация ---------- */
 function showSetup() {
   $app.innerHTML = `<div class="auth"><div class="card"><div class="logo"><i>N</i>Nova</div>
-  <h1>Нужна настройка</h1><div class="muted">Откройте index.html и вставьте адрес и ключ проекта Supabase в блок «НАСТРОЙКА» в начале скрипта. Подробности в инструкции.</div></div></div>`;
+  <h1>Нужна настройка</h1><div class="muted">Создайте рядом с index.html файл config.js и вставьте в него адрес и ключ проекта Supabase (см. инструкцию).</div></div></div>`;
 }
 function showAuth(mode = 'login', err = '') {
   const reg = mode === 'register';
@@ -143,78 +231,120 @@ async function start() {
   if (!session) return showAuth();
   let prof = null;
   for (let i = 0; i < 4 && !prof; i++) {
-    prof = (await sb.from('profiles').select('id,username,display_name').eq('id', session.user.id).maybeSingle()).data;
+    prof = (await sb.from('profiles').select(PCOLS).eq('id', session.user.id).maybeSingle()).data;
     if (!prof) await new Promise((r) => setTimeout(r, 400));
   }
-  if (!prof) { await sb.auth.signOut(); return showAuth('login', 'Профиль не найден. Проверьте, что schema.sql выполнен'); }
-  me = prof; pcache[me.id] = me;
+  if (!prof) { await sb.auth.signOut(); return showAuth('login', 'Профиль не найден. Проверьте, что SQL-файлы выполнены'); }
+  me = remember(prof);
+  touchSeen(); clearInterval(seenTimer); seenTimer = setInterval(touchSeen, 60000);
   subscribe();
   go('feed');
 }
+function touchSeen() { if (me) sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', me.id).then(() => {}); }
 function subscribe() {
   if (channel) sb.removeChannel(channel);
   channel = sb.channel('nova')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: 'recipient=eq.' + me.id }, onIncoming)
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, () => { if (tab === 'feed' && !openPost) loadFeed(); })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, () => { if (tab === 'feed') loadFeed(); })
     .subscribe();
 }
 async function onIncoming(payload) {
   const m = payload.new;
   const p = await getProfile(m.sender);
-  if (tab === 'chat' && chatWith && chatWith.id === m.sender) { addBubble(m); }
+  if (tab === 'chat' && chatWith && chatWith.id === m.sender) addBubble(m);
   else toast('Новое сообщение от @' + (p ? p.username : '...'));
   if (tab === 'chats') loadChats();
 }
 
-/* ---------- каркас ---------- */
+/* ---------- каркас и навигация ---------- */
+const TABS = [['feed', 'Лента'], ['chats', 'Чаты'], ['profile', 'Профиль']];
 function go(t, arg) {
-  tab = t; openPost = null;
+  if (t === 'user' && arg && arg.id === me.id) t = 'profile';
+  if (['feed', 'chats', 'profile'].indexOf(t) !== -1) back = t;
+  tab = t;
   if (t === 'chat') { chatWith = arg; return renderChat(); }
   chatWith = null;
+  const cur = t === 'user' || t === 'settings' ? (t === 'settings' ? 'profile' : back) : t;
   $app.innerHTML = `<main class="wrap" id="view"></main>
-  <nav><div>${[['feed', 'Лента'], ['chats', 'Чаты'], ['profile', 'Профиль']].map((x) => `<button data-t="${x[0]}" class="${x[0] === t ? 'on' : ''}">${x[1]}</button>`).join('')}</div></nav>`;
+  <nav><div>${TABS.map((x) => `<button data-t="${x[0]}" class="${x[0] === cur ? 'on' : ''}">${x[1]}</button>`).join('')}</div></nav>`;
   $app.querySelectorAll('nav button').forEach((b) => { b.onclick = () => go(b.dataset.t); });
-  ({ feed: loadFeed, chats: loadChats, profile: renderProfile })[t]();
+  window.scrollTo(0, 0);
+  if (t === 'feed') loadFeed();
+  else if (t === 'chats') loadChats();
+  else if (t === 'profile') renderProfile(me, true);
+  else if (t === 'user') renderProfile(arg, false);
+  else if (t === 'settings') renderSettings();
 }
 const view = () => document.getElementById('view');
+const openUser = async (id) => { const p = await getProfile(id, true); if (p) go('user', p); };
 
 /* ---------- лента ---------- */
+let postImg = null;
 async function loadFeed() {
   const v = view(); if (!v) return;
   if (!v.dataset.ready) {
-    v.dataset.ready = 1;
-    v.innerHTML = `<h1>Лента</h1><div class="card"><textarea id="nt" class="in" maxlength="2000" placeholder="Что нового?"></textarea>
-    <div style="margin-top:8px"><button class="btn" id="pub">Опубликовать</button></div></div><div id="posts" style="display:flex;flex-direction:column;gap:16px"></div>`;
-    document.getElementById('pub').onclick = async () => {
+    v.dataset.ready = 1; postImg = null;
+    v.innerHTML = `<h1>Лента</h1><div class="card col"><textarea id="nt" class="in" maxlength="2000" placeholder="Что нового?"></textarea>
+    <div id="prev"></div>
+    <div class="row wrapr"><label class="btn ghost sm file">Фото или GIF<input type="file" id="pf" accept="image/*"></label><button class="btn" id="pub">Опубликовать</button></div></div>
+    <div id="posts" class="col" style="gap:16px"></div>`;
+    document.getElementById('pf').onchange = async (e) => {
+      const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+      try { postImg = await prepImage(f, { max: 1280, q: 0.82 }); } catch (er) { return toast(er.message, true); }
+      const u = URL.createObjectURL(postImg);
+      document.getElementById('prev').innerHTML = `<img class="pimg" src="${u}" alt=""><button class="btn ghost sm" id="rm">Убрать фото</button>`;
+      document.getElementById('rm').onclick = () => { postImg = null; document.getElementById('prev').innerHTML = ''; };
+    };
+    document.getElementById('pub').onclick = async (e) => {
       const t = document.getElementById('nt'); const body = t.value.trim();
-      if (!body) return toast('Напишите текст поста', true);
-      const { error } = await sb.from('posts').insert({ body });
-      if (error) return toast('Не удалось опубликовать', true);
-      t.value = ''; toast('Пост опубликован'); loadFeed();
+      if (!body && !postImg) return toast('Напишите текст или добавьте фото', true);
+      const btn = e.target; btn.disabled = true;
+      try {
+        let image_url = null;
+        if (postImg) image_url = await uploadImage(postImg instanceof File ? postImg : new File([postImg], 'p', { type: postImg.type }), { max: 1280 });
+        const { error } = await sb.from('posts').insert({ body: body || ' ', image_url });
+        if (error) throw new Error(me.is_banned ? 'Вы заблокированы' : 'Не удалось опубликовать');
+        t.value = ''; postImg = null; document.getElementById('prev').innerHTML = ''; toast('Пост опубликован');
+      } catch (er) { toast(er.message, true); }
+      btn.disabled = false; loadFeed();
     };
   }
-  const { data, error } = await sb.from('posts').select('id,body,created_at,author,profiles(username,display_name),comments(count)').order('created_at', { ascending: false }).limit(50);
+  const [{ data, error }, { data: mine }] = await Promise.all([
+    sb.from('posts').select(`id,body,image_url,pinned,created_at,author,profiles(${PCOLS}),comments(count),post_likes(count)`).order('pinned', { ascending: false }).order('created_at', { ascending: false }).limit(50),
+    sb.from('post_likes').select('post_id').eq('user_id', me.id)
+  ]);
   const box = document.getElementById('posts'); if (!box) return;
   if (error) { box.innerHTML = '<div class="err">Не удалось загрузить ленту</div>'; return; }
-  box.innerHTML = data.length ? data.map((p) => `<article class="card" data-id="${p.id}">
-    <div class="row">${ava(p.profiles)}<div class="grow"><div class="name">${esc(nameOf(p.profiles))}</div><div class="muted">@${esc(p.profiles.username)} · ${timeStr(p.created_at)}</div></div>
-    ${p.profiles.username === me.username ? `<button class="btn ghost sm" data-del="${p.id}">Удалить</button>` : `<button class="btn ghost sm" data-dm="${p.author}">Написать</button>`}</div>
-    <div class="post-body">${esc(p.body)}</div>
-    <button class="link" data-cm="${p.id}">Комментарии (${p.comments[0] ? p.comments[0].count : 0})</button><div class="cms"></div></article>`).join('') : '<div class="muted">Пока постов нет. Напишите первый!</div>';
+  const liked = new Set((mine || []).map((x) => x.post_id));
+  data.forEach((p) => remember(p.profiles));
+  box.innerHTML = data.length ? data.map((p) => {
+    const a = pcache[p.author] || p.profiles, mineP = p.author === me.id, n = (x) => (x && x[0] ? x[0].count : 0);
+    return `<article class="card" data-id="${p.id}">
+    <div class="row"><button class="link" style="padding:0" data-u="${p.author}">${av(a)}</button><div class="grow"><button class="link" style="padding:0;text-align:left;max-width:100%" data-u="${p.author}">${nm(a)}</button><div class="muted">@${esc(a.username)} · ${timeStr(p.created_at)}${p.pinned ? ' · 📌 закреплено' : ''}</div></div>
+    ${mineP ? '' : `<button class="btn ghost sm" data-dm="${p.author}">Написать</button>`}</div>
+    ${p.body.trim() ? `<div class="post-body">${esc(p.body)}</div>` : ''}${p.image_url ? `<img class="pimg" src="${esc(p.image_url)}" alt="" loading="lazy">` : ''}
+    <div class="row wrapr"><button class="link" data-like="${p.id}">${liked.has(p.id) ? '♥' : '♡'} ${n(p.post_likes)}</button><button class="link" data-cm="${p.id}">Комментарии (${n(p.comments)})</button>
+    ${me.is_admin ? `<button class="link" data-pin="${p.id}" data-v="${p.pinned ? 0 : 1}">${p.pinned ? 'Открепить' : 'Закрепить'}</button>` : ''}
+    ${mineP || me.is_admin ? `<button class="link" style="color:var(--danger)" data-del="${p.id}">Удалить</button>` : ''}</div><div class="cms"></div></article>`;
+  }).join('') : '<div class="muted">Пока постов нет. Напишите первый!</div>';
   box.onclick = async (e) => {
-    const t = e.target;
-    if (t.dataset.del) { if (!confirm('Удалить пост?')) return; const { error: er } = await sb.from('posts').delete().eq('id', t.dataset.del); toast(er ? 'Не удалось удалить' : 'Пост удалён', !!er); loadFeed(); }
-    else if (t.dataset.dm) { const p = await getProfile(t.dataset.dm); if (p) go('chat', p); }
-    else if (t.dataset.cm) toggleComments(t.closest('article'), t.dataset.cm);
+    const t = e.target.closest('button'); if (!t) return;
+    const d = t.dataset;
+    if (d.u) openUser(d.u);
+    else if (d.dm) { const p = await getProfile(d.dm); if (p) go('chat', p); }
+    else if (d.cm) toggleComments(t.closest('article'), d.cm);
+    else if (d.like) { const had = t.textContent.trim().startsWith('♥'); const r = had ? await sb.from('post_likes').delete().eq('post_id', d.like).eq('user_id', me.id) : await sb.from('post_likes').insert({ post_id: d.like }); if (r.error) toast('Не удалось поставить лайк', true); loadFeed(); }
+    else if (d.pin) { const r = await sb.rpc('admin_pin_post', { p_post: d.pin, p_pinned: d.v === '1' }); toast(r.error ? 'Не удалось' : (d.v === '1' ? 'Пост закреплён' : 'Пост откреплён'), !!r.error); loadFeed(); }
+    else if (d.del) { if (!confirm('Удалить пост?')) return; const r = await sb.from('posts').delete().eq('id', d.del); toast(r.error ? 'Не удалось удалить' : 'Пост удалён', !!r.error); loadFeed(); }
   };
 }
 async function toggleComments(card, postId) {
   const box = card.querySelector('.cms');
-  if (box.innerHTML) { box.innerHTML = ''; openPost = null; return; }
-  openPost = postId;
+  if (box.innerHTML) { box.innerHTML = ''; return; }
   const draw = async () => {
-    const { data } = await sb.from('comments').select('id,body,created_at,author,profiles(username,display_name)').eq('post_id', postId).order('created_at');
-    box.innerHTML = (data || []).map((c) => `<div class="row" style="align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)"><div class="grow"><b>${esc(nameOf(c.profiles))}</b> <span class="muted">@${esc(c.profiles.username)} · ${timeStr(c.created_at)}</span><div class="post-body" style="margin:2px 0 0">${esc(c.body)}</div></div>${c.author === me.id ? `<button class="link" data-dc="${c.id}">Удалить</button>` : ''}</div>`).join('')
+    const { data } = await sb.from('comments').select(`id,body,created_at,author,profiles(${PCOLS})`).eq('post_id', postId).order('created_at');
+    (data || []).forEach((c) => remember(c.profiles));
+    box.innerHTML = (data || []).map((c) => `<div class="row" style="align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)"><div class="grow"><button class="link" style="padding:0" data-cu="${c.author}">${nm(pcache[c.author])}</button> <span class="muted">@${esc(pcache[c.author].username)} · ${timeStr(c.created_at)}</span><div class="post-body" style="margin:2px 0 0">${esc(c.body)}</div></div>${c.author === me.id || me.is_admin ? `<button class="link" data-dc="${c.id}">Удалить</button>` : ''}</div>`).join('')
       + `<div class="row" style="margin-top:8px"><input class="in" id="ci" maxlength="1000" placeholder="Ваш комментарий"><button class="btn sm" id="cs">Отправить</button></div>`;
     box.querySelector('#cs').onclick = async () => {
       const body = box.querySelector('#ci').value.trim(); if (!body) return;
@@ -222,6 +352,7 @@ async function toggleComments(card, postId) {
       toast(error ? 'Не удалось отправить' : 'Комментарий добавлен', !!error); draw();
     };
     box.querySelectorAll('[data-dc]').forEach((b) => { b.onclick = async () => { await sb.from('comments').delete().eq('id', b.dataset.dc); draw(); }; });
+    box.querySelectorAll('[data-cu]').forEach((b) => { b.onclick = () => openUser(b.dataset.cu); });
   };
   draw();
 }
@@ -231,15 +362,15 @@ async function loadChats() {
   const v = view(); if (!v) return;
   if (!v.dataset.ready) {
     v.dataset.ready = 1;
-    v.innerHTML = `<h1>Чаты</h1><div class="card"><div class="row"><input id="q" class="in" placeholder="Найти по юзернейму" autocapitalize="none"></div><div id="found" style="margin-top:8px"></div></div>
+    v.innerHTML = `<h1>Чаты</h1><div class="card"><input id="q" class="in" placeholder="Найти по юзернейму" autocapitalize="none"><div id="found" style="margin-top:8px"></div></div>
     <div class="card list" id="convs"></div>`;
     document.getElementById('q').oninput = async (e) => {
       const q = e.target.value.trim().replace(/^@/, '').replace(/[%_\\]/g, (c) => '\\' + c);
       const f = document.getElementById('found');
       if (!q) { f.innerHTML = ''; return; }
-      const { data } = await sb.from('profiles').select('id,username,display_name').ilike('username', q + '%').neq('id', me.id).limit(8);
-      f.innerHTML = data && data.length ? data.map((p) => `<button class="item" data-u="${p.id}">${ava(p)}<div class="grow"><div class="name">${esc(nameOf(p))}</div><div class="muted">@${esc(p.username)}</div></div></button>`).join('') : '<div class="muted">Никого не найдено</div>';
-      data && data.forEach((p) => { pcache[p.id] = p; });
+      const { data } = await sb.from('profiles').select(PCOLS).ilike('username', q + '%').neq('id', me.id).limit(8);
+      (data || []).forEach(remember);
+      f.innerHTML = data && data.length ? data.map((p) => `<button class="item" data-u="${p.id}">${av(p)}<div class="grow">${nm(p)}<div class="muted">@${esc(p.username)}</div></div></button>`).join('') : '<div class="muted">Никого не найдено</div>';
       f.onclick = (ev) => { const b = ev.target.closest('[data-u]'); if (b) go('chat', pcache[b.dataset.u]); };
     };
   }
@@ -247,26 +378,25 @@ async function loadChats() {
   const last = {};
   (data || []).forEach((m) => { const o = m.sender === me.id ? m.recipient : m.sender; if (!last[o]) last[o] = m; });
   const ids = Object.keys(last);
-  await Promise.all(ids.map(getProfile));
+  await Promise.all(ids.map((id) => getProfile(id)));
   const box = document.getElementById('convs'); if (!box) return;
-  box.innerHTML = ids.length ? ids.map((id) => { const p = pcache[id], m = last[id]; return p ? `<button class="item" data-u="${id}">${ava(p)}<div class="grow"><div class="name">${esc(nameOf(p))}</div><div class="muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.sender === me.id ? 'Вы: ' : ''}${esc(m.body)}</div></div><span class="muted">${timeStr(m.created_at)}</span></button>` : ''; }).join('') : '<div class="muted" style="padding:16px">Диалогов пока нет. Найдите друга по юзернейму выше.</div>';
+  box.innerHTML = ids.length ? ids.map((id) => { const p = pcache[id], m = last[id]; return p ? `<button class="item" data-u="${id}">${av(p)}<div class="grow">${nm(p)}<div class="muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.sender === me.id ? 'Вы: ' : ''}${esc(m.body)}</div></div><span class="muted">${timeStr(m.created_at)}</span></button>` : ''; }).join('') : '<div class="muted" style="padding:16px">Диалогов пока нет. Найдите друга по юзернейму выше.</div>';
   box.onclick = (ev) => { const b = ev.target.closest('[data-u]'); if (b) go('chat', pcache[b.dataset.u]); };
 }
-function bubble(m) {
-  const mine = m.sender === me.id;
-  return `<div class="b ${mine ? 'me' : 'it'}">${esc(m.body)}<small>${timeStr(m.created_at)}</small></div>`;
-}
+const bubble = (m) => `<div class="b ${m.sender === me.id ? 'me' : 'it'}">${esc(m.body)}<small>${timeStr(m.created_at)}</small></div>`;
 function addBubble(m) {
   const box = document.getElementById('msgs'); if (!box) return;
+  const empty = box.querySelector('.muted'); if (empty) empty.remove();
   box.insertAdjacentHTML('beforeend', bubble(m));
   box.scrollTop = box.scrollHeight;
 }
 async function renderChat() {
-  const o = chatWith;
-  $app.innerHTML = `<div class="chat"><div class="chat-head"><button class="btn ghost sm" id="back" aria-label="Назад">←</button>${ava(o)}<div class="grow"><div class="name">${esc(nameOf(o))}</div><div class="muted">@${esc(o.username)}</div></div></div>
+  const o = await getProfile(chatWith.id, true) || chatWith; chatWith = o;
+  $app.innerHTML = `<div class="chat"><div class="chat-head"><button class="btn ghost sm" id="back" aria-label="Назад">←</button><button class="link" id="who" style="padding:0">${av(o)}</button><div class="grow">${nm(o)}<div class="muted">${esc(seenText(o))}</div></div></div>
   <div class="msgs" id="msgs"></div>
   <form class="composer" id="f"><input class="in" id="mt" maxlength="4000" placeholder="Сообщение" autocomplete="off"><button class="btn">Отправить</button></form></div>`;
-  document.getElementById('back').onclick = () => go('chats');
+  document.getElementById('back').onclick = () => go(back === 'profile' ? 'chats' : back);
+  document.getElementById('who').onclick = () => go('user', o);
   const { data } = await sb.from('messages').select('id,sender,recipient,body,created_at')
     .or(`and(sender.eq.${me.id},recipient.eq.${o.id}),and(sender.eq.${o.id},recipient.eq.${me.id})`).order('created_at').limit(200);
   const box = document.getElementById('msgs'); if (!box) return;
@@ -277,30 +407,142 @@ async function renderChat() {
     const i = document.getElementById('mt'); const body = i.value.trim(); if (!body) return;
     i.value = '';
     const { data: m, error } = await sb.from('messages').insert({ recipient: o.id, body }).select().single();
-    if (error) { i.value = body; return toast('Не удалось отправить', true); }
-    if (box.querySelector('.muted')) box.innerHTML = '';
+    if (error) { i.value = body; return toast(me.is_banned ? 'Вы заблокированы' : 'Не удалось отправить', true); }
     addBubble(m);
   };
   document.getElementById('mt').focus();
 }
 
-/* ---------- профиль ---------- */
-function renderProfile() {
-  view().innerHTML = `<h1>Профиль</h1><div class="card" style="display:flex;flex-direction:column;gap:12px">
-    <div class="row">${ava(me)}<div class="grow"><div class="name" style="font-size:20px">${esc(nameOf(me))}</div><div class="muted">@${esc(me.username)}</div></div></div>
+/* ---------- профиль (свой и чужой) ---------- */
+function renderProfile(p, isMe) {
+  const u = isMe ? me : p;
+  const showGr = isMe || u.gr_public;
+  view().innerHTML = `${isMe ? '<h1>Профиль</h1>' : `<div class="row"><button class="btn ghost sm" id="bk" aria-label="Назад">←</button><h1>Профиль</h1></div>`}
+  <div class="card" style="padding:0;overflow:hidden">
+    <div class="banner" style="background:${bannerCss(u)}">${u.banner_url ? `<img src="${esc(u.banner_url)}" alt="">` : ''}</div>
+    <div class="pad"><div class="lift">${av(u, 84)}
+      ${isMe ? '<button class="btn ghost" id="st">Настройки</button>' : '<button class="btn" id="dm">Написать</button>'}</div>
+    <div class="col" style="gap:8px;margin-top:12px">
+      <div class="row wrapr" style="gap:8px"><span style="font-size:22px;font-weight:800">${nm(u)}</span>${u.is_admin ? '<span class="tag">Админ</span>' : ''}${u.title ? `<span class="tag">${esc(u.title)}</span>` : ''}${u.is_banned ? '<span class="tag" style="color:var(--danger)">Заблокирован</span>' : ''}</div>
+      <div class="muted">@${esc(u.username)} · ${esc(seenText(u))}</div>
+      ${u.status ? `<div>${esc(u.status)}</div>` : ''}${u.bio ? `<div class="post-body" style="margin:0">${esc(u.bio)}</div>` : ''}
+      ${showGr ? `<div class="muted">Баланс: <b>${Number(u.gr).toLocaleString('ru-RU')} GR</b>${isMe && !u.gr_public ? ' · скрыт от других' : ''}</div>` : ''}
+    </div></div></div>
+  ${isMe ? '' : ''}<div id="ptl" class="col" style="gap:16px"></div>`;
+  if (isMe) document.getElementById('st').onclick = () => go('settings');
+  else { document.getElementById('dm').onclick = () => go('chat', u); document.getElementById('bk').onclick = () => go(back); }
+  loadUserPosts(u);
+}
+async function loadUserPosts(u) {
+  const { data } = await sb.from('posts').select('id,body,image_url,created_at').eq('author', u.id).order('created_at', { ascending: false }).limit(20);
+  const box = document.getElementById('ptl'); if (!box) return;
+  box.innerHTML = (data || []).length ? `<h2>Публикации</h2>` + data.map((p) => `<article class="card"><div class="muted">${timeStr(p.created_at)}</div>${p.body.trim() ? `<div class="post-body">${esc(p.body)}</div>` : ''}${p.image_url ? `<img class="pimg" src="${esc(p.image_url)}" alt="" loading="lazy">` : ''}</article>`).join('') : '<div class="muted">Публикаций пока нет.</div>';
+}
+
+/* ---------- настройки ---------- */
+async function saveMe(patch, okText) {
+  const { error } = await sb.from('profiles').update(patch).eq('id', me.id);
+  if (error) { toast('Не удалось сохранить', true); return false; }
+  Object.assign(me, patch); remember(me);
+  if (okText) toast(okText);
+  return true;
+}
+function renderSettings() {
+  const lock = (f) => f && !prem(me);
+  view().innerHTML = `<div class="row"><button class="btn ghost sm" id="bk" aria-label="Назад">←</button><h1>Настройки</h1></div>
+  <div class="card col"><h2>Профиль</h2>
     <label><div class="muted"><b>Отображаемое имя</b></div><input id="dn" class="in" maxlength="40" value="${esc(me.display_name || '')}" placeholder="${esc(me.username)}"></label>
+    <label><div class="muted"><b>Статус</b> (до 40 символов)</div><input id="stt" class="in" maxlength="40" value="${esc(me.status || '')}"></label>
+    <label><div class="muted"><b>О себе</b> (до 200 символов)</div><textarea id="bio" class="in" maxlength="200">${esc(me.bio || '')}</textarea></label>
     <div><button class="btn" id="sv">Сохранить</button></div></div>
-    <div class="card"><button class="btn ghost" id="out">Выйти из аккаунта</button></div>`;
+  <div class="card col"><h2>Аватар и баннер</h2>
+    <div class="row wrapr">${av(me, 56)}<label class="btn ghost sm file">Аватар из галереи<input type="file" id="fa" accept="image/*"></label>${me.avatar_url ? '<button class="btn ghost sm" id="ra">Убрать</button>' : ''}</div>
+    <div class="row wrapr"><div class="banner" style="width:120px;height:56px;border-radius:10px;background:${bannerCss(me)}">${me.banner_url ? `<img src="${esc(me.banner_url)}" alt="">` : ''}</div><label class="btn ghost sm file">Баннер из галереи<input type="file" id="fb" accept="image/*"></label>${me.banner_url ? '<button class="btn ghost sm" id="rb">Убрать</button>' : ''}</div>
+    <div class="muted">Цвет баннера, если нет фото</div>
+    <div class="opts">${Object.keys(BANNERS).map((k) => `<button class="opt ${me.banner_color === k ? 'sel' : ''}" data-bn="${k}" ${lock(BANNERS[k][1]) ? 'disabled' : ''}><span style="width:44px;height:24px;border-radius:8px;background:${BANNERS[k][0]}"></span>${k}${BANNERS[k][1] ? ' · Premium' : ''}</button>`).join('')}</div></div>
+  <div class="card col"><h2>Рамка аватара <span class="muted">· часть рамок — Premium</span></h2>
+    <div class="opts">${Object.keys(FRAMES).map((k) => `<button class="opt ${(me.frame || 'none') === k ? 'sel' : ''}" data-fr="${k}" ${lock(FRAMES[k][1]) ? 'disabled' : ''}><span class="ava ${k === 'none' ? '' : 'fr-' + k}" style="background:${colorOf(me.username)}">${esc(me.username[0].toUpperCase())}</span>${FRAMES[k][0]}</button>`).join('')}</div></div>
+  <div class="card col"><h2>Цвет и эффекты имени <span class="muted">· Premium</span></h2>
+    <div class="opts">${Object.keys(NAMEFX).map((k) => `<button class="opt ${me.name_color === k ? 'sel' : ''}" data-nc="${k}" ${k !== 'default' && !prem(me) ? 'disabled' : ''}><b class="${NAMEFX[k][1]}" style="font-size:17px">Аа</b>${NAMEFX[k][0]}</button>`).join('')}</div></div>
+  <div class="card"><h2>Приватность</h2>
+    <div class="sw" style="margin-top:8px"><div><div><b>Показывать, что я в сети</b></div><div class="muted">Если выключить, другие увидят «был(а) недавно»</div></div><button data-sw="hide_online" class="${me.hide_online ? '' : 'on'}" aria-label="Показывать, что я в сети"></button></div>
+    <div class="sw"><div><div><b>Показывать баланс GR всем</b></div><div class="muted">Если выключить, баланс виден только вам</div></div><button data-sw="gr_public" class="${me.gr_public ? 'on' : ''}" aria-label="Показывать баланс GR"></button></div></div>
+  ${me.is_admin ? '<div class="card col" id="admin"></div>' : ''}
+  <div class="card"><button class="btn ghost" id="out">Выйти из аккаунта</button></div>`;
+  document.getElementById('bk').onclick = () => go('profile');
   document.getElementById('sv').onclick = async () => {
-    const display_name = document.getElementById('dn').value.trim() || null;
-    const { error } = await sb.from('profiles').update({ display_name }).eq('id', me.id);
-    if (error) return toast('Не удалось сохранить', true);
-    me.display_name = display_name; pcache[me.id] = me; toast('Профиль сохранён'); renderProfile();
+    const ok = await saveMe({ display_name: document.getElementById('dn').value.trim() || null, status: document.getElementById('stt').value.trim() || null, bio: document.getElementById('bio').value.trim() || null }, 'Профиль сохранён');
+    if (ok) renderSettings();
   };
+  const pick = (id, field, o, text) => { document.getElementById(id).onchange = async (e) => {
+    const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+    try { const url = await uploadImage(f, o); if (await saveMe({ [field]: url }, text)) renderSettings(); } catch (er) { toast(er.message, true); }
+  }; };
+  pick('fa', 'avatar_url', { square: true, max: 256, q: 0.85 }, 'Аватар обновлён');
+  pick('fb', 'banner_url', { max: 1000, q: 0.8 }, 'Баннер обновлён');
+  [['ra', 'avatar_url', 'Аватар убран'], ['rb', 'banner_url', 'Баннер убран']].forEach(([id, f, t]) => { const b = document.getElementById(id); if (b) b.onclick = async () => { if (await saveMe({ [f]: null }, t)) renderSettings(); }; });
+  $app.querySelectorAll('[data-bn],[data-fr],[data-nc],[data-sw]').forEach((b) => {
+    b.onclick = async () => {
+      const d = b.dataset; let patch;
+      if (d.bn) patch = { banner_color: d.bn }; else if (d.fr) patch = { frame: d.fr }; else if (d.nc) patch = { name_color: d.nc };
+      else patch = { [d.sw]: !me[d.sw] };
+      if (await saveMe(patch, 'Сохранено')) renderSettings();
+    };
+  });
   document.getElementById('out').onclick = async () => {
     if (channel) sb.removeChannel(channel);
-    await sb.auth.signOut(); me = null; showAuth();
+    clearInterval(seenTimer); await sb.auth.signOut(); me = null; showAuth();
   };
+  if (me.is_admin) renderAdmin();
+}
+
+/* ---------- админ-панель: выбор любого пользователя ---------- */
+let adminSel = null, adminAll = false;
+function renderAdmin() {
+  const box = document.getElementById('admin'); if (!box) return;
+  const t = adminSel ? pcache[adminSel] : null;
+  box.innerHTML = `<h2>Администрирование</h2><div class="muted">Найдите пользователя по юзернейму или откройте список всех.</div>
+  <div class="row wrapr"><input id="aq" class="in grow" placeholder="@username или имя" autocapitalize="none" style="min-width:160px"><button class="btn ghost" id="aall">${adminAll ? 'Скрыть список' : 'Все пользователи'}</button></div>
+  <div id="alist"></div>
+  ${t ? `<div class="card col" style="background:var(--surface2)"><div class="row">${av(t, 48)}<div class="grow">${nm(t)}<div class="muted">@${esc(t.username)} · ${Number(t.gr).toLocaleString('ru-RU')} GR · ${esc(seenText(t))}</div></div><button class="btn ghost sm" id="aopen">Профиль</button></div>
+    <div class="opts" style="gap:8px">
+      <button class="btn sm ${t.is_premium ? 'on' : 'ghost'}" data-perk="premium">Premium</button>
+      <button class="btn sm ${t.is_verified ? 'on' : 'ghost'}" data-perk="verified">Галочка</button>
+      <button class="btn sm ${t.title === 'Модератор' ? 'on' : 'ghost'}" data-perk="mod">Модератор</button>
+      ${t.id !== me.id ? `<button class="btn sm ${t.is_banned ? 'bad' : 'ghost'}" data-perk="ban">${t.is_banned ? 'Разблокировать' : 'Заблокировать'}</button>` : ''}</div>
+    <div class="row wrapr"><input id="gra" class="in grow" placeholder="Сколько GR выдать" inputmode="numeric" style="min-width:140px"><button class="btn" id="grb">Выдать GR</button></div></div>` : '<div class="muted">Пользователь не выбран.</div>'}`;
+  const list = document.getElementById('alist');
+  const draw = (rows) => {
+    rows.forEach(remember);
+    list.innerHTML = rows.length ? `<div class="pop">${rows.map((p) => `<button class="item" data-pick="${p.id}">${av(p, 36)}<div class="grow">${nm(p)}<div class="muted">@${esc(p.username)} · ${Number(p.gr).toLocaleString('ru-RU')} GR</div></div></button>`).join('')}</div>` : '<div class="muted">Никого не найдено</div>';
+    list.onclick = (e) => { const b = e.target.closest('[data-pick]'); if (b) { adminSel = b.dataset.pick; adminAll = false; renderAdmin(); } };
+  };
+  document.getElementById('aq').oninput = async (e) => {
+    const q = e.target.value.trim().replace(/^@/, '').replace(/[%_,()\\]/g, '');
+    if (!q) { list.innerHTML = ''; return; }
+    const { data } = await sb.from('profiles').select(PCOLS).or(`username.ilike.%${q}%,display_name.ilike.%${q}%`).limit(10);
+    draw(data || []);
+  };
+  document.getElementById('aall').onclick = () => { adminAll = !adminAll; renderAdmin(); };
+  if (adminAll) sb.from('profiles').select(PCOLS).order('created_at').limit(200).then(({ data }) => draw(data || []));
+  if (t) {
+    document.getElementById('aopen').onclick = () => go('user', t);
+    box.querySelectorAll('[data-perk]').forEach((b) => { b.onclick = async () => {
+      const k = b.dataset.perk, a = { premium: t.is_premium, verified: t.is_verified, title: t.title || '', banned: t.is_banned };
+      if (k === 'premium') a.premium = !a.premium; else if (k === 'verified') a.verified = !a.verified;
+      else if (k === 'mod') a.title = a.title === 'Модератор' ? '' : 'Модератор'; else a.banned = !a.banned;
+      const { error } = await sb.rpc('admin_set_user', { target: t.id, p_premium: a.premium, p_verified: a.verified, p_title: a.title, p_banned: a.banned });
+      if (error) return toast('Не удалось изменить', true);
+      await getProfile(t.id, true); if (t.id === me.id) me = pcache[me.id]; toast('Сохранено'); renderAdmin();
+    }; });
+    document.getElementById('grb').onclick = async () => {
+      const n = parseInt(document.getElementById('gra').value, 10);
+      if (!(n >= 1 && n <= 1000000)) return toast('Количество: от 1 до 1 000 000', true);
+      const { error } = await sb.rpc('admin_grant_gr', { target: t.id, amount: n });
+      if (error) return toast('Не удалось выдать GR', true);
+      await getProfile(t.id, true); if (t.id === me.id) me = pcache[me.id]; toast('Выдано ' + n.toLocaleString('ru-RU') + ' GR: @' + t.username); renderAdmin();
+    };
+  }
 }
 
 if (!configured) showSetup(); else start();
