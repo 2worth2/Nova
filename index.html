@@ -109,7 +109,7 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':
 const COLORS = ['#0F766E', '#1C5FD4', '#6741D9', '#C2255C', '#C2410C', '#8A5A00', '#2F855A'];
 const colorOf = (n) => COLORS[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % COLORS.length];
 const EMAIL = (u) => u.toLowerCase() + '@nova.example.com';
-const PCOLS = 'id,username,display_name,bio,status,avatar_url,banner_url,banner_color,name_color,frame,hide_online,gr_public,last_seen,is_admin,is_premium,is_verified,title,is_banned,gr';
+const PCOLS = 'id,username,display_name,bio,music_url,music_title,avatar_url,banner_url,banner_color,name_color,frame,hide_online,gr_public,last_seen,is_admin,is_premium,is_verified,title,is_banned,gr';
 const NAMEFX = { default: ['Обычный', ''], rose: ['Розовый', 'nm-rose'], blue: ['Синий', 'nm-blue'], violet: ['Фиолетовый', 'nm-violet'], gold: ['Золотой', 'nm-gold'], aurora: ['Аврора · переливается', 'nm-grad nm-aurora'], sunset: ['Закат · переливается', 'nm-grad nm-sunset'], neon: ['Неон · свечение', 'nm-neon'] };
 const FRAMES = { none: ['Без рамки', 0], gold: ['Золотая', 0], rose: ['Розовая', 0], blue: ['Синяя', 0], violet: ['Фиолетовая', 0], double: ['Двойная', 1], neon: ['Неон', 1], rainbow: ['Радужная', 1] };
 const BANNERS = { sky: ['linear-gradient(135deg,#7DB4F5,#4B7BEC)', 0], mint: ['linear-gradient(135deg,#6EE7B7,#0F9488)', 0], lilac: ['linear-gradient(135deg,#C4B5FD,#7C5CE0)', 0], sunset: ['linear-gradient(135deg,#FDBA74,#EC4899)', 0], sand: ['linear-gradient(135deg,#E9D8A6,#C9A227)', 0], aurora: ['linear-gradient(135deg,#34D399,#7C5CE0)', 1] };
@@ -211,6 +211,11 @@ function joinPresence() {
     .on('presence', { event: 'join' }, ({ key }) => { online.add(key); refreshPresence(); })
     .subscribe((st) => { if (st === 'SUBSCRIBED') setTimeout(applyPresence, 0); });
 }
+
+/* ---------- музыка в профиле ---------- */
+const player = (u, extra = '') => `<div class="card col" style="gap:8px"><div class="row"><span style="font-size:22px">🎵</span><div class="grow"><div class="name">${esc(u.music_title || 'Музыка')}</div><div class="muted">Музыка в профиле</div></div>${extra}</div><audio controls preload="none" src="${esc(u.music_url)}" style="width:100%"></audio></div>`;
+document.addEventListener('play', (e) => document.querySelectorAll('audio').forEach((a) => { if (a !== e.target) a.pause(); }), true);
+const dropMusic = (url) => { const p = url && url.split('/music/')[1]; if (p) sb.storage.from('music').remove([decodeURIComponent(p)]); };
 
 /* ---------- вход и регистрация ---------- */
 function showSetup() {
@@ -464,10 +469,10 @@ function renderProfile(p, isMe) {
     <div class="col" style="gap:8px;margin-top:12px">
       <div class="row wrapr" style="gap:8px"><span style="font-size:22px;font-weight:800">${nm(u)}</span>${u.is_admin ? '<span class="tag">Админ</span>' : ''}${u.title ? `<span class="tag">${esc(u.title)}</span>` : ''}${u.is_banned ? '<span class="tag" style="color:var(--danger)">Заблокирован</span>' : ''}</div>
       <div class="muted">@${esc(u.username)} · <span data-seen="${u.id}">${esc(seenText(u))}</span></div>
-      ${u.status ? `<div>${esc(u.status)}</div>` : ''}${u.bio ? `<div class="post-body" style="margin:0">${esc(u.bio)}</div>` : ''}
+      ${u.bio ? `<div class="post-body" style="margin:0">${esc(u.bio)}</div>` : ''}
       ${showGr ? `<div class="muted">Баланс: <b>${Number(u.gr).toLocaleString('ru-RU')} GR</b>${isMe && !u.gr_public ? ' · скрыт от других' : ''}</div>` : ''}
     </div></div></div>
-  ${isMe ? '' : ''}<div id="pas" class="col" style="gap:16px"></div><div id="ptl" class="col" style="gap:16px"></div>`;
+  ${u.music_url ? player(u) : ''}<div id="pas" class="col" style="gap:16px"></div><div id="ptl" class="col" style="gap:16px"></div>`;
   if (isMe) document.getElementById('st').onclick = () => go('settings');
   else { document.getElementById('dm').onclick = () => go('chat', u); document.getElementById('bk').onclick = () => go(back); }
   loadUserPosts(u); loadUserAssets(u);
@@ -492,9 +497,11 @@ function renderSettings() {
   view().innerHTML = `<div class="row"><button class="btn ghost sm" id="bk" aria-label="Назад">←</button><h1>Настройки</h1></div>
   <div class="card col"><h2>Профиль</h2>
     <label><div class="muted"><b>Отображаемое имя</b></div><input id="dn" class="in" maxlength="40" value="${esc(me.display_name || '')}" placeholder="${esc(me.username)}"></label>
-    <label><div class="muted"><b>Статус</b> (до 40 символов)</div><input id="stt" class="in" maxlength="40" value="${esc(me.status || '')}"></label>
     <label><div class="muted"><b>О себе</b> (до 200 символов)</div><textarea id="bio" class="in" maxlength="200">${esc(me.bio || '')}</textarea></label>
     <div><button class="btn" id="sv">Сохранить</button></div></div>
+  <div class="card col"><h2>Музыка в профиле</h2>
+    ${me.music_url ? `<audio controls preload="none" src="${esc(me.music_url)}" style="width:100%"></audio><div class="name">🎵 ${esc(me.music_title)}</div>` : '<div class="muted">Добавьте песню в формате MP3 (до 10 МБ): её сможет послушать каждый, кто зайдёт в ваш профиль.</div>'}
+    <div class="row wrapr"><label class="btn file">${me.music_url ? 'Заменить музыку' : 'Добавить музыку'}<input type="file" id="fm" accept=".mp3,audio/mpeg"></label>${me.music_url ? '<button class="btn ghost" id="rm">Удалить песню</button>' : ''}</div></div>
   <div class="card col"><h2>Аватар и баннер</h2>
     <div class="row wrapr">${av(me, 56)}<label class="btn ghost sm file">Аватар из галереи<input type="file" id="fa" accept="image/*"></label>${me.avatar_url ? '<button class="btn ghost sm" id="ra">Убрать</button>' : ''}</div>
     <div class="row wrapr"><div class="banner" style="width:120px;height:56px;border-radius:10px;background:${bannerCss(me)}">${me.banner_url ? `<img src="${esc(me.banner_url)}" alt="">` : ''}</div><label class="btn ghost sm file">Баннер из галереи<input type="file" id="fb" accept="image/*"></label>${me.banner_url ? '<button class="btn ghost sm" id="rb">Убрать</button>' : ''}</div>
@@ -512,13 +519,26 @@ function renderSettings() {
   <div class="card"><button class="btn ghost" id="out">Выйти из аккаунта</button></div>`;
   document.getElementById('bk').onclick = () => go('profile');
   document.getElementById('sv').onclick = async () => {
-    const ok = await saveMe({ display_name: document.getElementById('dn').value.trim() || null, status: document.getElementById('stt').value.trim() || null, bio: document.getElementById('bio').value.trim() || null }, 'Профиль сохранён');
+    const ok = await saveMe({ display_name: document.getElementById('dn').value.trim() || null, bio: document.getElementById('bio').value.trim() || null }, 'Профиль сохранён');
     if (ok) renderSettings();
   };
   const pick = (id, field, o, text) => { document.getElementById(id).onchange = async (e) => {
     const f = e.target.files[0]; e.target.value = ''; if (!f) return;
     try { const url = await uploadImage(f, o); if (await saveMe({ [field]: url }, text)) renderSettings(); } catch (er) { toast(er.message, true); }
   }; };
+  document.getElementById('fm').onchange = async (e) => {
+    const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+    if (!/\.mp3$/i.test(f.name) || (f.type && f.type !== 'audio/mpeg')) return toast('Выберите файл формата MP3', true);
+    if (f.size > 10 * 1024 * 1024) return toast('Файл больше 10 МБ', true);
+    toast('Загружаю песню…');
+    const path = me.id + '/' + Date.now() + '.mp3', old = me.music_url;
+    const { error } = await sb.storage.from('music').upload(path, f, { contentType: 'audio/mpeg' });
+    if (error) return toast('Не удалось загрузить песню', true);
+    const url = sb.storage.from('music').getPublicUrl(path).data.publicUrl;
+    if (await saveMe({ music_url: url, music_title: f.name.replace(/\.mp3$/i, '').trim().slice(0, 80) || 'Без названия' }, 'Песня добавлена в профиль')) { dropMusic(old); renderSettings(); }
+  };
+  const rm = document.getElementById('rm');
+  if (rm) rm.onclick = async () => { const old = me.music_url; if (await saveMe({ music_url: null, music_title: null }, 'Песня удалена')) { dropMusic(old); renderSettings(); } };
   pick('fa', 'avatar_url', { square: true, max: 256, q: 0.85 }, 'Аватар обновлён');
   pick('fb', 'banner_url', { max: 1000, q: 0.8 }, 'Баннер обновлён');
   [['ra', 'avatar_url', 'Аватар убран'], ['rb', 'banner_url', 'Баннер убран']].forEach(([id, f, t]) => { const b = document.getElementById(id); if (b) b.onclick = async () => { if (await saveMe({ [f]: null }, t)) renderSettings(); }; });
