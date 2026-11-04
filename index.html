@@ -29,6 +29,9 @@ textarea.in{resize:vertical;min-height:80px}
 .wrapr{flex-wrap:wrap}
 .grow{flex:1;min-width:0}
 .col{display:flex;flex-direction:column;gap:12px}
+.avw{position:relative;display:inline-flex;flex:none}
+.avw .dot{display:none;position:absolute;right:0;bottom:0;width:28%;min-width:10px;max-width:18px;aspect-ratio:1;border-radius:50%;background:#22C55E;border:2px solid var(--surface);z-index:2}
+.avw.on .dot{display:block}
 .ava{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;overflow:hidden;position:relative}
 .ava img{width:100%;height:100%;object-fit:cover}
 .name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;max-width:100%}
@@ -114,7 +117,9 @@ const nameOf = (p) => p.display_name || p.username;
 const nameCls = (p) => (prem(p) && NAMEFX[p.name_color] ? NAMEFX[p.name_color][1] : '');
 const frameCls = (p) => (p.frame && p.frame !== 'none' && FRAMES[p.frame] && (!FRAMES[p.frame][1] || prem(p)) ? 'fr-' + p.frame : '');
 const bannerCss = (p) => { const b = BANNERS[p.banner_color]; return (b && (!b[1] || prem(p)) ? b : BANNERS.sky)[0]; };
-const av = (p, s = 44) => `<span class="ava ${frameCls(p)}" style="width:${s}px;height:${s}px;font-size:${Math.round(s * .4)}px;background:${colorOf(p.username)}">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" alt="">` : esc(p.username[0].toUpperCase())}</span>`;
+const online = new Set();
+const isOnline = (p) => (me && p.id === me.id ? !p.hide_online : online.has(p.id));
+const av = (p, s = 44) => `<span class="avw ${isOnline(p) ? 'on' : ''}" data-uid="${p.id}"><span class="ava ${frameCls(p)}" style="width:${s}px;height:${s}px;font-size:${Math.round(s * .4)}px;background:${colorOf(p.username)}">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" alt="">` : esc(p.username[0].toUpperCase())}</span><i class="dot"></i></span>`;
 const SVG_OK = '<svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="Подтверждённый профиль" style="flex:none;color:var(--accent)"><circle cx="12" cy="12" r="11" fill="currentColor"/><polyline points="7 12.5 10.5 16 17 9" style="fill:none;stroke:var(--on-accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"/></svg>';
 const SVG_STAR = '<svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="Premium" style="flex:none;color:var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"/></svg>';
 const nm = (p) => `<span class="name"><span class="${nameCls(p)}">${esc(nameOf(p))}</span>${p.is_verified ? SVG_OK : ''}${prem(p) ? SVG_STAR : ''}</span>`;
@@ -126,6 +131,7 @@ const timeStr = (iso) => {
 };
 function seenText(p) {
   if (me && p.id === me.id) return p.hide_online ? 'в сети · скрыто от других' : 'в сети';
+  if (online.has(p.id)) return 'в сети';
   if (p.hide_online) return 'был(а) недавно';
   if (!p.last_seen) return 'был(а) давно';
   const d = new Date(p.last_seen), now = new Date();
@@ -145,7 +151,7 @@ function toast(text, bad) {
 const CFG = window.NOVA || {};
 const configured = CFG.url && CFG.key && !String(CFG.url).startsWith('ВСТАВЬТЕ') && !String(CFG.key).startsWith('ВСТАВЬТЕ');
 const sb = configured ? supabase.createClient(CFG.url, CFG.key) : null;
-let me = null, tab = 'feed', chatWith = null, channel = null, back = 'feed', seenTimer = null;
+let me = null, tab = 'feed', chatWith = null, channel = null, presCh = null, back = 'feed', seenTimer = null;
 const pcache = {};
 const remember = (p) => { if (p && p.id) pcache[p.id] = Object.assign(pcache[p.id] || {}, p); return p; };
 
@@ -183,6 +189,28 @@ async function uploadImage(file, o) {
   return sb.storage.from('media').getPublicUrl(path).data.publicUrl;
 }
 
+/* ---------- «в сети» в реальном времени ---------- */
+function refreshPresence() {
+  document.querySelectorAll('.avw[data-uid]').forEach((el) => {
+    const p = pcache[el.dataset.uid];
+    el.classList.toggle('on', p ? isOnline(p) : online.has(el.dataset.uid));
+  });
+  document.querySelectorAll('[data-seen]').forEach((el) => { const p = pcache[el.dataset.seen]; if (p) el.textContent = seenText(p); });
+}
+function applyPresence() {
+  if (!presCh) return;
+  if (me.hide_online) presCh.untrack(); else presCh.track({ at: Date.now() });
+}
+function joinPresence() {
+  if (presCh) sb.removeChannel(presCh);
+  online.clear();
+  presCh = sb.channel('online', { config: { presence: { key: me.id } } })
+    .on('presence', { event: 'sync' }, () => { online.clear(); Object.keys(presCh.presenceState()).forEach((k) => online.add(k)); refreshPresence(); })
+    .on('presence', { event: 'leave' }, ({ key }) => { if (pcache[key]) pcache[key].last_seen = new Date().toISOString(); online.delete(key); refreshPresence(); })
+    .on('presence', { event: 'join' }, ({ key }) => { online.add(key); refreshPresence(); })
+    .subscribe((st) => { if (st === 'SUBSCRIBED') setTimeout(applyPresence, 0); });
+}
+
 /* ---------- вход и регистрация ---------- */
 function showSetup() {
   $app.innerHTML = `<div class="auth"><div class="card"><div class="logo"><i>N</i>Nova</div>
@@ -212,11 +240,13 @@ function showAuth(mode = 'login', err = '') {
     }
     go.disabled = true; go.textContent = 'Подождите…';
     if (reg) {
-      const { data, error } = await sb.auth.signUp({ email: EMAIL(u), password: p, options: { data: { username: u } } });
+      const rnd = Array.from(crypto.getRandomValues(new Uint8Array(8))).map((x) => x.toString(16).padStart(2, '0')).join('');
+      const { data, error } = await sb.auth.signUp({ email: 'u' + rnd + '@nova.example.com', password: p, options: { data: { username: u } } });
       if (error) return fail(/registered|already/i.test(error.message) ? 'Этот юзернейм уже занят' : /database/i.test(error.message) ? 'Юзернейм занят или недопустим' : 'Не удалось создать аккаунт: ' + error.message);
       if (!data.session) return fail('Вход не выполнен: в Supabase отключите «Confirm email» (см. инструкцию)');
     } else {
-      const { error } = await sb.auth.signInWithPassword({ email: EMAIL(u), password: p });
+      const { data: em, error: e1 } = await sb.rpc('email_for', { p_username: u });
+      const { error } = await sb.auth.signInWithPassword({ email: (!e1 && em) ? em : EMAIL(u), password: p });
       if (error) return fail('Неверный юзернейм или пароль');
     }
     start();
@@ -237,7 +267,7 @@ async function start() {
   if (!prof) { await sb.auth.signOut(); return showAuth('login', 'Профиль не найден. Проверьте, что SQL-файлы выполнены'); }
   me = remember(prof);
   touchSeen(); clearInterval(seenTimer); seenTimer = setInterval(touchSeen, 60000);
-  subscribe();
+  subscribe(); joinPresence();
   go('feed');
 }
 function touchSeen() { if (me) sb.from('profiles').update({ last_seen: new Date().toISOString() }).eq('id', me.id).then(() => {}); }
@@ -257,10 +287,10 @@ async function onIncoming(payload) {
 }
 
 /* ---------- каркас и навигация ---------- */
-const TABS = [['feed', 'Лента'], ['chats', 'Чаты'], ['profile', 'Профиль']];
+const TABS = [['feed', 'Лента'], ['chats', 'Чаты'], ['market', 'Маркет'], ['profile', 'Профиль']];
 function go(t, arg) {
   if (t === 'user' && arg && arg.id === me.id) t = 'profile';
-  if (['feed', 'chats', 'profile'].indexOf(t) !== -1) back = t;
+  if (['feed', 'chats', 'market', 'profile'].indexOf(t) !== -1) back = t;
   tab = t;
   if (t === 'chat') { chatWith = arg; return renderChat(); }
   chatWith = null;
@@ -271,6 +301,7 @@ function go(t, arg) {
   window.scrollTo(0, 0);
   if (t === 'feed') loadFeed();
   else if (t === 'chats') loadChats();
+  else if (t === 'market') renderMarket();
   else if (t === 'profile') renderProfile(me, true);
   else if (t === 'user') renderProfile(arg, false);
   else if (t === 'settings') renderSettings();
@@ -392,7 +423,7 @@ function addBubble(m) {
 }
 async function renderChat() {
   const o = await getProfile(chatWith.id, true) || chatWith; chatWith = o;
-  $app.innerHTML = `<div class="chat"><div class="chat-head"><button class="btn ghost sm" id="back" aria-label="Назад">←</button><button class="link" id="who" style="padding:0">${av(o)}</button><div class="grow">${nm(o)}<div class="muted">${esc(seenText(o))}</div></div></div>
+  $app.innerHTML = `<div class="chat"><div class="chat-head"><button class="btn ghost sm" id="back" aria-label="Назад">←</button><button class="link" id="who" style="padding:0">${av(o)}</button><div class="grow">${nm(o)}<div class="muted" data-seen="${o.id}">${esc(seenText(o))}</div></div></div>
   <div class="msgs" id="msgs"></div>
   <form class="composer" id="f"><input class="in" id="mt" maxlength="4000" placeholder="Сообщение" autocomplete="off"><button class="btn">Отправить</button></form></div>`;
   document.getElementById('back').onclick = () => go(back === 'profile' ? 'chats' : back);
@@ -424,14 +455,14 @@ function renderProfile(p, isMe) {
       ${isMe ? '<button class="btn ghost" id="st">Настройки</button>' : '<button class="btn" id="dm">Написать</button>'}</div>
     <div class="col" style="gap:8px;margin-top:12px">
       <div class="row wrapr" style="gap:8px"><span style="font-size:22px;font-weight:800">${nm(u)}</span>${u.is_admin ? '<span class="tag">Админ</span>' : ''}${u.title ? `<span class="tag">${esc(u.title)}</span>` : ''}${u.is_banned ? '<span class="tag" style="color:var(--danger)">Заблокирован</span>' : ''}</div>
-      <div class="muted">@${esc(u.username)} · ${esc(seenText(u))}</div>
+      <div class="muted">@${esc(u.username)} · <span data-seen="${u.id}">${esc(seenText(u))}</span></div>
       ${u.status ? `<div>${esc(u.status)}</div>` : ''}${u.bio ? `<div class="post-body" style="margin:0">${esc(u.bio)}</div>` : ''}
       ${showGr ? `<div class="muted">Баланс: <b>${Number(u.gr).toLocaleString('ru-RU')} GR</b>${isMe && !u.gr_public ? ' · скрыт от других' : ''}</div>` : ''}
     </div></div></div>
-  ${isMe ? '' : ''}<div id="ptl" class="col" style="gap:16px"></div>`;
+  ${isMe ? '' : ''}<div id="pas" class="col" style="gap:16px"></div><div id="ptl" class="col" style="gap:16px"></div>`;
   if (isMe) document.getElementById('st').onclick = () => go('settings');
   else { document.getElementById('dm').onclick = () => go('chat', u); document.getElementById('bk').onclick = () => go(back); }
-  loadUserPosts(u);
+  loadUserPosts(u); loadUserAssets(u);
 }
 async function loadUserPosts(u) {
   const { data } = await sb.from('posts').select('id,body,image_url,created_at').eq('author', u.id).order('created_at', { ascending: false }).limit(20);
@@ -445,6 +476,7 @@ async function saveMe(patch, okText) {
   if (error) { toast('Не удалось сохранить', true); return false; }
   Object.assign(me, patch); remember(me);
   if (okText) toast(okText);
+  if ('hide_online' in patch) { applyPresence(); refreshPresence(); }
   return true;
 }
 function renderSettings() {
@@ -465,8 +497,9 @@ function renderSettings() {
   <div class="card col"><h2>Цвет и эффекты имени <span class="muted">· Premium</span></h2>
     <div class="opts">${Object.keys(NAMEFX).map((k) => `<button class="opt ${me.name_color === k ? 'sel' : ''}" data-nc="${k}" ${k !== 'default' && !prem(me) ? 'disabled' : ''}><b class="${NAMEFX[k][1]}" style="font-size:17px">Аа</b>${NAMEFX[k][0]}</button>`).join('')}</div></div>
   <div class="card"><h2>Приватность</h2>
-    <div class="sw" style="margin-top:8px"><div><div><b>Показывать, что я в сети</b></div><div class="muted">Если выключить, другие увидят «был(а) недавно»</div></div><button data-sw="hide_online" class="${me.hide_online ? '' : 'on'}" aria-label="Показывать, что я в сети"></button></div>
+    <div class="sw" style="margin-top:8px"><div><div><b>Показывать, что я в сети</b></div><div class="muted">Если выключить, другие увидят «был(а) недавно»</div></div><button data-sw="hide_online" data-inv="1" class="${me.hide_online ? '' : 'on'}" aria-label="Показывать, что я в сети"></button></div>
     <div class="sw"><div><div><b>Показывать баланс GR всем</b></div><div class="muted">Если выключить, баланс виден только вам</div></div><button data-sw="gr_public" class="${me.gr_public ? 'on' : ''}" aria-label="Показывать баланс GR"></button></div></div>
+  <div class="card col"><h2>Юзернейм</h2><div class="muted">Вход в аккаунт идёт по текущему юзернейму. Купленные юзернеймы можно сделать основными в Маркете.</div><div class="row wrapr"><input id="un" class="in grow" maxlength="32" autocapitalize="none" value="${esc(me.username)}" style="min-width:160px"><button class="btn" id="unb">Сменить</button></div></div>
   ${me.is_admin ? '<div class="card col" id="admin"></div>' : ''}
   <div class="card"><button class="btn ghost" id="out">Выйти из аккаунта</button></div>`;
   document.getElementById('bk').onclick = () => go('profile');
@@ -485,12 +518,21 @@ function renderSettings() {
     b.onclick = async () => {
       const d = b.dataset; let patch;
       if (d.bn) patch = { banner_color: d.bn }; else if (d.fr) patch = { frame: d.fr }; else if (d.nc) patch = { name_color: d.nc };
-      else patch = { [d.sw]: !me[d.sw] };
+      else patch = { [d.sw]: d.inv ? !!me[d.sw] === false ? true : false : !me[d.sw] };
+      if (d.sw === 'hide_online') patch = { hide_online: !me.hide_online };
       if (await saveMe(patch, 'Сохранено')) renderSettings();
     };
   });
+  document.getElementById('unb').onclick = async () => {
+    const v = document.getElementById('un').value.trim().replace(/^@/, '');
+    if (v === me.username) return;
+    const { error } = await sb.rpc('change_username', { p_new: v });
+    if (error) return toast(error.message || 'Не удалось сменить', true);
+    await getProfile(me.id, true); toast('Юзернейм изменён: @' + me.username); renderSettings();
+  };
   document.getElementById('out').onclick = async () => {
     if (channel) sb.removeChannel(channel);
+    if (presCh) sb.removeChannel(presCh);
     clearInterval(seenTimer); await sb.auth.signOut(); me = null; showAuth();
   };
   if (me.is_admin) renderAdmin();
@@ -504,7 +546,7 @@ function renderAdmin() {
   box.innerHTML = `<h2>Администрирование</h2><div class="muted">Найдите пользователя по юзернейму или откройте список всех.</div>
   <div class="row wrapr"><input id="aq" class="in grow" placeholder="@username или имя" autocapitalize="none" style="min-width:160px"><button class="btn ghost" id="aall">${adminAll ? 'Скрыть список' : 'Все пользователи'}</button></div>
   <div id="alist"></div>
-  ${t ? `<div class="card col" style="background:var(--surface2)"><div class="row">${av(t, 48)}<div class="grow">${nm(t)}<div class="muted">@${esc(t.username)} · ${Number(t.gr).toLocaleString('ru-RU')} GR · ${esc(seenText(t))}</div></div><button class="btn ghost sm" id="aopen">Профиль</button></div>
+  ${t ? `<div class="card col" style="background:var(--surface2)"><div class="row">${av(t, 48)}<div class="grow">${nm(t)}<div class="muted">@${esc(t.username)} · ${Number(t.gr).toLocaleString('ru-RU')} GR · <span data-seen="${t.id}">${esc(seenText(t))}</span></div></div><button class="btn ghost sm" id="aopen">Профиль</button></div>
     <div class="opts" style="gap:8px">
       <button class="btn sm ${t.is_premium ? 'on' : 'ghost'}" data-perk="premium">Premium</button>
       <button class="btn sm ${t.is_verified ? 'on' : 'ghost'}" data-perk="verified">Галочка</button>
@@ -545,7 +587,94 @@ function renderAdmin() {
   }
 }
 
+/* ---------- активы пользователя в профиле ---------- */
+async function loadUserAssets(u) {
+  const [{ data: ns }, { data: nums }] = await Promise.all([
+    sb.from('owned_names').select('name,listed,price').eq('owner', u.id).eq('archived', false),
+    sb.from('phone_numbers').select('num').eq('owner', u.id)
+  ]);
+  const box = document.getElementById('pas'); if (!box) return;
+  const sec = (title, rows) => rows.length ? `<div class="card list"><h2 style="padding:16px 16px 8px">${title}</h2>${rows.join('')}</div>` : '';
+  const row = (a, b) => `<div class="item"><b>${a}</b><span class="muted">${b}</span></div>`;
+  box.innerHTML = sec('Юзернеймы', (ns || []).map((n) => row('@' + esc(n.name), n.listed ? 'на продаже за ' + gr(n.price) : 'коллекционный')))
+    + sec('Анонимные номера', (nums || []).map((n) => row(esc(n.num), 'коллекционный номер')));
+}
+
+/* ---------- Маркет: юзернеймы и номера за GR ---------- */
+let mTab = 'names', sellFor = '';
+const gr = (n) => Number(n).toLocaleString('ru-RU') + ' GR';
+const money = (s) => (/^\d+$/.test(String(s).trim()) ? parseInt(s, 10) : 0);
+async function mdo(fn, args, okText) {
+  const { error } = await sb.rpc(fn, args);
+  if (error) { toast(error.message || 'Не удалось выполнить', true); return false; }
+  await getProfile(me.id, true); toast(okText); return true;
+}
+async function renderMarket() {
+  const v = view(); if (!v) return;
+  const [{ data: names }, { data: nums }] = await Promise.all([
+    sb.from('owned_names').select('id,name,owner,price,listed,archived').order('id'),
+    sb.from('phone_numbers').select('id,num,owner,price,archived').order('id')
+  ]);
+  const N = names || [], P = nums || [];
+  await Promise.all([...new Set(N.map((n) => n.owner).filter(Boolean))].map((id) => getProfile(id)));
+  const seller = (n) => (n.owner && pcache[n.owner] ? '@' + esc(pcache[n.owner].username) : 'Маркет');
+  const can = (price) => me.gr >= price;
+  const buyBtn = (attr, price) => `<button class="btn sm" ${attr} ${can(price) ? '' : 'disabled'}>${can(price) ? 'Купить' : 'Не хватает GR'}</button>`;
+  const arch = (kind, id) => (me.is_admin ? `<button class="btn ghost sm" data-arch="${kind}:${id}">В архив</button>` : '');
+  const rowL = (title, meta, price, btns) => `<div class="item" style="flex-wrap:wrap"><div class="grow"><b>${title}</b><div class="muted">${meta}</div></div><b>${price}</b>${btns}</div>`;
+  const card = (title, body, hint) => `<div class="card list"><h2 style="padding:16px 16px 8px">${title}</h2>${hint ? `<div class="muted" style="padding:0 16px 8px">${hint}</div>` : ''}${body || '<div class="muted" style="padding:12px 16px">Пока пусто</div>'}</div>`;
+  const input = (id, ph, extra = '') => `<input id="${id}" class="in grow" placeholder="${ph}" autocapitalize="none" style="min-width:130px" ${extra}>`;
+  const lotsN = N.filter((n) => n.listed && !n.archived);
+  const lotsP = P.filter((n) => !n.owner && n.price && !n.archived);
+  let body = '';
+  if (mTab === 'names') {
+    const mine = N.filter((n) => n.owner === me.id);
+    body = card('Мои юзернеймы',
+      `<div class="item"><div class="grow"><b>@${esc(me.username)}</b><div class="muted">Виден в профиле и постах</div></div><span class="tag">Основной</span></div>`
+      + mine.map((n) => `<div class="item" style="flex-wrap:wrap"><div class="grow"><b>@${esc(n.name)}</b><div class="muted">${n.listed ? 'На продаже за ' + gr(n.price) : 'Принадлежит вам'}</div></div>
+        ${n.listed ? `<button class="btn ghost sm" data-unlist="${esc(n.name)}">Снять с продажи</button>` : `<button class="btn ghost sm" data-main="${esc(n.name)}">Сделать основным</button><button class="btn sm" data-sell="${esc(n.name)}">Продать</button>`}
+        ${sellFor === n.name ? `<div class="row" style="width:100%;margin-top:6px">${input('sp', 'Цена в GR', 'inputmode="numeric"')}<button class="btn sm" data-sellgo="${esc(n.name)}">Выставить</button><button class="btn ghost sm" data-sellx="1">Отмена</button></div>` : ''}</div>`).join(''))
+    + `<div class="card col"><h2>Продать любой юзернейм</h2><div class="muted">Придумайте свободный юзернейм от 3 символов и выставьте его на продажу. Деньги получите вы.</div>
+      <div class="row wrapr">${input('nn', 'например, fox')}${input('np', 'Цена в GR', 'inputmode="numeric"')}<button class="btn" data-sellnew="1">Выставить</button></div></div>`
+    + card('Юзернеймы на продажу', lotsN.map((n) => rowL('@' + esc(n.name), seller(n) + ' · ' + n.name.length + ' симв.', gr(n.price),
+        n.owner === me.id ? '<span class="tag">Ваш лот</span>' : buyBtn(`data-buy="${n.id}"`, n.price) + arch('name', n.id))).join(''), 'Юзернеймы от 3 символов.');
+  } else if (mTab === 'numbers') {
+    body = card('Мои номера', P.filter((n) => n.owner === me.id).map((n) => rowL(esc(n.num), 'Показывается в вашем профиле', '', '<span class="tag">Ваш номер</span>')).join(''), 'Анонимный номер — коллекционный. Для входа в аккаунт номера не используются.')
+      + card('Номера на продажу', lotsP.map((n) => rowL(esc(n.num), 'Анонимный номер', gr(n.price), buyBtn(`data-buynum="${n.id}"`, n.price) + arch('number', n.id))).join(''));
+  } else if (me.is_admin) {
+    const archived = [...N.filter((n) => n.archived).map((n) => ['name', n.id, '@' + esc(n.name), n.price]), ...P.filter((n) => n.archived).map((n) => ['number', n.id, esc(n.num), n.price])];
+    body = `<div class="card col"><h2>Новый юзернейм в Маркет</h2><div class="row wrapr">${input('an', 'юзернейм')}${input('ap', 'Цена в GR', 'inputmode="numeric"')}<button class="btn" data-addname="1">Добавить</button></div></div>
+      <div class="card col"><h2>Новый анонимный номер</h2><div class="row wrapr">${input('anum', '8 цифр', 'inputmode="numeric"')}${input('anp', 'Цена в GR', 'inputmode="numeric"')}<button class="btn" data-addnum="1">Добавить</button></div></div>`
+      + card('Архив', archived.map((a) => rowL(a[2], a[0] === 'name' ? 'Юзернейм' : 'Номер', a[3] ? gr(a[3]) : '', `<button class="btn ghost sm" data-unarch="${a[0]}:${a[1]}">Вернуть в Маркет</button>`)).join(''));
+  }
+  v.innerHTML = `<h1>Маркет</h1><div class="card row"><div class="grow muted">Ваш баланс</div><b style="font-size:18px">${gr(me.gr)}</b></div>
+    <div class="row wrapr" style="gap:8px">${[['names', 'Юзернеймы'], ['numbers', 'Анонимные номера']].concat(me.is_admin ? [['admin', 'Админ']] : []).map((t) => `<button class="btn sm ${mTab === t[0] ? 'on' : 'ghost'}" data-mt="${t[0]}">${t[1]}</button>`).join('')}</div>${body}`;
+  const val = (id) => (document.getElementById(id) || {}).value || '';
+  const price = (s) => { const n = money(s); return n >= 1 && n <= 10000000 ? n : 0; };
+  const num8 = (s) => { const d = s.replace(/\D/g, ''); return d.length === 8 ? '+000 ' + d.slice(0, 4) + ' ' + d.slice(4) : ''; };
+  v.onclick = async (e) => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    const d = b.dataset; let ok = null;
+    if (d.mt) { mTab = d.mt; sellFor = ''; return renderMarket(); }
+    if (d.sell) { sellFor = d.sell; return renderMarket(); }
+    if (d.sellx) { sellFor = ''; return renderMarket(); }
+    if (d.sellgo) { const p = price(val('sp')); if (!p) return toast('Цена: целое число от 1 до 10 000 000', true); ok = await mdo('market_list', { p_name: d.sellgo, p_price: p }, '@' + d.sellgo + ' выставлен на продажу за ' + gr(p)); sellFor = ''; }
+    else if (d.unlist) ok = await mdo('market_unlist', { p_name: d.unlist }, '@' + d.unlist + ' снят с продажи');
+    else if (d.main) ok = await mdo('market_make_main', { p_name: d.main }, 'Основной юзернейм: @' + d.main);
+    else if (d.sellnew) { const p = price(val('np')); if (!p) return toast('Цена: целое число от 1 до 10 000 000', true); ok = await mdo('market_list_new', { p_name: val('nn').trim().replace(/^@/, ''), p_price: p }, 'Юзернейм выставлен на продажу за ' + gr(p)); }
+    else if (d.buy) ok = await mdo('market_buy_name', { p_id: d.buy }, 'Юзернейм куплен. Он добавлен в ваш профиль');
+    else if (d.buynum) ok = await mdo('market_buy_number', { p_id: d.buynum }, 'Номер куплен. Он добавлен в ваш профиль');
+    else if (d.addname) { const p = price(val('ap')); if (!p) return toast('Цена: целое число от 1 до 10 000 000', true); ok = await mdo('admin_add_name', { p_name: val('an').trim().replace(/^@/, ''), p_price: p }, 'Юзернейм добавлен в Маркет'); }
+    else if (d.addnum) { const n = num8(val('anum')), p = price(val('anp')); if (!n) return toast('Номер: ровно 8 цифр', true); if (!p) return toast('Цена: целое число от 1 до 10 000 000', true); ok = await mdo('admin_add_number', { p_num: n, p_price: p }, 'Номер ' + n + ' добавлен в Маркет'); }
+    else if (d.arch || d.unarch) { const [k, id] = (d.arch || d.unarch).split(':'); ok = await mdo('admin_set_archived', { p_kind: k, p_id: id, p_archived: !!d.arch }, d.arch ? 'Убрано в архив' : 'Возвращено в Маркет'); }
+    if (ok !== null) renderMarket();
+  };
+}
+
+
 if (!configured) showSetup(); else start();
+window.addEventListener('pagehide', () => { if (me) touchSeen(); });
+document.addEventListener('visibilitychange', () => { if (me && document.visibilityState === 'hidden') touchSeen(); });
 </script>
 </body>
 </html>
