@@ -341,11 +341,11 @@ async function loadFeed() {
     };
   }
   const [{ data, error }, { data: mine }] = await Promise.all([
-    sb.from('posts').select(`id,body,image_url,pinned,created_at,author,profiles(${PCOLS}),comments(count),post_likes(count)`).order('pinned', { ascending: false }).order('created_at', { ascending: false }).limit(50),
+    sb.from('posts').select(`id,body,image_url,pinned,created_at,author,profiles!author(${PCOLS}),comments(count),post_likes(count)`).order('pinned', { ascending: false }).order('created_at', { ascending: false }).limit(50),
     sb.from('post_likes').select('post_id').eq('user_id', me.id)
   ]);
   const box = document.getElementById('posts'); if (!box) return;
-  if (error) { box.innerHTML = '<div class="err">Не удалось загрузить ленту</div>'; return; }
+  if (error) { box.innerHTML = '<div class="err">Не удалось загрузить ленту</div><div class="muted">' + esc(error.message || '') + '</div><div class="muted">Скорее всего, не выполнен schema_v2.sql в Supabase.</div>'; return; }
   const liked = new Set((mine || []).map((x) => x.post_id));
   data.forEach((p) => remember(p.profiles));
   box.innerHTML = data.length ? data.map((p) => {
@@ -373,7 +373,7 @@ async function toggleComments(card, postId) {
   const box = card.querySelector('.cms');
   if (box.innerHTML) { box.innerHTML = ''; return; }
   const draw = async () => {
-    const { data } = await sb.from('comments').select(`id,body,created_at,author,profiles(${PCOLS})`).eq('post_id', postId).order('created_at');
+    const { data } = await sb.from('comments').select(`id,body,created_at,author,profiles!author(${PCOLS})`).eq('post_id', postId).order('created_at');
     (data || []).forEach((c) => remember(c.profiles));
     box.innerHTML = (data || []).map((c) => `<div class="row" style="align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)"><div class="grow"><button class="link" style="padding:0" data-cu="${c.author}">${nm(pcache[c.author])}</button> <span class="muted">@${esc(pcache[c.author].username)} · ${timeStr(c.created_at)}</span><div class="post-body" style="margin:2px 0 0">${esc(c.body)}</div></div>${c.author === me.id || me.is_admin ? `<button class="link" data-dc="${c.id}">Удалить</button>` : ''}</div>`).join('')
       + `<div class="row" style="margin-top:8px"><input class="in" id="ci" maxlength="1000" placeholder="Ваш комментарий"><button class="btn sm" id="cs">Отправить</button></div>`;
