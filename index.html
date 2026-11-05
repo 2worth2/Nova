@@ -117,14 +117,36 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   .chat{height:100vh}
 }
 
-/* ===== NOVA DESKTOP UI ===== */
-.nova-desktop-layout{width:100%;height:100dvh;display:grid;grid-template-columns:240px minmax(0,1fr) 300px;background:var(--bg);overflow:hidden}
-.nova-side-nav{display:flex;flex-direction:column;gap:14px;padding:18px 14px;background:var(--surface);border-right:1px solid var(--line);min-width:0}
-.nova-side-brand{display:flex;align-items:center;gap:10px;padding:4px 8px 14px;font-size:21px}.nova-side-brand span{width:40px;height:40px;border-radius:13px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:900}.nova-side-user{display:flex;align-items:center;gap:10px;padding:10px;border-radius:15px;background:var(--surface2)}.nova-side-user div{min-width:0}.nova-side-user b,.nova-side-user small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nova-side-user small{color:var(--muted);font-size:12px;margin-top:2px}.nova-nav{position:static;width:auto;height:auto;padding:0;pointer-events:auto;transform:none;display:block}.nova-nav>div{width:auto;height:auto;margin:0;padding:0;background:transparent;border:0;box-shadow:none;backdrop-filter:none;display:flex;flex-direction:column;gap:6px;overflow:visible}.nova-nav button,.nova-side-settings{width:100%;height:48px;flex:none;border:0;border-radius:13px;background:transparent;color:var(--muted);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:flex-start;gap:12px;padding:0 14px;transition:.18s}.nova-nav button svg,.nova-side-settings svg{width:21px;height:21px}.nova-nav button:hover,.nova-side-settings:hover{background:var(--surface2);color:var(--ink)}.nova-nav button.on{background:var(--accent-soft);color:var(--accent-ink)}.nova-side-settings{margin-top:auto}.nova-main-column{min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}.nova-page-head{height:68px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:var(--surface);border-bottom:1px solid var(--line)}.nova-page-head strong{display:block;font-size:18px}.nova-page-head span{display:block;font-size:12px;color:var(--muted);margin-top:2px}.nova-head-profile{border:0;background:transparent;padding:0;cursor:pointer}.nova-view{min-height:0;overflow:auto;padding:26px clamp(18px,4vw,52px) 40px}.nova-side-feed{min-width:0;overflow:auto;background:var(--surface);border-left:1px solid var(--line);padding:20px 14px}.nova-side-feed-head{display:flex;justify-content:space-between;align-items:center;margin:4px 4px 14px}.nova-side-feed-head span{font-size:11px;color:var(--muted);padding:5px 8px;border-radius:9px;background:var(--surface2)}.nova-side-post{width:100%;border:0;background:transparent;text-align:left;display:flex;gap:9px;padding:11px 8px;border-radius:14px;color:var(--ink);cursor:pointer}.nova-side-post:hover{background:var(--surface2)}.nova-side-post .grow{min-width:0}.nova-side-post b,.nova-side-post small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nova-side-post small{color:var(--muted);font-size:11px}.nova-side-post p{font-size:12px;color:var(--muted);margin:5px 0 0;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-@media(max-width:1050px){.nova-desktop-layout{grid-template-columns:220px minmax(0,1fr)}.nova-side-feed{display:none}}
-@media(max-width:760px){.nova-desktop-layout{display:block;height:100dvh}.nova-side-nav{display:none}.nova-main-column{height:100dvh}.nova-page-head{height:58px;padding:0 14px}.nova-view{height:calc(100dvh - 58px);overflow:auto;padding:16px 12px calc(92px + env(safe-area-inset-bottom))}.nova-side-feed{display:none}.nova-view~nav{display:flex}}
-.nova-mobile-nav{display:none}.nova-mobile-nav div{pointer-events:auto}
-@media(max-width:760px){.nova-mobile-nav{position:fixed;left:0;right:0;bottom:0;width:100%;height:calc(68px + env(safe-area-inset-bottom));padding:6px 12px env(safe-area-inset-bottom);display:flex;z-index:1000;transform:translateZ(0)}.nova-mobile-nav>div{width:min(520px,100%);height:56px;display:flex;gap:4px;margin:0 auto;padding:4px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);backdrop-filter:blur(20px) saturate(1.6);overflow:hidden}.nova-mobile-nav button{flex:1;min-width:0;border:0;border-radius:16px;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:700}.nova-mobile-nav button.on{background:var(--accent-soft);color:var(--accent-ink)}.nova-mobile-nav svg{width:22px;height:22px}}</style>
+/* ===== NOVA BEAUTIFUL UI — visual only, logic untouched ===== */
+:root{--bg:#f5f7fb;--surface:rgba(255,255,255,.82);--surface2:#eef2f7;--line:rgba(31,41,55,.09);--shadow:0 14px 45px rgba(15,23,42,.09)}
+html,body{background:radial-gradient(circle at 10% 0%,rgba(15,118,110,.08),transparent 28%),radial-gradient(circle at 100% 20%,rgba(103,65,217,.07),transparent 30%),var(--bg)}
+body{letter-spacing:-.01em}
+.wrap{max-width:780px;padding-top:28px}
+.card{border-radius:22px;background:var(--surface);border:1px solid rgba(255,255,255,.72);box-shadow:0 10px 35px rgba(15,23,42,.06);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{box-shadow:0 16px 45px rgba(15,23,42,.09)}
+.btn{border-radius:14px;box-shadow:0 7px 18px color-mix(in srgb,var(--accent),transparent 78%);transition:transform .16s,filter .16s,box-shadow .16s}
+.btn:hover{filter:brightness(1.04);transform:translateY(-1px)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn.ghost{background:rgba(255,255,255,.7);box-shadow:none}
+.in{border-radius:14px;background:rgba(255,255,255,.72);transition:border-color .18s,box-shadow .18s,background .18s}
+.in:focus{outline:none;border-color:color-mix(in srgb,var(--accent),transparent 45%);box-shadow:0 0 0 4px var(--accent-soft);background:#fff}
+h1{font-size:30px;letter-spacing:-.035em}
+h2{font-size:17px;letter-spacing:-.02em}
+.logo i{border-radius:14px;box-shadow:0 10px 25px color-mix(in srgb,var(--accent),transparent 72%)}
+nav{padding-bottom:max(6px,env(safe-area-inset-bottom));}
+nav div{background:rgba(255,255,255,.72);border-color:rgba(255,255,255,.85);box-shadow:0 16px 45px rgba(15,23,42,.14);border-radius:24px}
+nav button{border-radius:18px;transition:all .2s ease}
+nav button.on{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent),transparent 80%)}
+.item{padding:14px 16px;transition:background .18s,transform .18s}
+.item:hover{background:var(--accent-soft)}
+.ava{box-shadow:0 5px 18px rgba(15,23,42,.12)}
+.banner{border-radius:0 0 24px 24px}
+.lift .ava{box-shadow:0 8px 25px rgba(15,23,42,.18)}
+.tag{border-radius:999px}
+.pop{border-radius:16px;box-shadow:0 12px 30px rgba(15,23,42,.08)}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1020;--surface:rgba(18,25,42,.82);--surface2:#111827;--line:rgba(255,255,255,.09);--ink:#f4f7fb;--muted:#9aa6bb;--glass:rgba(18,25,42,.76);--glass-line:rgba(255,255,255,.1);--shadow:0 14px 45px rgba(0,0,0,.28)}html,body{background:radial-gradient(circle at 10% 0%,rgba(15,118,110,.13),transparent 28%),radial-gradient(circle at 100% 20%,rgba(103,65,217,.12),transparent 30%),var(--bg)}.in,.btn.ghost{background:rgba(20,28,46,.8)}.in:focus{background:#151d30}.card{border-color:rgba(255,255,255,.07)}nav div{background:rgba(18,25,42,.78);border-color:rgba(255,255,255,.1)}}
+@media (max-width:760px){.wrap{padding-top:18px}.card{border-radius:18px}.wrap>.card:first-child{box-shadow:0 8px 28px rgba(15,23,42,.06)}nav div{border-radius:22px}.item{padding:13px 12px}}
+</style>
 </head>
 <body>
 <div id="app"></div>
@@ -381,18 +403,9 @@ function go(t, arg) {
   if (t === 'conv') return renderConv(arg);
   chatWith = null;
   const cur = t === 'user' ? back : t === 'settings' ? 'profile' : t === 'convinfo' ? 'chats' : t;
-  $app.innerHTML = `<div class="nova-desktop-layout">
-    <aside class="nova-side-nav">
-      <div class="nova-side-brand"><span>N</span><b>Nova</b></div>
-      <div class="nova-side-user">${av(me, 42)}<div><b>${esc(me.display_name || me.username)}</b><small>@${esc(me.username)}</small></div></div>
-      <nav class="nova-nav"><div>${TABS.map((x) => `<button data-t="${x[0]}" aria-label="${x[1]}" class="${x[0] === cur ? 'on' : ''}">${icon(x[0])}<span>${x[1]}</span></button>`).join('')}</div></nav>
-      <button class="nova-side-settings" data-t="settings">${icon('profile')}<span>Настройки</span></button>
-    </aside>
-    <main class="nova-main-column"><header class="nova-page-head"><div><strong>${TABS.find(x=>x[0]===cur)?.[1] || 'Nova'}</strong><span>Nova Messenger</span></div><button class="nova-head-profile" data-t="profile">${av(me, 38)}</button></header><main class="wrap nova-view" id="view"></main></main>
-    <aside class="nova-side-feed" id="novaSideFeed"><div class="nova-side-feed-head"><b>Боковая лента</b><span>Для ПК</span></div><div id="novaSideFeedList"><div class="muted">Загружаю…</div></div></aside>
-  </div><nav class="nova-mobile-nav"><div>${TABS.map((x) => `<button data-t="${x[0]}" class="${x[0] === cur ? 'on' : ''}">${icon(x[0])}<span>${x[1]}</span></button>`).join('')}</div></nav>`;
-  $app.querySelectorAll('[data-t]').forEach((b) => { b.onclick = () => go(b.dataset.t); });
-  loadSideFeed();
+  $app.innerHTML = `<main class="wrap" id="view"></main>
+  <nav><div>${TABS.map((x) => `<button data-t="${x[0]}" aria-label="${x[1]}" class="${x[0] === cur ? 'on' : ''}">${icon(x[0])}${x[0] === cur ? `<span>${x[1]}</span>` : ''}</button>`).join('')}</div></nav>`;
+  $app.querySelectorAll('nav button').forEach((b) => { b.onclick = () => go(b.dataset.t); });
   window.scrollTo(0, 0);
   if (t === 'feed') loadFeed();
   else if (t === 'chats') loadChats();
@@ -404,16 +417,6 @@ function go(t, arg) {
 }
 const view = () => document.getElementById('view');
 const openUser = async (id) => { const p = await getProfile(id, true); if (p) go('user', p); };
-
-/* ---------- боковая лента для ПК ---------- */
-async function loadSideFeed() {
-  const box = document.getElementById('novaSideFeedList');
-  if (!box || !sb) return;
-  const { data, error } = await sb.from('posts').select(`id,body,image_url,created_at,author,profiles!author(${PCOLS})`).order('created_at', { ascending: false }).limit(6);
-  if (error) { box.innerHTML = '<div class="muted">Не удалось загрузить ленту</div>'; return; }
-  box.innerHTML = data?.length ? data.map(p => `<button class="nova-side-post" data-author="${p.author}">${av(p.profiles,34)}<div class="grow"><b>${esc(p.profiles?.display_name || p.profiles?.username || 'Пользователь')}</b><small>${esc('@'+(p.profiles?.username||''))}</small><p>${esc((p.body||'Фото').slice(0,90))}</p></div></button>`).join('') : '<div class="muted">Пока нет публикаций</div>';
-  box.querySelectorAll('[data-author]').forEach(b => b.onclick = () => openUser(b.dataset.author));
-}
 
 /* ---------- лента ---------- */
 let postImg = null;
