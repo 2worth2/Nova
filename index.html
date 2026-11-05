@@ -171,7 +171,7 @@ body{overflow:hidden;background:#eef1f6}
 .nova-gift-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .nova-gift-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:7px;cursor:pointer;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s;text-align:left}
 .nova-gift-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 18px 44px rgba(0,0,0,.14)}
-.nova-gift-real-model{position:relative;z-index:2;width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(0,0,0,.28));animation:novaGiftFloat 4.4s ease-in-out infinite}.gift-render .nova-gift-real-model{width:72%;height:72%;max-width:90%;max-height:90%;object-fit:contain;position:relative;z-index:2}.nova-gift-real-model + .gift-pattern-overlay{z-index:4}
+.nova-gift-real-model{position:relative;z-index:2;width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(0,0,0,.28));animation:novaGiftFloat 4.4s ease-in-out infinite}.gift-render .nova-gift-real-model{width:72%;height:72%;max-width:90%;max-height:90%;object-fit:contain;position:relative;z-index:2}.nova-gift-real-model + .gift-pattern-overlay{z-index:4}.gift-image-fallback{position:relative;z-index:2;width:72%;height:72%}.gift-image-fallback svg{width:100%;height:100%;filter:drop-shadow(0 18px 18px rgba(0,0,0,.28))}
 .nova-gift-card .nova-gift-thumb{height:210px;border-radius:13px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#6d7380,#a8adb7)}
 .nova-gift-card .nova-gift-thumb:before,.nova-gift-art:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 28%),radial-gradient(circle at 80% 15%,rgba(255,255,255,.12),transparent 24%),linear-gradient(135deg,rgba(255,255,255,.09),transparent 42%,rgba(0,0,0,.08));pointer-events:none}
 .nova-gift-card .nova-gift-thumb:after,.nova-gift-art:after{content:"";position:absolute;inset:0;opacity:.22;background-image:radial-gradient(circle,rgba(255,255,255,.65) 1px,transparent 1.5px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%);pointer-events:none}
@@ -867,9 +867,9 @@ const NOVA_GIFT_TYPES_FALLBACK = [
   {slug:'diamond',name:'Diamond',supply:400,price_gr:100,tone1:'#9bd7e8',tone2:'#466b7a',art:'diamond'},
   {slug:'crown',name:'Crown',supply:400,price_gr:100,tone1:'#d7c17a',tone2:'#66582d',art:'crown'},
   // Тестовые коллекции: появятся сразу в интерфейсе, даже если SQL для Supabase ещё не выполнен.
-  {id:'00000000-0000-4000-8000-000000000101',slug:'resistance-dogs',name:'Resistance Dogs',supply:400,price_gr:100,tone1:'#9aa7ba',tone2:'#4e5b70',art:'dog',demo:true},
-  {id:'00000000-0000-4000-8000-000000000102',slug:'myth-masks',name:'Myth Masks',supply:400,price_gr:100,tone1:'#aaa1bd',tone2:'#4d3d63',art:'mask',demo:true},
-  {id:'00000000-0000-4000-8000-000000000103',slug:'swiss-watch',name:'Swiss Watch',supply:400,price_gr:100,tone1:'#b0b6c0',tone2:'#4c525b',art:'watch',demo:true}
+  {id:'00000000-0000-4000-8000-000000000101',slug:'resistance-dogs',name:'Resistance Dogs',supply:400,price_gr:100,tone1:'#9aa7ba',tone2:'#4e5b70',art:'dog',demo:true,image_url:'https://tongifts.wiki/_next/image?q=75&url=%2Fimages%2Fresistance-dog%2Fimposter.webp&w=640'},
+  {id:'00000000-0000-4000-8000-000000000102',slug:'myth-masks',name:'Myth Masks',supply:400,price_gr:100,tone1:'#aaa1bd',tone2:'#4d3d63',art:'mask',demo:true,image_url:'https://tongifts.wiki/_next/image?q=75&url=%2Fimages%2Fmyth-mask%2Fdark-knight.webp&w=640'},
+  {id:'00000000-0000-4000-8000-000000000103',slug:'swiss-watch',name:'Swiss Watch',supply:400,price_gr:100,tone1:'#b0b6c0',tone2:'#4c525b',art:'watch',demo:true,image_url:'https://tongifts.wiki/_next/image?q=75&url=%2Fimages%2Fswiss-watch%2Fasteroid.webp&w=640'}
 ];
 
 let novaGiftCatalogCache = null;
@@ -897,9 +897,9 @@ function giftBackgroundStyle(name,a,b){const n=String(name||'').toLowerCase();if
 function giftPatternOverlay(name){const n=String(name||'').toLowerCase();if(!name)return '';if(n.includes('neon'))return '<div class="gift-pattern neon"><i></i><i></i><i></i></div>';if(n.includes('glitch'))return '<div class="gift-pattern glitch"><i></i><i></i><i></i></div>';if(n.includes('stars')||n.includes('mythic'))return '<div class="gift-pattern stars">✦　✧　✦<br>　✧　✦　✧</div>';if(n.includes('pulse'))return '<div class="gift-pattern pulse">〰〰〰</div>';if(n.includes('prism'))return '<div class="gift-pattern prism">◇　◇　◇</div>';return '<div class="gift-pattern classic">•　•　•</div>';}
 function giftModelOverlay(art,model){const l=giftRarityLevel(model);if(!model)return '';if(art==='mask'&&l>=4)return '<div class="gift-model legend-mask"><span></span><span></span></div>';if(art==='mask'&&l===3)return '<div class="gift-model epic-mask"><span></span><span></span></div>';if(art==='mask'&&l===2)return '<div class="gift-model rare-mask"></div>';if(l===4)return '<div class="gift-model legendary-generic">✦</div>';if(l===3)return '<div class="gift-model epic-generic">◆</div>';return '';}
 const NOVA_GIFT_MODEL_IMAGES={
-  'dog:imposter':'',
-  'mask:dark knight':'',
-  'watch:asteroid':''
+  'dog:imposter':'https://tongifts.wiki/_next/image?q=75&url=%2Fimages%2Fresistance-dog%2Fimposter.webp&w=640',
+  'mask:dark knight':'https://tongifts.wiki/_next/image?q=75&url=%2Fimages%2Fmyth-mask%2Fdark-knight.webp&w=640',
+  'watch:asteroid':'https://tongifts.wiki/_next/image?q=75&url=%2Fimages%2Fswiss-watch%2Fasteroid.webp&w=640'
 };
 function giftModelImageUrl(g){
   const key=(String(g.art||'')+':'+String(g.model_name||g.model||'')).toLowerCase();
@@ -909,8 +909,9 @@ function giftRendered(g,mini=false){
   const bg=giftBackgroundStyle(g.backdrop||g.background_name,g.tone1,g.tone2);
   const model=g.model||g.model_name||'';
   const pattern=g.pattern||g.pattern_name||'';
-  const img=giftModelImageUrl(g);
-  const art=img?`<img class="nova-gift-real-model" src="${esc(img)}" alt="${esc(model||g.name||'Gift')}" loading="lazy">`:giftSvg(g.art,mini);
+  // До улучшения показываем реальную картинку коллекции, после улучшения — реальную модель.
+  const img=giftModelImageUrl(g) || g.image_url || '';
+  const art=img?`<img class="nova-gift-real-model" src="${esc(img)}" alt="${esc(model||g.name||'Gift')}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="gift-image-fallback" style="display:none">${giftSvg(g.art,mini)}</span>`:giftSvg(g.art,mini);
   return `<div class="gift-render ${mini?'mini':''}" style="background:${bg}">${art}${!img?giftModelOverlay(g.art,model):''}${giftPatternOverlay(pattern)}</div>`;
 }
 function formatRarity(v){
