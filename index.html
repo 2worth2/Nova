@@ -171,6 +171,7 @@ body{overflow:hidden;background:#eef1f6}
 .nova-gift-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .nova-gift-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:7px;cursor:pointer;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s;text-align:left}
 .nova-gift-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 18px 44px rgba(0,0,0,.14)}
+.nova-gift-real-model{position:relative;z-index:2;width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(0,0,0,.28));animation:novaGiftFloat 4.4s ease-in-out infinite}.gift-render .nova-gift-real-model{width:72%;height:72%;max-width:90%;max-height:90%;object-fit:contain;position:relative;z-index:2}.nova-gift-real-model + .gift-pattern-overlay{z-index:4}
 .nova-gift-card .nova-gift-thumb{height:210px;border-radius:13px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#6d7380,#a8adb7)}
 .nova-gift-card .nova-gift-thumb:before,.nova-gift-art:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 28%),radial-gradient(circle at 80% 15%,rgba(255,255,255,.12),transparent 24%),linear-gradient(135deg,rgba(255,255,255,.09),transparent 42%,rgba(0,0,0,.08));pointer-events:none}
 .nova-gift-card .nova-gift-thumb:after,.nova-gift-art:after{content:"";position:absolute;inset:0;opacity:.22;background-image:radial-gradient(circle,rgba(255,255,255,.65) 1px,transparent 1.5px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%);pointer-events:none}
@@ -891,7 +892,23 @@ function giftRarityLevel(name){const n=String(name||'').toLowerCase();if(n.inclu
 function giftBackgroundStyle(name,a,b){const n=String(name||'').toLowerCase();if(n.includes('gold'))return 'linear-gradient(145deg,#fff0a3,#d29b21 48%,#5b3b08)';if(n.includes('purple'))return 'linear-gradient(145deg,#d3b3ff,#7448bd 52%,#24123f)';if(n.includes('blue'))return 'linear-gradient(145deg,#b4dcff,#3d80c8 52%,#142d52)';if(n.includes('silver'))return 'linear-gradient(145deg,#f5f7fa,#a1aab5 52%,#454c56)';if(n.includes('aurora'))return 'linear-gradient(145deg,#a6fff0,#5a8eea 48%,#34265f)';if(n.includes('onyx'))return 'linear-gradient(145deg,#59616d,#171a20 55%,#050609)';return `linear-gradient(145deg,${a||'#858a93'},${b||'#4e535b'})`;}
 function giftPatternOverlay(name){const n=String(name||'').toLowerCase();if(!name)return '';if(n.includes('neon'))return '<div class="gift-pattern neon"><i></i><i></i><i></i></div>';if(n.includes('glitch'))return '<div class="gift-pattern glitch"><i></i><i></i><i></i></div>';if(n.includes('stars')||n.includes('mythic'))return '<div class="gift-pattern stars">✦　✧　✦<br>　✧　✦　✧</div>';if(n.includes('pulse'))return '<div class="gift-pattern pulse">〰〰〰</div>';if(n.includes('prism'))return '<div class="gift-pattern prism">◇　◇　◇</div>';return '<div class="gift-pattern classic">•　•　•</div>';}
 function giftModelOverlay(art,model){const l=giftRarityLevel(model);if(!model)return '';if(art==='mask'&&l>=4)return '<div class="gift-model legend-mask"><span></span><span></span></div>';if(art==='mask'&&l===3)return '<div class="gift-model epic-mask"><span></span><span></span></div>';if(art==='mask'&&l===2)return '<div class="gift-model rare-mask"></div>';if(l===4)return '<div class="gift-model legendary-generic">✦</div>';if(l===3)return '<div class="gift-model epic-generic">◆</div>';return '';}
-function giftRendered(g,mini=false){const bg=giftBackgroundStyle(g.backdrop||g.background_name,g.tone1,g.tone2);const model=g.model||g.model_name||'';const pattern=g.pattern||g.pattern_name||'';return `<div class="gift-render ${mini?'mini':''}" style="background:${bg}">${giftSvg(g.art,mini)}${giftModelOverlay(g.art,model)}${giftPatternOverlay(pattern)}</div>`;}
+const NOVA_GIFT_MODEL_IMAGES={
+  'dog:imposter':'',
+  'mask:dark knight':'',
+  'watch:asteroid':''
+};
+function giftModelImageUrl(g){
+  const key=(String(g.art||'')+':'+String(g.model_name||g.model||'')).toLowerCase();
+  return NOVA_GIFT_MODEL_IMAGES[key]||g.model_image_url||'';
+}
+function giftRendered(g,mini=false){
+  const bg=giftBackgroundStyle(g.backdrop||g.background_name,g.tone1,g.tone2);
+  const model=g.model||g.model_name||'';
+  const pattern=g.pattern||g.pattern_name||'';
+  const img=giftModelImageUrl(g);
+  const art=img?`<img class="nova-gift-real-model" src="${esc(img)}" alt="${esc(model||g.name||'Gift')}" loading="lazy">`:giftSvg(g.art,mini);
+  return `<div class="gift-render ${mini?'mini':''}" style="background:${bg}">${art}${!img?giftModelOverlay(g.art,model):''}${giftPatternOverlay(pattern)}</div>`;
+}
 function formatRarity(v){
   const n=Number(v);
   if(!Number.isFinite(n)) return '';
@@ -912,7 +929,7 @@ function giftState(g){
 async function fetchNovaGiftData(force=false){
   if(novaGiftCatalogCache && novaGiftInstancesCache && !force) return {catalog:novaGiftCatalogCache,instances:novaGiftInstancesCache};
   const [cR,iR]=await Promise.all([
-    sb.from('nova_gift_catalog').select('id,slug,name,price_gr,supply,created_at').order('created_at'),
+    sb.from('nova_gift_catalog').select('id,slug,name,price_gr,supply,image_url,animation_url,created_at').order('created_at'),
     sb.from('nova_gift_instances').select('id,catalog_id,serial_number,owner_id,sender_id,purchased_at,upgraded,upgraded_at,model_name,model_rarity,pattern_name,pattern_rarity,background_name,background_rarity').order('serial_number')
   ]);
   if(cR.error || iR.error){
