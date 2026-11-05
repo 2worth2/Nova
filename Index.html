@@ -79,22 +79,32 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .file input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .nm-rose{--c:#C2255C}.nm-blue{--c:#1C5FD4}.nm-violet{--c:#6741D9}.nm-gold{--c:#8A5A00}
 .nm-rose,.nm-blue,.nm-violet,.nm-gold{color:color-mix(in srgb,var(--c),#fff var(--lt))}
-.nm-grad{background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:nmshift 4s linear infinite}
+.nm-grad{
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+  animation:nmshift 4s linear infinite;
+}
 .nm-aurora{background-image:linear-gradient(90deg,#34D399,#3B82F6,#8B5CF6,#34D399)}
 .nm-sunset{background-image:linear-gradient(90deg,#F97316,#EC4899,#F59E0B,#F97316)}
-.nm-neon{color:var(--neon);text-shadow:0 0 6px var(--neon-glow),0 0 14px var(--neon-glow)}
+.nm-neon{
+  color:var(--neon);
+  text-shadow:0 0 6px var(--neon-glow),0 0 14px var(--neon-glow);
+}
 
-/* ---------- плавное оформление ника ---------- */
-.nick-smooth .name>span:first-child{
+/* Рабочая анимация оформления ника */
+.name.nick-smooth > span:first-child{
   --nick-steps:80;
   will-change:background-position,color,text-shadow;
 }
 
-.nick-smooth .name>span.nm-grad{
+.name.nick-smooth > span.nm-grad{
   animation-timing-function:steps(var(--nick-steps,80),end);
 }
 
-.nick-smooth .name>span.nm-neon{
+.name.nick-smooth > span.nm-neon{
   animation:nickNeon 2.4s ease-in-out infinite;
 }
 
@@ -113,10 +123,6 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 }
 
 @keyframes nmshift{to{background-position:200% 0}}
-
-@media (prefers-reduced-motion:reduce){
-  .nm-grad,.fr-rainbow,.nick-smooth .name>span.nm-neon{animation:none}
-}
 @property --fc{syntax:'<color>';inherits:false;initial-value:#F43F5E}
 .ava[class*=" fr-"]{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--fc,var(--accent))}
 .fr-gold{--fc:#D69E2E}.fr-rose{--fc:#E0457B}.fr-blue{--fc:#3B82F6}.fr-violet{--fc:#8B5CF6}
@@ -124,7 +130,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .ava.fr-neon{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--neon),0 0 14px 4px var(--neon-glow)}
 .fr-rainbow{animation:frhue 4s linear infinite}
 @keyframes frhue{0%,100%{--fc:#F43F5E}25%{--fc:#F59E0B}50%{--fc:#10B981}75%{--fc:#3B82F6}}
-@media (prefers-reduced-motion:reduce){.nm-grad,.fr-rainbow{animation:none}}
+@media (prefers-reduced-motion:reduce){.nm-grad,.fr-rainbow,.name.nick-smooth > span.nm-neon{animation:none}}
 .bdg{min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
 .ell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sq{width:40px;height:40px;padding:0;border-radius:50%}
