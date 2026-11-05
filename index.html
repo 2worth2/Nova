@@ -114,12 +114,13 @@ body{overflow:hidden;background:#eef1f6}
 .nova-user{width:100%;display:flex;justify-content:center;cursor:pointer;padding:5px;border-radius:14px}
 .nova-user .grow{display:none}
 .nova-user:hover{background:var(--surface2)}
-.nova-main{min-width:0;height:100%;display:flex;flex-direction:column}
-.nova-top{height:64px;flex:none;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.nova-main{min-width:0;min-height:0;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.nova-top{height:64px;min-height:64px;flex:none;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
 .nova-top-title{font-size:20px;font-weight:800}
 .nova-circle{width:38px;height:38px;border:1px solid var(--line);background:var(--surface2);border-radius:50%;display:flex;align-items:center;justify-content:center}
-.nova-content{flex:1;min-height:0;overflow:auto}
-.nova-content>.wrap{max-width:1100px;margin:0 auto;padding:24px 28px 40px}
+.nova-content{flex:1 1 auto;min-width:0;min-height:0;height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.nova-content>.wrap{width:100%;max-width:1100px;min-height:100%;box-sizing:border-box;margin:0 auto;padding:24px 28px 60px}
+.nova-content>.wrap:after{content:"";display:block;height:1px}
 .nova-content>.wrap>h1{display:none}
 .nova-chat-shell{grid-template-columns:76px 310px minmax(0,1fr) 300px}
 .nova-chat-list{background:var(--surface);border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column;overflow:hidden}
@@ -159,7 +160,7 @@ body{overflow:hidden;background:#eef1f6}
 .nova-empty b{color:var(--ink);font-size:17px}
 .nova-empty span{font-size:13px}
 @media(max-width:1050px){.nova-chat-shell{grid-template-columns:76px 290px minmax(0,1fr)}.nova-info{display:none}}
-@media(max-width:760px){body{overflow:auto}.nova-shell{display:block;height:auto;min-height:100dvh}.nova-sidebar{position:fixed;left:0;right:0;bottom:0;width:100%;height:66px;display:flex;flex-direction:row;padding:5px 10px;border-right:0;border-top:1px solid var(--line)}.nova-brand,.nova-user{display:none}.nova-nav{flex-direction:row;gap:3px}.nova-nav button{height:56px;flex:1;flex-direction:column}.nova-main{height:calc(100dvh - 66px)}.nova-top{height:58px;padding:0 16px}.nova-content>.wrap{padding:16px 12px 24px}.nova-chat-shell{display:flex;height:100dvh}.nova-chat-shell .nova-sidebar,.nova-chat-shell .nova-info{display:none}.nova-chat-list{display:none}.nova-chat-main{width:100%;height:100dvh}.nova-mobile-back{display:block}.nova-chat-main .msgs{padding:16px}.nova-chat-main .composer{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}.nova-chat-main .composer .in{min-width:0}.nova-attach{display:none}}
+@media(max-width:760px){body{overflow:hidden}.nova-shell{display:block;height:100dvh;min-height:0}.nova-sidebar{position:fixed;left:0;right:0;bottom:0;width:100%;height:66px;display:flex;flex-direction:row;padding:5px 10px;border-right:0;border-top:1px solid var(--line)}.nova-brand,.nova-user{display:none}.nova-nav{flex-direction:row;gap:3px}.nova-nav button{height:56px;flex:1;flex-direction:column}.nova-main{height:calc(100dvh - 66px);min-height:0}.nova-top{height:58px;min-height:58px;padding:0 16px}.nova-content{height:0;min-height:0;overflow-y:auto;overflow-x:hidden}.nova-content>.wrap{min-height:max-content;padding:16px 12px 90px}.nova-chat-shell{display:flex;height:100dvh}.nova-chat-shell .nova-sidebar,.nova-chat-shell .nova-info{display:none}.nova-chat-list{display:none}.nova-chat-main{width:100%;height:100dvh}.nova-mobile-back{display:block}.nova-chat-main .msgs{padding:16px}.nova-chat-main .composer{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}.nova-chat-main .composer .in{min-width:0}.nova-attach{display:none}}
 </style>
 </head>
 <body>
