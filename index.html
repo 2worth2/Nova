@@ -865,7 +865,11 @@ const NOVA_GIFT_TYPES_FALLBACK = [
   {slug:'spooky',name:'Spooky',supply:400,price_gr:100,tone1:'#8b8f99',tone2:'#555a63',art:'spooky'},
   {slug:'rose',name:'Rose',supply:400,price_gr:100,tone1:'#c78b9e',tone2:'#684c59',art:'rose'},
   {slug:'diamond',name:'Diamond',supply:400,price_gr:100,tone1:'#9bd7e8',tone2:'#466b7a',art:'diamond'},
-  {slug:'crown',name:'Crown',supply:400,price_gr:100,tone1:'#d7c17a',tone2:'#66582d',art:'crown'}
+  {slug:'crown',name:'Crown',supply:400,price_gr:100,tone1:'#d7c17a',tone2:'#66582d',art:'crown'},
+  // Тестовые коллекции: появятся сразу в интерфейсе, даже если SQL для Supabase ещё не выполнен.
+  {id:'00000000-0000-4000-8000-000000000101',slug:'resistance-dogs',name:'Resistance Dogs',supply:400,price_gr:100,tone1:'#9aa7ba',tone2:'#4e5b70',art:'dog',demo:true},
+  {id:'00000000-0000-4000-8000-000000000102',slug:'myth-masks',name:'Myth Masks',supply:400,price_gr:100,tone1:'#aaa1bd',tone2:'#4d3d63',art:'mask',demo:true},
+  {id:'00000000-0000-4000-8000-000000000103',slug:'swiss-watch',name:'Swiss Watch',supply:400,price_gr:100,tone1:'#b0b6c0',tone2:'#4c525b',art:'watch',demo:true}
 ];
 
 let novaGiftCatalogCache = null;
@@ -938,7 +942,10 @@ async function fetchNovaGiftData(force=false){
     throw new Error(details||'GIFT_SCHEMA_MISSING');
   }
   if(!Array.isArray(cR.data) || !Array.isArray(iR.data)) throw new Error('Supabase вернул некорректные данные');
-  novaGiftCatalogCache=(cR.data||[]).map(giftVisual);
+  const realCatalog=(cR.data||[]).map(giftVisual);
+  const realSlugs=new Set(realCatalog.map(x=>String(x.slug||'')));
+  const demoCatalog=NOVA_GIFT_TYPES_FALLBACK.filter(x=>x.demo && !realSlugs.has(x.slug)).map(giftVisual);
+  novaGiftCatalogCache=[...realCatalog,...demoCatalog];
   novaGiftInstancesCache=iR.data||[];
   return {catalog:novaGiftCatalogCache,instances:novaGiftInstancesCache};
 }
@@ -951,7 +958,7 @@ function giftCard(c){
   const insts=(novaGiftInstancesCache||[]).filter(x=>x.catalog_id===c.id);
   const mine=insts.find(x=>x.owner_id===me.id);
   const free=insts.filter(x=>!x.owner_id).length;
-  const state=mine ? ('Ваш · #'+mine.serial_number) : (free ? 'Свободно · '+free : 'Все экземпляры разобраны');
+  const state=c.demo ? 'Тестовая коллекция · добавьте SQL' : (mine ? ('Ваш · #'+mine.serial_number) : (free ? 'Свободно · '+free : 'Все экземпляры разобраны'));
   const openId=mine ? 'inst:'+mine.id : 'type:'+c.id;
   return `<button class="nova-gift-card" data-gift-open="${esc(openId)}" aria-label="Открыть ${esc(c.name)}">
     ${mine?'<span class="nova-gift-owned-badge">Ваш подарок</span>':''}
@@ -990,9 +997,10 @@ async function renderGiftModal(g){
   const isMine=!!g.owner_id&&g.owner_id===me.id;
   const free=!!g.unowned&&Number(g.freeCount||0)>0;
   const bought=!!g.owner_id;
+  const demo=!!g.demo;
   const ownerValue=owner?`${giftOwnerAvatar(owner)}<span class="owner-name">${esc(nameOf(owner))}</span>`:`<span class="owner-name" style="color:#8f969f">Нет владельца</span>`;
   const fromValue=g.sender_id&&pcache[g.sender_id]?`${giftOwnerAvatar(pcache[g.sender_id])}<span class="owner-name">${esc(nameOf(pcache[g.sender_id]))}</span>`:`<span class="owner-name">Nova</span>`;
-  const action=!bought&&free?`<div class="nova-gift-action"><button class="btn" data-gift-buy>Купить · ${Number(g.price_gr||100).toLocaleString('ru-RU')} GR</button></div><div class="nova-gift-note">Подарок уже выпущен. Покупка назначит вам свободный экземпляр.</div>`:isMine&&!g.upgraded_at?`<div class="nova-gift-action"><button class="btn" data-gift-upgrade>Улучшить · 100 GR</button></div><div class="nova-gift-note">После улучшения выпадут модель, узор и фон — каждый со своей редкостью.</div>`:!bought?`<div class="nova-gift-action"><button class="btn ghost" disabled>Все экземпляры уже куплены</button></div>`:'';
+  const action=demo&&!bought?`<div class="nova-gift-action"><button class="btn ghost" disabled>Тестовый подарок</button></div><div class="nova-gift-note">Карточка уже видна. Чтобы покупка работала, выполни SQL из файла nova_gifts_test.sql в Supabase.</div>`:!bought&&free?`<div class="nova-gift-action"><button class="btn" data-gift-buy>Купить · ${Number(g.price_gr||100).toLocaleString('ru-RU')} GR</button></div><div class="nova-gift-note">Подарок уже выпущен. Покупка назначит вам свободный экземпляр.</div>`:isMine&&!g.upgraded_at?`<div class="nova-gift-action"><button class="btn" data-gift-upgrade>Улучшить · 100 GR</button></div><div class="nova-gift-note">После улучшения выпадут модель, узор и фон — каждый со своей редкостью.</div>`:!bought?`<div class="nova-gift-action"><button class="btn ghost" disabled>Все экземпляры уже куплены</button></div>`:'';
   const serialSub=bought?`Коллекционный <span class="serial">#${esc(g.serial)}</span>`:'Коллекционный подарок';
   const m=document.createElement('div');m.id='nova-gift-modal';m.className='nova-gift-modal';
   m.innerHTML=`<div class="nova-gift-sheet" role="dialog" aria-modal="true" aria-label="${esc(g.name)}"><div class="nova-gift-art" style="background:linear-gradient(145deg,${g.tone1} 0%,${g.tone2} 100%)"><button class="nova-gift-close" type="button" data-gift-close aria-label="Закрыть">×</button><button class="nova-gift-share" type="button" data-gift-share aria-label="Поделиться"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.07 0l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15"/><path d="M14 11a5 5 0 0 0-7.07 0l-2 2A5 5 0 0 0 12 20.07l1.15-1.15"/></svg></button>${giftRendered(g,false)}<div class="nova-gift-art-bottom"><div class="nova-gift-title">${esc(g.name)}</div><div class="nova-gift-subtitle">${serialSub}</div></div></div><div class="nova-gift-details"><div class="nova-gift-table">${giftRow('Владелец',ownerValue)}${giftRow('Выпущено',`<span>${esc(g.supply)}</span>`)}${giftRow('От',fromValue)}${giftRow('Модель',attrValue(g.model,g.model_rarity))}${giftRow('Узор',attrValue(g.pattern,g.pattern_rarity))}${giftRow('Фон',attrValue(g.backdrop,g.backdrop_rarity))}</div>${action}<div class="nova-gift-brand">NOVA COLLECTIBLE</div></div></div>`;
