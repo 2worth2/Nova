@@ -176,6 +176,29 @@ body{overflow:hidden;background:#eef1f6}
 .nova-name-layers{display:flex;gap:7px;flex-wrap:wrap;align-items:center;min-height:34px;margin:2px 0 10px}.nova-layer-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:12px;font-weight:700}.nova-layer-chip.base{border-color:color-mix(in srgb,var(--accent),var(--line) 35%);color:var(--accent)}.nova-layer-chip button{border:0;background:transparent;color:var(--muted);font-size:17px;line-height:1;padding:0;cursor:pointer}.nova-layer-hint{font-size:11px;color:var(--muted)}
 .nsc-layer{display:inline-block;position:relative}.nsc-base{display:inline-block}.nsc-wave{animation:nscWave 1.4s ease-in-out infinite,nscHue 3s linear infinite}.nsc-spark:before,.nsc-spark:after{z-index:4}.nsc-echo{animation:nscEcho 2.4s ease-in-out infinite}.nsc-pulse{animation:nscPulse var(--nsc-speed,1.8s) ease-in-out infinite}.nsc-matrix{display:inline-block}.nsc-code{position:absolute;left:0;right:0;top:-.9em;font:700 .32em/1 ui-monospace,monospace;color:#4ADE80;opacity:.65;letter-spacing:.08em;white-space:nowrap;overflow:hidden;pointer-events:none;animation:nscMatrix 1.2s linear infinite}.nsc-glitch .nsc-base{position:relative;z-index:1}.nsc-glitch:before,.nsc-glitch:after{z-index:3;pointer-events:none}
 @keyframes nscMatrix{0%{transform:translateY(4px);opacity:.15}50%{transform:translateY(-1px);opacity:.9}100%{transform:translateY(-7px);opacity:0}}
+
+/* ===== NOVA NFT GIFTS ===== */
+.nova-gifts{display:flex;flex-direction:column;gap:18px}
+.gift-hero{border:1px solid var(--line);background:radial-gradient(circle at 80% 10%,rgba(99,102,241,.22),transparent 32%),linear-gradient(135deg,var(--surface),var(--surface2));border-radius:24px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;overflow:hidden;position:relative}
+.gift-hero:after{content:'';position:absolute;width:220px;height:220px;right:-80px;top:-100px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.25),transparent 68%);pointer-events:none}
+.gift-hero h1{display:block;margin:0;font-size:28px}.gift-hero p{margin:6px 0 0;color:var(--muted);max-width:600px}.gift-hero-actions{display:flex;gap:8px;position:relative;z-index:1}
+.gift-tabs{display:flex;gap:8px;overflow:auto;padding-bottom:2px}.gift-tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:12px;padding:9px 13px;white-space:nowrap;cursor:pointer;font:inherit;font-weight:700}.gift-tab.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.gift-filters{display:flex;gap:8px;overflow:auto}.gift-filter{border:1px solid var(--line);background:var(--surface2);border-radius:11px;padding:8px 11px;white-space:nowrap;font:inherit;color:var(--muted);cursor:pointer}.gift-filter.on{color:var(--ink);border-color:var(--accent)}
+.gift-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.gift-card{position:relative;min-width:0;border:1px solid var(--line);border-radius:17px;background:var(--surface);padding:7px;cursor:pointer;transition:.18s;overflow:hidden}.gift-card:hover{transform:translateY(-3px);box-shadow:0 15px 32px rgba(0,0,0,.12);border-color:color-mix(in srgb,var(--accent),var(--line) 35%)}
+.gift-art{height:166px;border-radius:13px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--g1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.gift-art:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.28),transparent 22%),radial-gradient(circle at 75% 80%,rgba(255,255,255,.12),transparent 25%),linear-gradient(135deg,transparent 35%,rgba(255,255,255,.08) 36%,transparent 37%);opacity:.9}
+.gift-art:after{content:attr(data-no);position:absolute;right:6px;top:5px;color:rgba(255,255,255,.78);font-size:9px;font-weight:800;transform:rotate(35deg)}
+.gift-object{position:relative;z-index:1;font-size:78px;line-height:1;filter:drop-shadow(0 12px 8px rgba(0,0,0,.28));animation:giftFloat 3s ease-in-out infinite}.gift-card:nth-child(3n) .gift-object{animation-delay:-.8s}.gift-card:nth-child(4n) .gift-object{animation-delay:-1.6s}
+.gift-name{font-weight:800;font-size:13px;margin:8px 3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gift-meta{display:flex;align-items:center;justify-content:space-between;gap:5px;margin:0 3px 3px}.gift-price{font-weight:900;font-size:12px}.gift-rarity{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:4px 6px;border-radius:7px;background:var(--surface2);color:var(--muted)}
+.gift-pricebar{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.gift-empty{padding:50px 20px;text-align:center;border:1px dashed var(--line);border-radius:20px;color:var(--muted)}
+.gift-modal{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:100;display:flex;align-items:center;justify-content:center;padding:18px}.gift-modal-card{width:min(560px,100%);max-height:min(820px,calc(100dvh - 36px));overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:25px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.gift-detail-art{height:300px;border-radius:20px;background:var(--g1);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.gift-detail-art .gift-object{font-size:130px}.gift-detail-art:before{content:'';position:absolute;inset:-20%;background:conic-gradient(from 90deg,transparent,rgba(255,255,255,.14),transparent 30%);animation:giftSpin 8s linear infinite}.gift-detail-art:after{content:attr(data-no);position:absolute;right:18px;top:15px;color:rgba(255,255,255,.78);font-weight:900;transform:rotate(35deg)}
+.gift-detail{padding:14px 3px 3px}.gift-detail h2{margin:0 0 4px}.gift-attrs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0}.gift-attr{border:1px solid var(--line);border-radius:12px;padding:9px;background:var(--surface2)}.gift-attr small{display:block;color:var(--muted);font-size:10px}.gift-attr b{display:block;margin-top:2px}.gift-modal-actions{display:flex;gap:8px;flex-wrap:wrap}.gift-send{display:none;margin-top:10px;padding:12px;border-radius:14px;background:var(--surface2);border:1px solid var(--line)}.gift-send.open{display:flex;gap:8px}.gift-send input{flex:1;min-width:0}
+.gift-owned{position:absolute;left:8px;top:8px;z-index:3;background:rgba(15,23,42,.72);color:#fff;border-radius:8px;padding:4px 6px;font-size:9px;font-weight:800}
+@keyframes giftFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}@keyframes giftSpin{to{transform:rotate(360deg)}}
+@media(max-width:1100px){.gift-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:760px){.gift-hero{align-items:flex-start;flex-direction:column}.gift-hero h1{font-size:24px}.gift-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.gift-art{height:145px}.gift-object{font-size:64px}.gift-detail-art{height:250px}.gift-detail-art .gift-object{font-size:105px}}
 </style>
 </head>
 <body>
@@ -442,16 +465,17 @@ async function onIncoming(payload) {
 
 /* ---------- каркас и навигация ---------- */
 const IC = {
+  gifts: '<path d="M20 12v8H4v-8"/><path d="M2 7h20v5H2z"/><path d="M12 7v13"/><path d="M12 7H7.5a2.5 2.5 0 1 1 2.5-2.5C10 6.2 12 7 12 7z"/><path d="M12 7h4.5A2.5 2.5 0 1 0 14 4.5C14 6.2 12 7 12 7z"/>',
   feed: '<rect x="4" y="3" width="16" height="18" rx="3"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/>',
   chats: '<path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l1.9-5.4A8.4 8.4 0 1 1 21 11.5z"/>',
   market: '<path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
   profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/>'
 };
 const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
-const TABS = [['feed', 'Лента'], ['chats', 'Чаты'], ['market', 'Маркет'], ['profile', 'Профиль']];
+const TABS = [['feed', 'Лента'], ['chats', 'Чаты'], ['gifts', 'Подарки'], ['market', 'Маркет'], ['profile', 'Профиль']];
 function go(t, arg) {
   if (t === 'user' && arg && arg.id === me.id) t = 'profile';
-  if (['feed', 'chats', 'market', 'profile'].indexOf(t) !== -1) back = t;
+  if (['feed', 'chats', 'gifts', 'market', 'profile'].indexOf(t) !== -1) back = t;
   tab = t;
   if (t === 'chat') { chatWith = arg; return renderChat(); }
   if (t === 'conv') return renderConv(arg);
@@ -463,13 +487,14 @@ function go(t, arg) {
       <div class="nova-nav">${TABS.map((x) => `<button data-t="${x[0]}" class="${x[0] === cur ? 'on' : ''}">${icon(x[0])}<span>${x[1]}</span></button>`).join('')}</div>
       <div class="nova-user" data-me="1">${av(me,40)}<div class="grow ell"><b>${esc(nameOf(me))}</b><small>@${esc(me.username)}</small></div></div>
     </aside>
-    <main class="nova-main"><div class="nova-top"><div class="nova-top-title">${cur === 'feed' ? 'Лента' : cur === 'chats' ? 'Чаты' : cur === 'market' ? 'Маркет' : 'Профиль'}</div><div class="nova-top-actions"><button class="nova-circle" id="top-profile">${av(me,32)}</button></div></div><div class="nova-content"><div class="wrap" id="view"></div></div></main>
+    <main class="nova-main"><div class="nova-top"><div class="nova-top-title">${cur === 'feed' ? 'Лента' : cur === 'chats' ? 'Чаты' : cur === 'gifts' ? 'Подарки' : cur === 'market' ? 'Маркет' : 'Профиль'}</div><div class="nova-top-actions"><button class="nova-circle" id="top-profile">${av(me,32)}</button></div></div><div class="nova-content"><div class="wrap" id="view"></div></div></main>
   </div>`;
   $app.querySelectorAll('.nova-nav button').forEach((b) => { b.onclick = () => go(b.dataset.t); });
   const mp = document.getElementById('top-profile'); if (mp) mp.onclick = () => go('profile');
   const mu = $app.querySelector('.nova-user'); if (mu) mu.onclick = () => go('profile');
   if (t === 'feed') loadFeed();
   else if (t === 'chats') loadChats();
+  else if (t === 'gifts') renderGifts();
   else if (t === 'market') renderMarket();
   else if (t === 'profile') renderProfile(me, true);
   else if (t === 'user') renderProfile(arg, false);
@@ -983,6 +1008,39 @@ async function renderMarket() {
     if (ok !== null) renderMarket();
   };
 }
+
+/* ---------- Nova NFT Gifts ---------- */
+const GIFT_CATALOG = [
+  {id:'pepe-cosmo',name:'Cosmo Pepe',obj:'🐸',rarity:'Rare',price:4300,g1:'linear-gradient(135deg,#667eea,#764ba2)',model:'Pepe',bg:'Cosmic',pattern:'Stars'},
+  {id:'pepe-gold',name:'Golden Pepe',obj:'🐸',rarity:'Epic',price:5000,g1:'linear-gradient(135deg,#7b2ff7,#f107a3)',model:'Pepe',bg:'Royal',pattern:'Spark'},
+  {id:'pepe-orange',name:'Orange Pepe',obj:'🐸',rarity:'Common',price:5200,g1:'linear-gradient(135deg,#6b6b6b,#a6a6a6)',model:'Pepe',bg:'Steel',pattern:'Noise'},
+  {id:'cap-black',name:'Black Cap',obj:'🧢',rarity:'Common',price:700,g1:'linear-gradient(135deg,#7d3fc5,#5b2b9d)',model:'Cap',bg:'Violet',pattern:'Stars'},
+  {id:'cap-silver',name:'Silver Cap',obj:'🧢',rarity:'Rare',price:796,g1:'linear-gradient(135deg,#b85c76,#e6d8d0)',model:'Cap',bg:'Rose',pattern:'Gloss'},
+  {id:'cap-violet',name:'Violet Cap',obj:'🧢',rarity:'Epic',price:798,g1:'linear-gradient(135deg,#8c7614,#c2aa35)',model:'Cap',bg:'Gold',pattern:'Grain'},
+  {id:'heart-portal',name:'Heart Portal',obj:'💗',rarity:'Epic',price:1690,g1:'linear-gradient(135deg,#178f9a,#53d6d2)',model:'Heart',bg:'Aqua',pattern:'Orbits'},
+  {id:'heart-locket',name:'Heart Locket',obj:'💝',rarity:'Legendary',price:1698,g1:'linear-gradient(135deg,#8f5d68,#d8a5a5)',model:'Heart',bg:'Rose',pattern:'Gloss'},
+  {id:'heart-royal',name:'Royal Heart',obj:'💙',rarity:'Rare',price:1900,g1:'linear-gradient(135deg,#159447,#7be495)',model:'Heart',bg:'Emerald',pattern:'Crown'},
+  {id:'robot-red',name:'Retro Bot',obj:'🤖',rarity:'Rare',price:5350,g1:'linear-gradient(135deg,#8e4d79,#cf7fa9)',model:'Robot',bg:'Plum',pattern:'Stars'},
+  {id:'robot-coral',name:'Coral Bot',obj:'🤖',rarity:'Epic',price:5400,g1:'linear-gradient(135deg,#b85b32,#ed9b5c)',model:'Robot',bg:'Coral',pattern:'Spark'},
+  {id:'robot-mono',name:'Mono Bot',obj:'🤖',rarity:'Common',price:5500,g1:'linear-gradient(135deg,#666,#aaa)',model:'Robot',bg:'Steel',pattern:'Noise'},
+  {id:'cap-carbon',name:'Carbon Cap',obj:'🧢',rarity:'Common',price:800,g1:'linear-gradient(135deg,#2f5966,#79a9b4)',model:'Cap',bg:'Carbon',pattern:'Grid'},
+  {id:'cap-mint',name:'Mint Cap',obj:'🧢',rarity:'Rare',price:888,g1:'linear-gradient(135deg,#547d86,#b8d5d9)',model:'Cap',bg:'Mint',pattern:'Grid'},
+  {id:'cap-sport',name:'Sport Cap',obj:'🧢',rarity:'Rare',price:899,g1:'linear-gradient(135deg,#2694b8,#78d2d8)',model:'Cap',bg:'Sky',pattern:'Wave'},
+  {id:'heart-clock',name:'Golden Clock',obj:'🕰️',rarity:'Legendary',price:2000,g1:'linear-gradient(135deg,#a47b24,#e0bf5d)',model:'Clock',bg:'Gold',pattern:'Coins'},
+  {id:'heart-ruby',name:'Ruby Heart',obj:'💗',rarity:'Epic',price:2000,g1:'linear-gradient(135deg,#4d2826,#9e4039)',model:'Heart',bg:'Ruby',pattern:'Dots'},
+  {id:'heart-crown',name:'Crown Heart',obj:'💖',rarity:'Legendary',price:2200,g1:'linear-gradient(135deg,#b85b79,#f59ab4)',model:'Heart',bg:'Pink',pattern:'Crown'},
+  {id:'chest',name:'Mystic Chest',obj:'🎁',rarity:'Legendary',price:2500,g1:'linear-gradient(135deg,#9b4b18,#e09b27)',model:'Chest',bg:'Amber',pattern:'Stars'}
+];
+const GIFT_KEY='nova_gifts_inventory_v1';
+let giftTab='shop',giftRarity='All',giftSelected=null;
+const giftOwned=()=>{try{return JSON.parse(localStorage.getItem(GIFT_KEY)||'[]')}catch(e){return[]}};
+const giftSave=(a)=>localStorage.setItem(GIFT_KEY,JSON.stringify(a));
+const giftToken=()=>String(Math.floor(1000+Math.random()*8999)).padStart(4,'0');
+const giftById=(id)=>GIFT_CATALOG.find(x=>x.id===id);
+const giftOwnedItem=(id)=>giftOwned().find(x=>x.catalogId===id);
+function giftCard(g,owned=false){const own=owned?giftOwnedItem(g.id):null;return `<article class="gift-card" data-gift="${g.id}"><div class="gift-art" style="--g1:${g.g1}" data-no="#${own?own.token:giftToken()}">${own?'<span class="gift-owned">OWNED</span>':''}<span class="gift-object">${g.obj}</span></div><div class="gift-name">${esc(g.name)}</div><div class="gift-meta"><span class="gift-price">◇ ${g.price.toLocaleString('ru-RU')}</span><span class="gift-rarity">${g.rarity}</span></div></article>`}
+function openGift(id){const g=giftById(id);if(!g)return;giftSelected=g;const own=giftOwnedItem(id);const no=own?own.token:'0000';const v=view();v.insertAdjacentHTML('beforeend',`<div class="gift-modal" id="giftModal"><div class="gift-modal-card"><div class="row" style="justify-content:flex-end"><button class="btn ghost sm" id="giftClose">Закрыть</button></div><div class="gift-detail-art" style="--g1:${g.g1}" data-no="#${no}"><span class="gift-object">${g.obj}</span></div><div class="gift-detail"><h2>${esc(g.name)}</h2><div class="muted">${g.rarity} · коллекционный NFT-подарок</div><div class="gift-attrs"><div class="gift-attr"><small>Модель</small><b>${esc(g.model)}</b></div><div class="gift-attr"><small>Фон</small><b>${esc(g.bg)}</b></div><div class="gift-attr"><small>Узор</small><b>${esc(g.pattern)}</b></div><div class="gift-attr"><small>Номер</small><b>#${no}</b></div></div><div class="gift-pricebar"><span>Цена</span><b>◇ ${g.price.toLocaleString('ru-RU')}</b></div><div class="gift-modal-actions" style="margin-top:12px">${own?`<button class="btn" id="giftSendBtn">🎁 Подарить</button><button class="btn ghost" id="giftSellBtn">↗ Выставить на продажу</button>`:`<button class="btn" id="giftBuyBtn">Купить за ◇ ${g.price.toLocaleString('ru-RU')}</button>`}</div><div class="gift-send" id="giftSend"><input id="giftUser" class="in" placeholder="username получателя"><button class="btn" id="giftSendGo">Отправить</button></div></div></div></div>`);document.getElementById('giftClose').onclick=()=>document.getElementById('giftModal')?.remove();const buy=document.getElementById('giftBuyBtn');if(buy)buy.onclick=async()=>{buy.disabled=true;try{const rpc=await sb.rpc('nova_buy_gift',{p_catalog_id:g.id});if(!rpc.error){const row=rpc.data||{};const arr=giftOwned();arr.push({catalogId:g.id,token:String(row.token_no||giftToken()),itemId:row.id,owner:me.id,ownerName:me.username,createdAt:new Date().toISOString()});giftSave(arr);if(typeof me.gr==='number')me.gr=Math.max(0,me.gr-g.price);document.getElementById('giftModal')?.remove();toast(`${g.name} #${row.token_no} добавлен в коллекцию`);return renderGifts();}const arr=giftOwned();if(Number(me.gr||0)<g.price)return toast('Недостаточно GR',true);me.gr=Number(me.gr)-g.price;const item={catalogId:g.id,token:giftToken(),owner:me.id,ownerName:me.username,createdAt:new Date().toISOString()};arr.push(item);giftSave(arr);document.getElementById('giftModal')?.remove();toast(`${g.name} #${item.token} добавлен в демо-коллекцию`);renderGifts();}finally{buy.disabled=false}};const sbt=document.getElementById('giftSendBtn');if(sbt)sbt.onclick=()=>document.getElementById('giftSend')?.classList.add('open');const sgo=document.getElementById('giftSendGo');if(sgo)sgo.onclick=async()=>{const u=document.getElementById('giftUser').value.trim().replace(/^@/,'');if(!u)return toast('Введите username',true);const arr=giftOwned();const item=arr.find(x=>x.catalogId===g.id);if(!item)return;if(item.itemId){const rpc=await sb.rpc('nova_transfer_gift',{p_item_id:item.itemId,p_username:u});if(rpc.error)return toast(rpc.error.message||'Не удалось отправить подарок',true)}item.ownerName=u;item.owner='pending:'+u;giftSave(arr);document.getElementById('giftModal')?.remove();toast(`Подарок #${item.token} отправлен @${u}`);renderGifts()};const sell=document.getElementById('giftSellBtn');if(sell)sell.onclick=()=>{toast('NFT отмечен для перепродажи');};}
+function renderGifts(){const v=view();if(!v)return;const owned=giftOwned();const list=(giftTab==='collection'?GIFT_CATALOG.filter(g=>owned.some(x=>x.catalogId===g.id)):GIFT_CATALOG).filter(g=>giftRarity==='All'||g.rarity===giftRarity);v.innerHTML=`<div class="nova-gifts"><section class="gift-hero"><div><h1>🎁 Nova Gifts</h1><p>Коллекционные NFT-подарки с уникальными номерами, моделями, фонами и редкостью.</p></div><div class="gift-hero-actions"><button class="btn" data-gift-tab="collection">Моя коллекция · ${owned.length}</button></div></section><div class="gift-tabs"><button class="gift-tab ${giftTab==='shop'?'on':''}" data-gift-tab="shop">Магазин</button><button class="gift-tab ${giftTab==='collection'?'on':''}" data-gift-tab="collection">Моя коллекция</button><button class="gift-tab ${giftTab==='resale'?'on':''}" data-gift-tab="resale">Перепродажа</button></div><div class="gift-filters">${['All','Common','Rare','Epic','Legendary'].map(r=>`<button class="gift-filter ${giftRarity===r?'on':''}" data-gift-rarity="${r}">${r==='All'?'Все':r}</button>`).join('')}</div>${giftTab==='resale'?`<div class="gift-empty"><div style="font-size:42px">💎</div><b>Перепродажа NFT</b><div style="margin-top:6px">Здесь будут подарки, которые владельцы выставили на продажу.</div></div>`:list.length?`<div class="gift-grid">${list.map(g=>giftCard(g,giftTab==='collection')).join('')}</div>`:`<div class="gift-empty"><div style="font-size:42px">🎁</div><b>Коллекция пока пустая</b><div style="margin-top:6px">Купи первый NFT-подарок в магазине.</div></div>`}</div>`;v.onclick=(e)=>{const b=e.target.closest('[data-gift-tab]');if(b){giftTab=b.dataset.giftTab;renderGifts();return}const r=e.target.closest('[data-gift-rarity]');if(r){giftRarity=r.dataset.giftRarity;renderGifts();return}const c=e.target.closest('[data-gift]');if(c)openGift(c.dataset.gift)};}
 
 /* ---------- группы и каналы ---------- */
 let convs = {}, curConv = null;
