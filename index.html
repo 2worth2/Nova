@@ -172,6 +172,10 @@ body{overflow:hidden;background:#eef1f6}
 /* custom studio effects */
 .nsc-glitch{position:relative;color:var(--ink);animation:nscJitter 2.6s steps(1) infinite}.nsc-glitch:before,.nsc-glitch:after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden}.nsc-glitch:before{color:#F43F5E;animation:nscG1 2.6s steps(1) infinite}.nsc-glitch:after{color:#22D3EE;animation:nscG2 2.6s steps(1) infinite}.nsc-wave span{display:inline-block;animation:nscWave 1.4s ease-in-out infinite,nscHue 3s linear infinite}.nsc-spark{position:relative;color:#F59E0B;text-shadow:0 0 10px rgba(245,158,11,.35)}.nsc-spark:before,.nsc-spark:after{content:'✦';position:absolute;font-size:.55em;animation:nscTw 1.5s ease-in-out infinite}.nsc-spark:before{left:-.4em;top:-.45em}.nsc-spark:after{right:-.4em;bottom:-.45em;animation-delay:.7s}.nsc-echo{color:#A78BFA;text-shadow:3px 3px 0 rgba(167,139,250,.4),6px 6px 0 rgba(167,139,250,.2);animation:nscEcho 2.4s ease-in-out infinite}.nsc-matrix{font-family:ui-monospace,monospace;color:#4ADE80;text-shadow:0 0 8px rgba(74,222,128,.45)}.nsc-gradient{background-size:300% 100%;background-image:linear-gradient(var(--nsc-angle,90deg),var(--nsc-c1),var(--nsc-c2),var(--nsc-c1));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:nscFlow var(--nsc-speed,3s) linear infinite}.nsc-neon{color:var(--nsc-c1);text-shadow:0 0 4px var(--nsc-c1),0 0 12px var(--nsc-c1),0 0 24px color-mix(in srgb,var(--nsc-c1),transparent 35%);animation:nscNeon var(--nsc-speed,1.8s) ease-in-out infinite}.nsc-pulse{color:var(--nsc-c1);animation:nscPulse var(--nsc-speed,1.8s) ease-in-out infinite;text-shadow:0 0 12px color-mix(in srgb,var(--nsc-c1),transparent 45%)}
 @keyframes nscFlow{to{background-position:300% 50%}}@keyframes nscNeon{50%{filter:brightness(1.35);opacity:.82}}@keyframes nscPulse{50%{transform:scale(1.035)}}@keyframes nscWave{50%{transform:translateY(-5px)}}@keyframes nscHue{to{filter:hue-rotate(360deg)}}@keyframes nscTw{50%{opacity:1;transform:scale(1.2) rotate(90deg)}0%,100%{opacity:0;transform:scale(.3)}}@keyframes nscEcho{50%{text-shadow:-3px 3px 0 rgba(167,139,250,.4),-6px 6px 0 rgba(167,139,250,.2)}}@keyframes nscJitter{87%{transform:translate(-2px,1px) skewX(-8deg)}90%{transform:translate(2px,-1px) skewX(6deg)}93%{transform:translate(-1px,0)}0%,86%,96%,100%{transform:none}}@keyframes nscG1{0%,85%,100%{opacity:0}86%{opacity:1;transform:translate(-3px);clip-path:inset(10% 0 55%)}89%{opacity:1;transform:translate(3px);clip-path:inset(60% 0 5%)}95%{opacity:0}}@keyframes nscG2{0%,85%,100%{opacity:0}87%{opacity:1;transform:translate(3px);clip-path:inset(50% 0 10%)}90%{opacity:1;transform:translate(-3px);clip-path:inset(5% 0 65%)}96%{opacity:0}}
+
+.nova-name-layers{display:flex;gap:7px;flex-wrap:wrap;align-items:center;min-height:34px;margin:2px 0 10px}.nova-layer-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 9px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);font-size:12px;font-weight:700}.nova-layer-chip.base{border-color:color-mix(in srgb,var(--accent),var(--line) 35%);color:var(--accent)}.nova-layer-chip button{border:0;background:transparent;color:var(--muted);font-size:17px;line-height:1;padding:0;cursor:pointer}.nova-layer-hint{font-size:11px;color:var(--muted)}
+.nsc-layer{display:inline-block;position:relative}.nsc-base{display:inline-block}.nsc-wave{animation:nscWave 1.4s ease-in-out infinite,nscHue 3s linear infinite}.nsc-spark:before,.nsc-spark:after{z-index:4}.nsc-echo{animation:nscEcho 2.4s ease-in-out infinite}.nsc-pulse{animation:nscPulse var(--nsc-speed,1.8s) ease-in-out infinite}.nsc-matrix{display:inline-block}.nsc-code{position:absolute;left:0;right:0;top:-.9em;font:700 .32em/1 ui-monospace,monospace;color:#4ADE80;opacity:.65;letter-spacing:.08em;white-space:nowrap;overflow:hidden;pointer-events:none;animation:nscMatrix 1.2s linear infinite}.nsc-glitch .nsc-base{position:relative;z-index:1}.nsc-glitch:before,.nsc-glitch:after{z-index:3;pointer-events:none}
+@keyframes nscMatrix{0%{transform:translateY(4px);opacity:.15}50%{transform:translateY(-1px);opacity:.9}100%{transform:translateY(-7px);opacity:0}}
 </style>
 </head>
 <body>
@@ -215,13 +219,28 @@ const studioGet=()=>{try{return JSON.parse(localStorage.getItem(NAME_STUDIO_KEY)
 const studioSave=(o)=>localStorage.setItem(NAME_STUDIO_KEY,JSON.stringify(o));
 const studioStyle=(o)=>`--nsc-c1:${o.c1};--nsc-c2:${o.c2};--nsc-angle:${o.angle||90}deg;--nsc-speed:${o.speed||3}s;--nsc-glow:${o.glow||0}px;font-family:'${o.font||'system-ui'}',system-ui;font-weight:${o.weight||700};text-shadow:0 0 var(--nsc-glow,0px) var(--nsc-c1)`;
 function studioHTML(text,o,cls=''){const e=o.effect;if(e==='glitch')return `<span class="${cls} nsc-glitch" data-t="${esc(text)}" style="${studioStyle(o)}">${esc(text)}</span>`;if(e==='wave')return `<span class="${cls} nsc-wave" style="${studioStyle(o)}">${[...text].map((c,i)=>`<span style="animation-delay:${i*.12}s,${i*-.35}s">${esc(c)}</span>`).join('')}</span>`;if(e==='spark')return `<span class="${cls} nsc-spark" style="${studioStyle(o)}">${esc(text)}</span>`;if(e==='echo')return `<span class="${cls} nsc-echo" style="${studioStyle(o)}">${esc(text)}</span>`;if(e==='matrix')return `<span class="${cls} nsc-matrix" style="${studioStyle(o)}">${esc(text)}</span>`;if(e==='pulse')return `<span class="${cls} nsc-pulse" style="${studioStyle(o)}">${esc(text)}</span>`;if(o.cat==='neon')return `<span class="${cls} nsc-neon" style="${studioStyle(o)}">${esc(text)}</span>`;if(o.cat==='color'||o.cat==='gradient'||o.cat==='special')return `<span class="${cls} nsc-gradient" style="${studioStyle(o)}">${esc(text)}</span>`;return `<span class="${cls}">${esc(text)}</span>`;}
+function studioCompositeHTML(text,o,cls=''){
+  if(!o || o.version!==3) return studioHTML(text,o,cls);
+  const b=o.base||{}; const style=studioStyle(b);
+  let inner=b.cat==='neon'?`<span class="nsc-neon nsc-base" style="${style}">${esc(text)}</span>`:`<span class="nsc-gradient nsc-base" style="${style}">${esc(text)}</span>`;
+  for(const key of (Array.isArray(o.effects)?o.effects:[])){
+    if(key==='glitch') inner=`<span class="nsc-glitch nsc-layer" data-t="${esc(text)}" style="${style}">${inner}</span>`;
+    else if(key==='wave') inner=`<span class="nsc-wave nsc-layer" style="${style}">${inner}</span>`;
+    else if(key==='spark') inner=`<span class="nsc-spark nsc-layer" style="${style}">${inner}</span>`;
+    else if(key==='echo') inner=`<span class="nsc-echo nsc-layer" style="${style}">${inner}</span>`;
+    else if(key==='matrix') inner=`<span class="nsc-matrix nsc-layer" style="${style}"><i class="nsc-code">01アイウエ<>/=;$#λπ∑ΔΩ</i>${inner}</span>`;
+    else if(key==='pulse') inner=`<span class="nsc-pulse nsc-layer" style="${style}">${inner}</span>`;
+  }
+  return `<span class="${cls}">${inner}</span>`;
+}
+
 
 const FRAMES = { none: ['Без рамки', 0], gold: ['Золотая', 0], rose: ['Розовая', 0], blue: ['Синяя', 0], violet: ['Фиолетовая', 0], double: ['Двойная', 1], neon: ['Неон', 1], rainbow: ['Радужная', 1] };
 const BANNERS = { sky: ['linear-gradient(135deg,#7DB4F5,#4B7BEC)', 0], mint: ['linear-gradient(135deg,#6EE7B7,#0F9488)', 0], lilac: ['linear-gradient(135deg,#C4B5FD,#7C5CE0)', 0], sunset: ['linear-gradient(135deg,#FDBA74,#EC4899)', 0], sand: ['linear-gradient(135deg,#E9D8A6,#C9A227)', 0], aurora: ['linear-gradient(135deg,#34D399,#7C5CE0)', 1] };
 const prem = (p) => !!p.is_premium;
 const nameOf = (p) => p.display_name || p.username;
 const nameCls = (p) => (prem(p) && NAMEFX[p.name_color] ? NAMEFX[p.name_color][1] : '');
-const nameHtml = (p) => { const custom = p && NAME_STUDIO.presets[p.name_color] ? NAME_STUDIO.presets[p.name_color] : (p && me && p.id === me.id && p.name_color === 'custom' ? studioGet() : null); return custom ? studioHTML(nameOf(p), custom) : `<span class="${nameCls(p)}">${esc(nameOf(p))}</span>`; };
+const nameHtml = (p) => { const custom = p && NAME_STUDIO.presets[p.name_color] ? NAME_STUDIO.presets[p.name_color] : (p && me && p.id === me.id && p.name_color === 'custom' ? studioGet() : null); return custom ? (custom.version===3 ? studioCompositeHTML(nameOf(p), custom) : studioHTML(nameOf(p), custom)) : `<span class="${nameCls(p)}">${esc(nameOf(p))}</span>`; };
 const frameCls = (p) => (p.frame && p.frame !== 'none' && FRAMES[p.frame] && (!FRAMES[p.frame][1] || prem(p)) ? 'fr-' + p.frame : '');
 const bannerImg = (p, id = '') => p.banner_url ? `<img ${id ? `id="${id}"` : ''} src="${esc(p.banner_url)}" alt="" style="${bannerPos(p.banner_x, p.banner_y, p.banner_zoom)}">` : '';
 const bannerPos = (x = 50, y = 50, z = 1) => `object-position:${x}% ${y}%;transform:scale(${z});transform-origin:${x}% ${y}%`;
@@ -692,7 +711,7 @@ function renderSettings() {
     <div class="opts">${Object.keys(FRAMES).map((k) => `<button class="opt ${(me.frame || 'none') === k ? 'sel' : ''}" data-fr="${k}" ${lock(FRAMES[k][1]) ? 'disabled' : ''}><span class="ava ${k === 'none' ? '' : 'fr-' + k}" style="background:${colorOf(me.username)}">${esc(me.username[0].toUpperCase())}</span>${FRAMES[k][0]}</button>`).join('')}</div></div>
   <div class="card col nova-name-studio"><div class="row" style="justify-content:space-between;align-items:flex-start"><div><h2 style="margin:0">Студия ника</h2><div class="muted">Создай свой стиль и сразу увидь результат</div></div><span class="tag">Premium</span></div>
     <div class="nova-name-hero"><div class="nova-name-hero-content"><div class="nova-name-hero-label">Живое превью</div><div id="nameStudioPreview" class="nova-name-big"></div><div id="nameStudioSub" class="nova-name-sub"></div></div></div>
-    <div class="nova-name-tabs" id="nameStudioTabs">${Object.entries(NAME_STUDIO.cats).map(([k,t],i)=>`<button class="nova-name-tab ${i===0?'active':''}" data-cat="${k}">${t}</button>`).join('')}</div>
+    <div class="nova-name-tabs" id="nameStudioTabs">${Object.entries(NAME_STUDIO.cats).map(([k,t],i)=>`<button class="nova-name-tab ${i===0?'active':''}" data-cat="${k}">${t}</button>`).join('')}</div><div class="nova-name-layers" id="nameStudioLayers"></div>
     <div class="nova-name-grid" id="nameStudioGrid"></div>
     <div class="nova-name-editor" id="nameStudioEditor"><div class="muted">Выбери эффект выше — здесь появятся настройки.</div></div>
   </div>
@@ -745,22 +764,65 @@ function renderSettings() {
     document.getElementById('brs').onclick = () => { x = 50; y = 50; z = 1; zs.value = 1; apply(); };
   }
   [['ra', 'avatar_url', 'Аватар убран'], ['rb', 'banner_url', 'Баннер убран']].forEach(([id, f, t]) => { const b = document.getElementById(id); if (b) b.onclick = async () => { if (await saveMe({ [f]: null }, t)) renderSettings(); }; });
-  /* ---------- студия ника ---------- */
+  /* ---------- студия ника: COMBO MODE ---------- */
   const studioBox = document.getElementById('nameStudioGrid');
   const studioPrev = document.getElementById('nameStudioPreview');
   const studioSub = document.getElementById('nameStudioSub');
   const studioEditor = document.getElementById('nameStudioEditor');
   const studioTabs = document.getElementById('nameStudioTabs');
+  const studioLayers = document.getElementById('nameStudioLayers');
   if (studioBox && studioPrev && studioEditor) {
     let studioCat = 'color';
-    let custom = studioGet();
-    let selected = me.name_color === 'custom' && custom ? 'custom' : (Object.keys(NAME_STUDIO.presets).includes(me.name_color) ? me.name_color : 'rose');
-    const renderPreview=()=>{let o=selected==='custom'&&custom?custom:NAME_STUDIO.presets[selected]||NAME_STUDIO.presets.rose;studioPrev.innerHTML=studioHTML(nameOf(me),o);studioSub.textContent=(selected==='custom'?'Мой стиль · сохраняется в этом браузере':(o.title+' · '+o.desc));};
-    const renderGrid=()=>{studioBox.innerHTML=Object.entries(NAME_STUDIO.presets).filter(([k,o])=>o.cat===studioCat).map(([k,o])=>`<button type="button" class="nova-name-card ${selected===k?'sel':''}" data-studio="${k}"><span class="nova-name-check">✓</span><span class="demo">${studioHTML(nameOf(me),o)}</span><span class="title">${o.title}</span><span class="desc">${o.desc}</span></button>`).join('')};
-    const editor=()=>{const o=selected==='custom'&&custom?custom:NAME_STUDIO.presets[selected]; if(!o||!prem(me)){studioEditor.innerHTML='<div class="muted">Эти эффекты доступны с Premium.</div>';return;} const fonts=['system-ui','Comfortaa','Ruslan Display','Pacifico','Press Start 2P','Caveat','Playfair Display','Unbounded','Rubik Mono One','Marck Script','Russo One'];studioEditor.innerHTML=`<div class="row" style="justify-content:space-between"><b>Тонкая настройка</b><button type="button" class="btn ghost sm" id="studioCustom">Изменять свой стиль</button></div><div class="nova-editor-grid"><label class="nova-editor-field"><span>Шрифт</span><select class="nova-font-select" data-studio-k="font">${fonts.map(f=>`<option ${o.font===f?'selected':''}>${f}</option>`).join('')}</select></label><label class="nova-editor-field"><span>Жирность</span><select class="nova-font-select" data-studio-k="weight"><option value="400" ${+o.weight===400?'selected':''}>Обычный</option><option value="700" ${+o.weight===700?'selected':''}>Жирный</option><option value="800" ${+o.weight===800?'selected':''}>Очень жирный</option></select></label><label class="nova-editor-field"><span>Цвет 1</span><input class="nova-color" type="color" data-studio-k="c1" value="${o.c1}"></label><label class="nova-editor-field"><span>Цвет 2</span><input class="nova-color" type="color" data-studio-k="c2" value="${o.c2}"></label><label class="nova-editor-field"><span>Угол</span><input type="range" data-studio-k="angle" min="0" max="360" value="${o.angle||90}"></label><label class="nova-editor-field"><span>Скорость</span><input type="range" data-studio-k="speed" min="1" max="8" step=".5" value="${o.speed||3}"></label><label class="nova-editor-field"><span>Свечение</span><input type="range" data-studio-k="glow" min="0" max="12" value="${o.glow||0}"></label></div><div class="nova-editor-actions"><button type="button" class="btn" id="studioApply">${selected==='custom'?'Сохранить стиль':'Применить эффект'}</button><button type="button" class="btn ghost" id="studioReset">Сбросить</button></div>`; const applyVal=()=>{studioPrev.innerHTML=studioHTML(nameOf(me),o);studioSub.textContent='Предпросмотр в реальном времени'};studioEditor.querySelectorAll('[data-studio-k]').forEach(el=>el.oninput=el.onchange=async()=>{const k=el.dataset.studioK;o[k]=['weight','angle','speed','glow'].includes(k)?+el.value:el.value; if(selected!=='custom'){custom={...o};selected='custom';}applyVal();renderGrid();});document.getElementById('studioCustom').onclick=()=>{custom={...o};selected='custom';studioSave(custom);editor();renderGrid();renderPreview();};document.getElementById('studioApply').onclick=async()=>{if(selected==='custom'){studioSave(custom||o);if(await saveMe({name_color:'custom'},'Стиль ника сохранён')){getProfile(me.id,true);renderSettings();}}else{studioSave(NAME_STUDIO.presets[selected]);if(await saveMe({name_color:selected},'Эффект ника применён')){getProfile(me.id,true);renderSettings();}}};document.getElementById('studioReset').onclick=()=>{custom=null;localStorage.removeItem(NAME_STUDIO_KEY);selected='rose';renderGrid();renderPreview();editor();};};
+    let saved = studioGet();
+    let custom = saved && saved.version === 3 ? saved : null;
+    let base = custom?.base ? {...custom.base} : {...NAME_STUDIO.presets.rose};
+    let effects = Array.isArray(custom?.effects) ? [...custom.effects] : [];
+    const fonts=['system-ui','Comfortaa','Ruslan Display','Pacifico','Press Start 2P','Caveat','Playfair Display','Unbounded','Rubik Mono One','Marck Script','Russo One'];
+    const effectPresets = Object.entries(NAME_STUDIO.presets).filter(([k,o])=>['glitch','wave','spark','echo','matrix','pulse'].includes(o.effect));
+    const isEffect=(o)=>!!o.effect;
+    const baseKey=()=>Object.entries(NAME_STUDIO.presets).find(([k,o])=>!isEffect(o)&&o.c1===base.c1&&o.c2===base.c2&&o.font===base.font)?.[0];
+    const composite=()=>({version:3,base:{...base},effects:[...effects]});
+    const renderComposite=(text,o)=>{
+      const safeBase={...o.base};
+      let inner;
+      if(safeBase.cat==='neon') inner=`<span class="nsc-neon nsc-base" style="${studioStyle(safeBase)}">${esc(text)}</span>`;
+      else inner=`<span class="nsc-gradient nsc-base" style="${studioStyle(safeBase)}">${esc(text)}</span>`;
+      for(const key of o.effects){
+        const fx=NAME_STUDIO.presets[key]; if(!fx) continue;
+        if(key==='glitch') inner=`<span class="nsc-glitch nsc-layer" data-t="${esc(text)}" style="${studioStyle(safeBase)}">${inner}</span>`;
+        else if(key==='wave') inner=`<span class="nsc-wave nsc-layer" style="${studioStyle(safeBase)}">${inner}</span>`;
+        else if(key==='spark') inner=`<span class="nsc-spark nsc-layer" style="${studioStyle(safeBase)}">${inner}</span>`;
+        else if(key==='echo') inner=`<span class="nsc-echo nsc-layer" style="${studioStyle(safeBase)}">${inner}</span>`;
+        else if(key==='matrix') inner=`<span class="nsc-matrix nsc-layer" style="${studioStyle(safeBase)}"><i class="nsc-code">01アイウエ<>/=;$#λπ∑ΔΩ</i>${inner}</span>`;
+        else if(key==='pulse') inner=`<span class="nsc-pulse nsc-layer" style="${studioStyle(safeBase)}">${inner}</span>`;
+      }
+      return inner;
+    };
+    const drawPreview=()=>{studioPrev.innerHTML=renderComposite(nameOf(me),composite());studioSub.textContent=`${base.title||'Свой стиль'} · ${effects.length?effects.map(k=>NAME_STUDIO.presets[k]?.title).join(' + '):'без анимаций'}`;};
+    const drawLayers=()=>{
+      if(!studioLayers)return;
+      const chips=[`<span class="nova-layer-chip base">🎨 ${esc(base.title||'База')} <button type="button" data-layer-remove="base">×</button></span>`,...effects.map((k,i)=>`<span class="nova-layer-chip">✨ ${esc(NAME_STUDIO.presets[k]?.title||k)} <button type="button" data-layer-remove="${i}">×</button></span>`)];
+      studioLayers.innerHTML=chips.join('')+`<span class="nova-layer-hint">Можно совмещать несколько эффектов</span>`;
+    };
+    const renderGrid=()=>{studioBox.innerHTML=Object.entries(NAME_STUDIO.presets).filter(([k,o])=>o.cat===studioCat).map(([k,o])=>{
+      const active=isEffect(o)?effects.includes(k):(baseKey()===k);
+      const label=isEffect(o)?'Добавить':(baseKey()===k?'Активен':'Выбрать');
+      return `<button type="button" class="nova-name-card ${active?'sel':''}" data-studio="${k}"><span class="nova-name-check">${active?'✓':'+'}</span><span class="demo">${isEffect(o)?studioHTML(nameOf(me),o):studioHTML(nameOf(me),o)}</span><span class="title">${esc(o.title)}</span><span class="desc">${esc(o.desc)} · ${label}</span></button>`;
+    }).join('')};
+    const renderEditor=()=>{
+      if(!prem(me)){studioEditor.innerHTML='<div class="muted">Эти эффекты доступны с Premium.</div>';return;}
+      studioEditor.innerHTML=`<div class="row" style="justify-content:space-between"><b>Настройка базового стиля</b><span class="muted">Эффекты добавляются отдельно</span></div><div class="nova-editor-grid"><label class="nova-editor-field"><span>Шрифт</span><select class="nova-font-select" data-studio-k="font">${fonts.map(f=>`<option ${base.font===f?'selected':''}>${f}</option>`).join('')}</select></label><label class="nova-editor-field"><span>Жирность</span><select class="nova-font-select" data-studio-k="weight"><option value="400" ${+base.weight===400?'selected':''}>Обычный</option><option value="700" ${+base.weight===700?'selected':''}>Жирный</option><option value="800" ${+base.weight===800?'selected':''}>Очень жирный</option></select></label><label class="nova-editor-field"><span>Цвет 1</span><input class="nova-color" type="color" data-studio-k="c1" value="${base.c1}"></label><label class="nova-editor-field"><span>Цвет 2</span><input class="nova-color" type="color" data-studio-k="c2" value="${base.c2}"></label><label class="nova-editor-field"><span>Угол</span><input type="range" data-studio-k="angle" min="0" max="360" value="${base.angle||90}"></label><label class="nova-editor-field"><span>Скорость</span><input type="range" data-studio-k="speed" min="1" max="8" step=".5" value="${base.speed||3}"></label><label class="nova-editor-field"><span>Свечение</span><input type="range" data-studio-k="glow" min="0" max="12" value="${base.glow||0}"></label></div><div class="nova-editor-actions"><button type="button" class="btn" id="studioApply">Сохранить комбинацию</button><button type="button" class="btn ghost" id="studioReset">Сбросить</button></div>`;
+      studioEditor.querySelectorAll('[data-studio-k]').forEach(el=>el.oninput=el.onchange=()=>{const k=el.dataset.studioK;base[k]=['weight','angle','speed','glow'].includes(k)?+el.value:el.value;drawPreview();drawLayers();renderGrid();});
+      document.getElementById('studioApply').onclick=async()=>{studioSave(composite());if(await saveMe({name_color:'custom'},'Комбинация ника сохранена')){await getProfile(me.id,true);renderSettings();}};
+      document.getElementById('studioReset').onclick=()=>{base={...NAME_STUDIO.presets.rose};effects=[];custom=null;localStorage.removeItem(NAME_STUDIO_KEY);drawAll();};
+    };
+    const drawAll=()=>{drawPreview();drawLayers();renderGrid();renderEditor();};
     studioTabs.onclick=(e)=>{const b=e.target.closest('[data-cat]');if(!b)return;studioCat=b.dataset.cat;studioTabs.querySelectorAll('.nova-name-tab').forEach(x=>x.classList.toggle('active',x===b));renderGrid();};
-    studioBox.onclick=(e)=>{const b=e.target.closest('[data-studio]');if(!b)return;selected=b.dataset.studio;renderGrid();renderPreview();editor();};
-    renderGrid();renderPreview();editor();
+    studioBox.onclick=(e)=>{const b=e.target.closest('[data-studio]');if(!b)return;const key=b.dataset.studio,o=NAME_STUDIO.presets[key];if(isEffect(o)){if(effects.includes(key))effects=effects.filter(x=>x!==key);else effects.push(key);}else base={...o};drawAll();};
+    if(studioLayers)studioLayers.onclick=(e)=>{const b=e.target.closest('[data-layer-remove]');if(!b)return;if(b.dataset.layerRemove==='base')base={...NAME_STUDIO.presets.rose};else effects.splice(+b.dataset.layerRemove,1);drawAll();};
+    if(me.name_color==='custom'&&custom){base={...custom.base};effects=[...(custom.effects||[])];}
+    else if(NAME_STUDIO.presets[me.name_color]&&!isEffect(NAME_STUDIO.presets[me.name_color])) base={...NAME_STUDIO.presets[me.name_color]};
+    drawAll();
   }
   $app.querySelectorAll('[data-bn],[data-fr],[data-nc],[data-sw]').forEach((b) => {
     b.onclick = async () => {
