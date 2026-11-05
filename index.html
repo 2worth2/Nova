@@ -169,45 +169,58 @@ body{overflow:hidden;background:#eef1f6}
 .nova-gift-heading h1{margin:0}
 .nova-gift-heading .muted{font-size:13px}
 .nova-gift-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.nova-gift-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:7px;cursor:pointer;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s}
+.nova-gift-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:7px;cursor:pointer;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s;text-align:left}
 .nova-gift-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 18px 44px rgba(0,0,0,.14)}
 .nova-gift-card .nova-gift-thumb{height:210px;border-radius:13px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#6d7380,#a8adb7)}
-.nova-gift-card .nova-gift-thumb:before,.nova-gift-art:before{content:"";position:absolute;inset:0;background:
-  radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 28%),
-  radial-gradient(circle at 80% 15%,rgba(255,255,255,.12),transparent 24%),
-  linear-gradient(135deg,rgba(255,255,255,.09),transparent 42%,rgba(0,0,0,.08));pointer-events:none}
+.nova-gift-card .nova-gift-thumb:before,.nova-gift-art:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 28%),radial-gradient(circle at 80% 15%,rgba(255,255,255,.12),transparent 24%),linear-gradient(135deg,rgba(255,255,255,.09),transparent 42%,rgba(0,0,0,.08));pointer-events:none}
 .nova-gift-card .nova-gift-thumb:after,.nova-gift-art:after{content:"";position:absolute;inset:0;opacity:.22;background-image:radial-gradient(circle,rgba(255,255,255,.65) 1px,transparent 1.5px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%);pointer-events:none}
 .nova-gift-thumb .nova-gift-mini{width:70%;height:70%;position:relative;z-index:2;filter:drop-shadow(0 18px 18px rgba(0,0,0,.28));animation:novaGiftFloat 4.4s ease-in-out infinite}
-.nova-gift-meta{padding:9px 6px 5px}.nova-gift-name{font-weight:850;font-size:14px}.nova-gift-number{font-size:11px;color:var(--muted);margin-top:2px}.nova-gift-rarity{font-size:10px;font-weight:800;opacity:.74}
+.nova-gift-meta{padding:9px 6px 5px}.nova-gift-name{font-weight:850;font-size:14px}.nova-gift-number{font-size:11px;color:var(--muted);margin-top:2px}.nova-gift-state{font-size:10px;font-weight:800;opacity:.78;margin-top:4px}
 .nova-gift-shine{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}.nova-gift-shine:before{content:"";position:absolute;left:-40%;top:-30%;width:60%;height:170%;transform:rotate(24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:novaGiftShine 4.8s linear infinite}
+.nova-gift-owned-badge{position:absolute;left:9px;top:9px;z-index:5;padding:5px 8px;border-radius:999px;background:rgba(12,12,14,.65);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:10px;font-weight:900;backdrop-filter:blur(8px)}
 .nova-gift-empty{padding:26px;text-align:center;border:1px dashed var(--line);border-radius:18px;color:var(--muted)}
+.nova-gift-action{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.nova-gift-action .btn{flex:1;min-width:150px}
+.nova-gift-action .btn.ghost{color:#fff;background:#17191b;border-color:#2a2d30}
+.nova-gift-note{font-size:11px;color:#8d949d;margin-top:9px;text-align:center}
+.nova-gift-profile{display:flex;flex-direction:column;gap:10px}
+.nova-gift-profile-head{display:flex;align-items:end;justify-content:space-between;gap:12px}
+.nova-gift-profile-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.nova-gift-profile-card{position:relative;border:1px solid var(--line);border-radius:15px;padding:6px;background:var(--surface);cursor:pointer;overflow:hidden;text-align:left}
+.nova-gift-profile-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.nova-gift-profile-art{height:135px;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.nova-gift-profile-art svg{width:72%;height:72%;filter:drop-shadow(0 12px 14px rgba(0,0,0,.25));animation:novaGiftFloat 4.7s ease-in-out infinite}
+.nova-gift-profile-card .mini-title{font-weight:850;font-size:12px;margin-top:7px}.nova-gift-profile-card .mini-sub{font-size:10px;color:var(--muted);margin-top:2px}
 @keyframes novaGiftFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-6px) rotate(1.5deg)}}
 @keyframes novaGiftShine{0%{left:-50%}45%,100%{left:130%}}
 
-/* Fullscreen detail modal deliberately follows the compact Telegram/Slasher collectible layout */
-.nova-gift-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:12px;background:rgba(0,0,0,.66);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+/* fullscreen detail — compact Telegram / Slasher collectible composition */
+.nova-gift-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:12px;background:rgba(0,0,0,.70);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
 .nova-gift-sheet{width:min(448px,100%);max-height:calc(100dvh - 24px);overflow:auto;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:#090a0b;box-shadow:0 30px 90px rgba(0,0,0,.52);color:#f5f6f7;scrollbar-width:none}
 .nova-gift-sheet::-webkit-scrollbar{display:none}
 .nova-gift-art{height:278px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(145deg,#8b8f98 0%,#6b6f77 53%,#565a62 100%)}
 .nova-gift-art .nova-art-object{width:150px;height:150px;position:relative;z-index:2;filter:drop-shadow(0 24px 24px rgba(0,0,0,.38));animation:novaGiftFloat 4.6s ease-in-out infinite}
 .nova-gift-close,.nova-gift-share{position:absolute;top:12px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;cursor:pointer;z-index:8;box-shadow:0 6px 18px rgba(0,0,0,.16)}
-.nova-gift-close{left:12px;font-size:25px;font-weight:300;line-height:1}.nova-gift-share{right:12px}
-.nova-gift-share svg{width:19px;height:19px}
+.nova-gift-close{left:12px;font-size:25px;font-weight:300;line-height:1}.nova-gift-share{right:12px}.nova-gift-share svg{width:19px;height:19px}
 .nova-gift-art-bottom{position:absolute;left:0;right:0;bottom:18px;text-align:center;z-index:6;text-shadow:0 2px 10px rgba(0,0,0,.35)}
-.nova-gift-title{font-size:21px;font-weight:900;line-height:1.05}.nova-gift-subtitle{font-size:14px;font-weight:800;opacity:.83;margin-top:2px}
-.nova-gift-details{padding:15px;background:#08090a}
-.nova-gift-table{border:1px solid #222527;border-radius:15px;overflow:hidden;background:#08090a}
-.nova-gift-row{display:grid;grid-template-columns:112px minmax(0,1fr);min-height:45px;border-top:1px solid #25282a}
-.nova-gift-row:first-child{border-top:0}
-.nova-gift-label{display:flex;align-items:center;padding:9px 12px;background:#151617;font-size:13px;font-weight:850;color:#f2f2f2;border-right:1px solid #26292b}
-.nova-gift-value{display:flex;align-items:center;min-width:0;padding:9px 12px;font-size:14px;font-weight:750;gap:8px;overflow:hidden}
-.nova-gift-value .owner-avatar{width:23px;height:23px;border-radius:50%;flex:none;object-fit:cover;background:#303338}
-.nova-gift-value .owner-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#d9dde1}
-.nova-gift-rate{display:inline-flex;align-items:center;height:21px;padding:0 7px;border-radius:999px;background:#56585b;color:#fff;font-size:11px;font-weight:900;flex:none}
-.nova-gift-link{color:#a7b6ff;text-decoration:none}.nova-gift-link:hover{text-decoration:underline}
-.nova-gift-serial{color:#fff}
+.nova-gift-title{font-size:21px;font-weight:900;line-height:1.05}.nova-gift-subtitle{font-size:14px;font-weight:800;opacity:.83;margin-top:2px}.nova-gift-subtitle .serial{opacity:1;color:#fff}
+.nova-gift-details{padding:15px;background:#08090a}.nova-gift-table{border:1px solid #222527;border-radius:15px;overflow:hidden;background:#08090a}.nova-gift-row{display:grid;grid-template-columns:112px minmax(0,1fr);min-height:45px;border-top:1px solid #25282a}.nova-gift-row:first-child{border-top:0}
+.nova-gift-label{display:flex;align-items:center;padding:9px 12px;background:#151617;font-size:13px;font-weight:850;color:#f2f2f2;border-right:1px solid #26292b}.nova-gift-value{display:flex;align-items:center;min-width:0;padding:9px 12px;font-size:14px;font-weight:750;gap:8px;overflow:hidden}.nova-gift-value .owner-avatar{width:23px;height:23px;border-radius:50%;flex:none;object-fit:cover;background:#303338}.nova-gift-value .owner-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#d9dde1}
+.nova-gift-rate{display:inline-flex;align-items:center;height:21px;padding:0 7px;border-radius:999px;background:#56585b;color:#fff;font-size:11px;font-weight:900;flex:none}.nova-gift-link{color:#a7b6ff;text-decoration:none}.nova-gift-link:hover{text-decoration:underline}.nova-gift-serial{color:#fff}
 .nova-gift-sheet .nova-gift-brand{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;opacity:.38;text-align:center;padding:12px 0 1px}
-@media(max-width:760px){.nova-gift-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.nova-gift-card .nova-gift-thumb{height:172px}.nova-gift-heading{align-items:flex-start;flex-direction:column}.nova-gift-modal{padding:0;align-items:stretch}.nova-gift-sheet{width:100%;max-height:100dvh;border-radius:0;border-left:0;border-right:0}.nova-gift-art{height:300px}.nova-gift-row{grid-template-columns:106px minmax(0,1fr)}}
+
+/* upgrade roll */
+.nova-upgrade-overlay{position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(7px)}
+.nova-upgrade-box{width:min(430px,100%);padding:20px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:#0a0b0d;color:#fff;box-shadow:0 30px 100px rgba(0,0,0,.55);text-align:center}
+.nova-upgrade-art{height:170px;border-radius:17px;background:linear-gradient(145deg,#555a63,#292d33);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-bottom:16px}
+.nova-upgrade-art svg{width:120px;height:120px;filter:drop-shadow(0 18px 18px rgba(0,0,0,.35));animation:novaGiftFloat 4s ease-in-out infinite}
+.nova-roll-title{font-size:18px;font-weight:900}.nova-roll-sub{font-size:12px;color:#a8afb9;margin-top:4px}.nova-roll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.nova-roll-cell{min-height:82px;border-radius:13px;border:1px solid #282b2f;background:#151719;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}.nova-roll-cell small{font-size:10px;color:#8f969f;text-transform:uppercase;letter-spacing:.08em}.nova-roll-cell b{margin-top:6px;font-size:14px}.nova-roll-cell.rolling b{animation:novaRollPulse .11s linear infinite}.nova-roll-cell.done{border-color:#4f5661;background:#1a1d21}.nova-roll-cell.done b{animation:novaRollPop .35s ease both}
+@keyframes novaRollPulse{0%{transform:translateY(2px);filter:blur(.8px)}50%{transform:translateY(-2px);filter:blur(0)}100%{transform:translateY(2px);filter:blur(.8px)}}
+@keyframes novaRollPop{0%{opacity:0;transform:scale(.72) translateY(5px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.nova-upgrade-foot{margin-top:14px;font-size:11px;color:#8f969f}
+
+@media(max-width:900px){.nova-gift-grid,.nova-gift-profile-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.nova-gift-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.nova-gift-profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nova-gift-card .nova-gift-thumb{height:172px}.nova-gift-heading{align-items:flex-start;flex-direction:column}.nova-gift-modal{padding:0;align-items:stretch}.nova-gift-sheet{width:100%;max-height:100dvh;border-radius:0;border-left:0;border-right:0}.nova-gift-art{height:300px}.nova-gift-row{grid-template-columns:106px minmax(0,1fr)}.nova-roll-grid{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -658,10 +671,10 @@ function renderProfile(p, isMe) {
       ${u.bio ? `<div class="post-body" style="margin:0">${esc(u.bio)}</div>` : ''}
       ${showGr ? `<div class="muted">Баланс: <b>${Number(u.gr).toLocaleString('ru-RU')} GR</b>${isMe && !u.gr_public ? ' · скрыт от других' : ''}</div>` : ''}
     </div></div></div>
-  ${u.music_url ? player(u) : ''}<div id="pas" class="col" style="gap:16px"></div><div id="ptl" class="col" style="gap:16px"></div>`;
+  ${u.music_url ? player(u) : ''}<div id="pgifts" class="col" style="gap:16px"></div><div id="pas" class="col" style="gap:16px"></div><div id="ptl" class="col" style="gap:16px"></div>`;
   if (isMe) document.getElementById('st').onclick = () => go('settings');
   else { document.getElementById('dm').onclick = () => go('chat', u); document.getElementById('bk').onclick = () => go(back); }
-  loadUserPosts(u); loadUserAssets(u);
+  loadUserGifts(u); loadUserPosts(u); loadUserAssets(u);
 }
 async function loadUserPosts(u) {
   const { data } = await sb.from('posts').select('id,body,image_url,created_at').eq('author', u.id).order('created_at', { ascending: false }).limit(20);
@@ -841,77 +854,190 @@ async function loadUserAssets(u) {
 
 
 /* ---------- Подарки: визуальная система в стиле Telegram / Slasher ---------- */
-const NOVA_GIFTS = [
-  {id:'venom',name:'Venom',subtitle:'Коллекционный',serial:383,issued:397,supply:400,owner:'LUCИ4',ownerAvatar:'',from:'ксюша повелительница',model:'Venom',modelRate:'2.5%',pattern:'Dessert',patternRate:'0.3%',backdrop:'Silver',backdropRate:'2.5%',tone1:'#aab0ba',tone2:'#656b74',art:'venom'},
-  {id:'dog',name:'Dog',subtitle:'Коллекционный',serial:71,issued:71,supply:400,owner:'Nova User',from:'Nova',model:'Puppy',modelRate:'3.1%',pattern:'Bones',patternRate:'0.8%',backdrop:'Ice',backdropRate:'4%',tone1:'#93a4bf',tone2:'#68788f',art:'dog'},
-  {id:'watch',name:'Watch',subtitle:'Коллекционный',serial:334,issued:334,supply:500,owner:'Nova User',from:'Nova',model:'Chrono',modelRate:'1.8%',pattern:'Pulse',patternRate:'0.6%',backdrop:'Graphite',backdropRate:'3.2%',tone1:'#8d949f',tone2:'#515760',art:'watch'},
-  {id:'mask',name:'Mask',subtitle:'Коллекционный',serial:769,issued:769,supply:1000,owner:'Nova User',from:'Nova',model:'Noir',modelRate:'2.1%',pattern:'Dust',patternRate:'1.1%',backdrop:'Steel',backdropRate:'2.7%',tone1:'#8d8d94',tone2:'#53545c',art:'mask'},
-  {id:'blackcat',name:'Black Cat',subtitle:'Коллекционный',serial:83,issued:83,supply:500,owner:'Nova User',from:'Nova',model:'Shadow',modelRate:'2.9%',pattern:'Star',patternRate:'0.5%',backdrop:'Moon',backdropRate:'3.5%',tone1:'#80848e',tone2:'#424650',art:'cat'},
-  {id:'spooky',name:'Spooky',subtitle:'Коллекционный',serial:383,issued:383,supply:800,owner:'Nova User',from:'Nova',model:'Ghost',modelRate:'1.9%',pattern:'Eyes',patternRate:'0.7%',backdrop:'Fog',backdropRate:'2.9%',tone1:'#8b8f99',tone2:'#555a63',art:'spooky'}
+const NOVA_GIFT_TYPES_FALLBACK = [
+  {id:'venom',name:'Venom',subtitle:'Подарок',supply:400,price_gr:100,tone1:'#aab0ba',tone2:'#656b74',art:'venom'},
+  {id:'dog',name:'Dog',subtitle:'Подарок',supply:400,price_gr:100,tone1:'#93a4bf',tone2:'#68788f',art:'dog'},
+  {id:'watch',name:'Watch',subtitle:'Подарок',supply:500,price_gr:100,tone1:'#8d949f',tone2:'#515760',art:'watch'},
+  {id:'mask',name:'Mask',subtitle:'Подарок',supply:1000,price_gr:100,tone1:'#8d8d94',tone2:'#53545c',art:'mask'},
+  {id:'blackcat',name:'Black Cat',subtitle:'Подарок',supply:500,price_gr:100,tone1:'#80848e',tone2:'#424650',art:'cat'},
+  {id:'spooky',name:'Spooky',subtitle:'Подарок',supply:800,price_gr:100,tone1:'#8b8f99',tone2:'#555a63',art:'spooky'}
 ];
 
-function giftSvg(type, mini=false){
-  const size = mini ? '100%' : '150';
-  if(type==='watch') return `<svg class="nova-gift-${mini?'mini':'art-object'}" viewBox="0 0 180 180" width="${size}" height="${size}" aria-hidden="true"><defs><linearGradient id="wg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111"/><stop offset=".52" stop-color="#d7dbe0"/><stop offset="1" stop-color="#5b6067"/></linearGradient></defs><rect x="61" y="6" width="58" height="40" rx="18" fill="#1b1d20"/><rect x="61" y="134" width="58" height="40" rx="18" fill="#1b1d20"/><circle cx="90" cy="90" r="52" fill="url(#wg)" stroke="#efefef" stroke-opacity=".55" stroke-width="3"/><circle cx="90" cy="90" r="40" fill="#15171b"/><path d="M90 90V60M90 90l23 13" stroke="#fff" stroke-width="6" stroke-linecap="round"/><circle cx="90" cy="90" r="5" fill="#fff"/></svg>`;
-  if(type==='dog') return `<svg class="nova-gift-${mini?'mini':'art-object'}" viewBox="0 0 180 180" width="${size}" height="${size}" aria-hidden="true"><defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2e3035"/><stop offset=".55" stop-color="#a9aeb7"/><stop offset="1" stop-color="#4e535c"/></linearGradient></defs><path d="M49 59c-25-15-42-8-37 20l14 40c3 10 14 16 28 14l3 20c2 11 12 17 22 17h22c10 0 20-6 22-17l3-20c14 2 25-4 28-14l14-40c5-28-12-35-37-20-11-8-21-12-30-12s-19 4-30 12z" fill="url(#dg)" stroke="#d7dbe0" stroke-opacity=".45" stroke-width="3"/><ellipse cx="68" cy="91" rx="9" ry="13" fill="#101114"/><ellipse cx="112" cy="91" rx="9" ry="13" fill="#101114"/><path d="M78 121c8 7 16 7 24 0" fill="none" stroke="#101114" stroke-width="6" stroke-linecap="round"/></svg>`;
-  if(type==='mask') return `<svg class="nova-gift-${mini?'mini':'art-object'}" viewBox="0 0 180 180" width="${size}" height="${size}" aria-hidden="true"><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111216"/><stop offset=".5" stop-color="#b8bcc5"/><stop offset="1" stop-color="#454851"/></linearGradient></defs><path d="M50 34h80l16 36v44c-11 27-31 39-56 39s-45-12-56-39V70z" fill="url(#mg)" stroke="#dfe3e7" stroke-opacity=".5" stroke-width="3"/><path d="M54 78c12-13 26-19 36-19s24 6 36 19" stroke="#17191e" stroke-width="16" fill="none" stroke-linecap="round"/><ellipse cx="68" cy="96" rx="11" ry="16" fill="#111319"/><ellipse cx="112" cy="96" rx="11" ry="16" fill="#111319"/><path d="M68 128c14 10 30 10 44 0" stroke="#17191e" stroke-width="6" fill="none" stroke-linecap="round"/></svg>`;
-  if(type==='cat') return `<svg class="nova-gift-${mini?'mini':'art-object'}" viewBox="0 0 180 180" width="${size}" height="${size}" aria-hidden="true"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#090a0d"/><stop offset=".56" stop-color="#575b64"/><stop offset="1" stop-color="#17191d"/></linearGradient></defs><path d="M42 65 35 32l30 17c8-5 15-7 25-7s17 2 25 7l30-17-7 33c8 12 11 25 11 39 0 34-22 55-59 55S31 138 31 104c0-14 3-27 11-39z" fill="url(#cg)" stroke="#d6d9de" stroke-opacity=".4" stroke-width="3"/><ellipse cx="66" cy="101" rx="8" ry="12" fill="#7cf06a"/><ellipse cx="114" cy="101" rx="8" ry="12" fill="#7cf06a"/><path d="M77 124c8 6 18 6 26 0" fill="none" stroke="#111318" stroke-width="5" stroke-linecap="round"/></svg>`;
-  if(type==='spooky') return `<svg class="nova-gift-${mini?'mini':'art-object'}" viewBox="0 0 180 180" width="${size}" height="${size}" aria-hidden="true"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#efeff2"/><stop offset=".42" stop-color="#b8bcc4"/><stop offset="1" stop-color="#666b75"/></linearGradient></defs><path d="M90 24c-39 0-56 29-56 65 0 28 13 54 24 54 11 0 8-17 20-17s11 17 24 17 13-17 24-17 9 17 20 17c11 0 24-26 24-54 0-36-17-65-56-65z" fill="url(#sg)" stroke="#fff" stroke-opacity=".55" stroke-width="3"/><ellipse cx="68" cy="92" rx="11" ry="16" fill="#2c2e34"/><ellipse cx="112" cy="92" rx="11" ry="16" fill="#2c2e34"/><path d="M63 123c17 12 27 12 54 0" fill="none" stroke="#33353a" stroke-width="7" stroke-linecap="round"/></svg>`;
-  return `<svg class="nova-gift-${mini?'mini':'art-object'}" viewBox="0 0 180 180" width="${size}" height="${size}" aria-hidden="true"><defs><radialGradient id="vg" cx="35%" cy="25%"><stop stop-color="#c8ff67"/><stop offset=".35" stop-color="#7047ff"/><stop offset="1" stop-color="#29134d"/></radialGradient></defs><path d="M40 78c0-30 18-54 50-54s50 24 50 54v39c0 26-17 39-50 39s-50-13-50-39z" fill="url(#vg)" stroke="#71ff23" stroke-width="5"/><ellipse cx="66" cy="88" rx="15" ry="25" fill="#87ff26"/><ellipse cx="114" cy="88" rx="15" ry="25" fill="#87ff26"/><path d="M84 125c5 7 7 10 12 10s7-3 12-10" fill="none" stroke="#8cff26" stroke-width="4" stroke-linecap="round"/><path d="M53 58c8-13 20-21 37-23" stroke="#b7ff81" stroke-width="6" stroke-linecap="round" opacity=".8"/></svg>`;
+let novaGiftCatalogCache = null;
+let novaGiftInstancesCache = null;
+
+function formatRarity(v){
+  const n=Number(v);
+  if(!Number.isFinite(n)) return '';
+  return (Math.round(n*10)/10).toLocaleString('en-US',{maximumFractionDigits:1})+'%';
+}
+function giftState(g, ownedByMe){
+  if(g.upgraded_at) return g.model+' · '+formatRarity(g.model_rarity);
+  if(g.owner_id) return 'Не улучшен';
+  return 'Свободен · '+Number(g.price_gr||100).toLocaleString('ru-RU')+' GR';
+}
+async function fetchNovaGiftData(force=false){
+  if(novaGiftCatalogCache && novaGiftInstancesCache && !force) return {catalog:novaGiftCatalogCache,instances:novaGiftInstancesCache};
+  const [cR,iR]=await Promise.all([
+    sb.from('nova_gift_catalog').select('id,name,subtitle,supply,price_gr,tone1,tone2,art,created_at').order('created_at'),
+    sb.from('nova_gift_instances').select('id,gift_type,serial,owner_id,sender_id,purchased_at,upgraded_at,model,model_rarity,pattern,pattern_rarity,backdrop,backdrop_rarity').order('serial')
+  ]);
+  if(cR.error || iR.error){
+    novaGiftCatalogCache = null; novaGiftInstancesCache = null;
+    throw new Error('GIFT_SCHEMA_MISSING');
+  }
+  novaGiftCatalogCache=cR.data||[];
+  novaGiftInstancesCache=iR.data||[];
+  return {catalog:novaGiftCatalogCache,instances:novaGiftInstancesCache};
+}
+function giftTypeMap(catalog){const m={};(catalog||[]).forEach(x=>m[x.id]=x);return m;}
+async function giftUserProfiles(ids){
+  const uniq=[...new Set((ids||[]).filter(Boolean))];
+  await Promise.all(uniq.map(id=>getProfile(id).catch(()=>null)));
 }
 
-function giftCard(g){
-  return `<button class="nova-gift-card" data-gift-open="${esc(g.id)}" aria-label="Открыть ${esc(g.name)} #${g.serial}">
-    <div class="nova-gift-thumb" style="background:linear-gradient(145deg,${g.tone1},${g.tone2})">
-      <div class="nova-gift-shine"></div>
-      ${giftSvg(g.art,true)}
+function giftCard(c){
+  const insts=(novaGiftInstancesCache||[]).filter(x=>x.gift_type===c.id);
+  const mine=insts.find(x=>x.owner_id===me.id);
+  const free=insts.filter(x=>!x.owner_id).length;
+  const owned=insts.filter(x=>x.owner_id).length;
+  const state=mine ? ('Ваш · #'+mine.serial) : (free ? 'Свободно · '+free : 'Все экземпляры разобраны');
+  const openId=mine ? 'inst:'+mine.id : 'type:'+c.id;
+  return `<button class="nova-gift-card" data-gift-open="${esc(openId)}" aria-label="Открыть ${esc(c.name)}">
+    ${mine?'<span class="nova-gift-owned-badge">Ваш подарок</span>':''}
+    <div class="nova-gift-thumb" style="background:linear-gradient(145deg,${c.tone1},${c.tone2})">
+      <div class="nova-gift-shine"></div>${giftSvg(c.art,true)}
     </div>
-    <div class="nova-gift-meta"><div class="nova-gift-name">${esc(g.name)}</div><div class="nova-gift-number">${esc(g.subtitle)} #${g.serial}</div><div class="nova-gift-rarity">${esc(g.model)} · ${esc(g.modelRate)}</div></div>
+    <div class="nova-gift-meta"><div class="nova-gift-name">${esc(c.name)}</div><div class="nova-gift-number">${esc(c.subtitle||'Подарок')} · ${c.supply} шт.</div><div class="nova-gift-state">${esc(state)}</div></div>
   </button>`;
 }
-
-function giftOwnerAvatar(g){
-  return g.ownerAvatar ? `<img class="owner-avatar" src="${esc(g.ownerAvatar)}" alt="">` : `<span class="owner-avatar" style="display:grid;place-items:center;font-size:11px;color:#fff;background:linear-gradient(135deg,#5b61d8,#30354a)">●</span>`;
+function giftOwnerAvatar(p){
+  if(p && p.avatar_url) return `<img class="owner-avatar" src="${esc(p.avatar_url)}" alt="">`;
+  return `<span class="owner-avatar" style="display:grid;place-items:center;font-size:10px;color:#fff;background:linear-gradient(135deg,#5b61d8,#30354a)">${p ? esc((p.username||'?')[0].toUpperCase()) : '·'}</span>`;
 }
-function renderGiftModal(id){
-  const g = NOVA_GIFTS.find(x=>x.id===id); if(!g)return;
+function giftRow(label,value){return `<div class="nova-gift-row"><div class="nova-gift-label">${label}</div><div class="nova-gift-value">${value}</div></div>`;}
+function attrValue(name,rarity){
+  if(!name) return '<span style="color:#7e858e">Не улучшен</span>';
+  return `<span>${esc(name)}</span><span class="nova-gift-rate">${esc(formatRarity(rarity))}</span>`;
+}
+function giftForInstance(inst,c){return Object.assign({tone1:c.tone1,tone2:c.tone2,art:c.art,name:c.name,subtitle:c.subtitle,supply:c.supply,price_gr:c.price_gr},inst);}
+
+async function openGiftByKey(key){
+  const {catalog,instances}=await fetchNovaGiftData();
+  const map=giftTypeMap(catalog);
+  if(key.startsWith('inst:')){
+    const id=key.slice(5), inst=instances.find(x=>x.id===id); if(inst && map[inst.gift_type]) return renderGiftModal(giftForInstance(inst,map[inst.gift_type]));
+  }
+  if(key.startsWith('type:')){
+    const id=key.slice(5), c=map[id]; if(!c)return;
+    const mine=instances.find(x=>x.gift_type===id && x.owner_id===me.id);
+    if(mine) return renderGiftModal(giftForInstance(mine,c));
+    return renderGiftModal(Object.assign({},c,{gift_type:id,unowned:true,freeCount:instances.filter(x=>x.gift_type===id && !x.owner_id).length}));
+  }
+}
+
+async function renderGiftModal(g){
   document.getElementById('nova-gift-modal')?.remove();
+  await giftUserProfiles(g.owner_id?[g.owner_id]:[]);
+  const owner = g.owner_id ? pcache[g.owner_id] : null;
+  const isMine = !!g.owner_id && g.owner_id===me.id;
+  const free = !!g.unowned && Number(g.freeCount||0)>0;
+  const bought = !!g.owner_id;
+  const serialLabel = bought ? `#${g.serial}` : 'Коллекционный';
+  const ownerValue = owner ? `${giftOwnerAvatar(owner)}<span class="owner-name">${esc(nameOf(owner))}</span>` : `<span class="owner-name" style="color:#8f969f">Нет владельца</span>`;
+  const fromValue = owner ? `<span class="owner-avatar" style="display:grid;place-items:center;font-size:10px;color:#fff;background:#222830">↗</span><span class="owner-name nova-gift-link">Nova</span>` : `<span class="owner-avatar" style="display:grid;place-items:center;font-size:10px;color:#fff;background:#222830">N</span><span class="owner-name">Nova</span>`;
+  const action = !bought && free ? `<div class="nova-gift-action"><button class="btn" data-gift-buy>Купить · ${Number(g.price_gr||100).toLocaleString('ru-RU')} GR</button></div><div class="nova-gift-note">После покупки подарку присваивается свободный серийный номер.</div>` : isMine && !g.upgraded_at ? `<div class="nova-gift-action"><button class="btn" data-gift-upgrade>Улучшить · 100 GR</button></div><div class="nova-gift-note">После улучшения выпадут модель, узор и фон — каждый со своей редкостью.</div>` : !bought ? `<div class="nova-gift-action"><button class="btn ghost" disabled>Все экземпляры уже куплены</button></div>` : '';
+  const serialSub = g.unowned ? `${esc(g.subtitle||'Подарок')}` : `${esc(g.subtitle||'Коллекционный')} <span class="serial">#${esc(g.serial)}</span>`;
   const m=document.createElement('div');m.id='nova-gift-modal';m.className='nova-gift-modal';
-  m.innerHTML=`<div class="nova-gift-sheet" role="dialog" aria-modal="true" aria-label="${esc(g.name)} #${g.serial}">
+  m.innerHTML=`<div class="nova-gift-sheet" role="dialog" aria-modal="true" aria-label="${esc(g.name)}">
     <div class="nova-gift-art" style="background:linear-gradient(145deg,${g.tone1} 0%,${g.tone2} 100%)">
       <button class="nova-gift-close" type="button" data-gift-close aria-label="Закрыть">×</button>
       <button class="nova-gift-share" type="button" data-gift-share aria-label="Поделиться"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15"/><path d="M14 11a5 5 0 0 0-7.07 0l-2 2A5 5 0 0 0 12 20.07l1.15-1.15"/></svg></button>
       ${giftSvg(g.art,false)}
-      <div class="nova-gift-art-bottom"><div class="nova-gift-title">${esc(g.name)}</div><div class="nova-gift-subtitle">${esc(g.subtitle)} #${g.serial}</div></div>
+      <div class="nova-gift-art-bottom"><div class="nova-gift-title">${esc(g.name)}</div><div class="nova-gift-subtitle">${serialSub}</div></div>
     </div>
     <div class="nova-gift-details">
       <div class="nova-gift-table">
-        <div class="nova-gift-row"><div class="nova-gift-label">Владелец</div><div class="nova-gift-value">${giftOwnerAvatar(g)}<span class="owner-name">${esc(g.owner)}</span></div></div>
-        <div class="nova-gift-row"><div class="nova-gift-label">Выпущено</div><div class="nova-gift-value"><span>${g.issued} из ${g.supply}</span></div></div>
-        <div class="nova-gift-row"><div class="nova-gift-label">От</div><div class="nova-gift-value"><span class="owner-avatar" style="display:grid;place-items:center;font-size:10px;color:#fff;background:#222830">↗</span><span class="owner-name nova-gift-link">${esc(g.from)}</span></div></div>
-        <div class="nova-gift-row"><div class="nova-gift-label">Модель</div><div class="nova-gift-value"><span>${esc(g.model)}</span><span class="nova-gift-rate">${esc(g.modelRate)}</span></div></div>
-        <div class="nova-gift-row"><div class="nova-gift-label">Узор</div><div class="nova-gift-value"><span>${esc(g.pattern)}</span><span class="nova-gift-rate">${esc(g.patternRate)}</span></div></div>
-        <div class="nova-gift-row"><div class="nova-gift-label">Фон</div><div class="nova-gift-value"><span>${esc(g.backdrop)}</span><span class="nova-gift-rate">${esc(g.backdropRate)}</span></div></div>
+        ${giftRow('Владелец',ownerValue)}
+        ${giftRow('Выпущено',`<span>${bought ? '1' : '0'} из ${esc(g.supply)}</span>`)}
+        ${giftRow('От',fromValue)}
+        ${giftRow('Модель',attrValue(g.model,g.model_rarity))}
+        ${giftRow('Узор',attrValue(g.pattern,g.pattern_rarity))}
+        ${giftRow('Фон',attrValue(g.backdrop,g.backdrop_rarity))}
       </div>
-      <div class="nova-gift-brand">NOVA COLLECTIBLE</div>
+      ${action}<div class="nova-gift-brand">NOVA COLLECTIBLE</div>
     </div>
   </div>`;
   document.body.appendChild(m);
   const close=()=>m.remove();
   m.addEventListener('click',e=>{if(e.target===m || e.target.closest('[data-gift-close]'))close();});
   const share=m.querySelector('[data-gift-share]');
-  share.onclick=async()=>{const text=`Nova · ${g.name} #${g.serial}`;try{await navigator.clipboard.writeText(text);toast('Название подарка скопировано')}catch{toast(text)}};
-  document.addEventListener('keydown',function escGift(e){if(e.key==='Escape'){close();document.removeEventListener('keydown',escGift)}},{once:true});
+  share.onclick=async()=>{const text=`Nova · ${g.name}${g.serial?' #'+g.serial:''}`;try{await navigator.clipboard.writeText(text);toast('Ссылка/название подарка скопировано')}catch{toast(text)}};
+  const buy=m.querySelector('[data-gift-buy]');
+  if(buy) buy.onclick=async()=>{
+    buy.disabled=true;buy.textContent='Покупаем…';
+    const {data,error}=await sb.rpc('nova_purchase_gift',{p_gift_type:g.gift_type});
+    if(error){buy.disabled=false;buy.textContent=`Купить · ${Number(g.price_gr||100).toLocaleString('ru-RU')} GR`;return toast(error.message||'Не удалось купить подарок',true)}
+    await getProfile(me.id,true);me=pcache[me.id];await fetchNovaGiftData(true);toast('Подарок куплен');close();await renderGiftModal(data);
+    if(tab==='profile')renderProfile(me,true);
+  };
+  const up=m.querySelector('[data-gift-upgrade]');
+  if(up) up.onclick=async()=>{
+    up.disabled=true;up.textContent='Улучшаем…';
+    const {data,error}=await sb.rpc('nova_upgrade_gift',{p_instance_id:g.id});
+    if(error){up.disabled=false;up.textContent='Улучшить · 100 GR';return toast(error.message||'Не удалось улучшить подарок',true)}
+    await getProfile(me.id,true);me=pcache[me.id];
+    await runGiftUpgradeAnimation(g,data);
+    await fetchNovaGiftData(true);close();await openGiftByKey('inst:'+g.id);
+    if(tab==='profile')renderProfile(me,true);
+  };
 }
 
-function renderGifts(){
+async function runGiftUpgradeAnimation(g,result){
+  const o=document.createElement('div');o.className='nova-upgrade-overlay';
+  o.innerHTML=`<div class="nova-upgrade-box"><div class="nova-upgrade-art">${giftSvg(g.art,false)}</div><div class="nova-roll-title">Улучшение подарка</div><div class="nova-roll-sub">−100 GR · выпадают три атрибута</div><div class="nova-roll-grid"><div class="nova-roll-cell rolling" data-roll="model"><small>Модель</small><b>???</b></div><div class="nova-roll-cell rolling" data-roll="pattern"><small>Узор</small><b>???</b></div><div class="nova-roll-cell rolling" data-roll="backdrop"><small>Фон</small><b>???</b></div></div><div class="nova-upgrade-foot">Редкость каждого атрибута определяется отдельно.</div></div>`;
+  document.body.appendChild(o);
+  const pool={model:['Classic','Chrome','Gold','Void','Holo'],pattern:['Smooth','Dessert','Pulse','Stars','Prism'],backdrop:['Steel','Silver','Aurora','Onyx','Prism']};
+  for(const kind of ['model','pattern','backdrop']){
+    const cell=o.querySelector(`[data-roll="${kind}"]`), b=cell.querySelector('b');
+    let t=0;const stop=performance.now()+750;
+    while(performance.now()<stop){b.textContent=pool[kind][Math.floor(Math.random()*pool[kind].length)];await new Promise(r=>setTimeout(r,70));}
+    b.textContent=result[kind];cell.classList.remove('rolling');cell.classList.add('done');
+    await new Promise(r=>setTimeout(r,330));
+  }
+  await new Promise(r=>setTimeout(r,500));o.remove();
+}
+
+async function renderGifts(){
   const v=view();if(!v)return;
-  v.innerHTML=`<div class="nova-gift-page">
-    <div class="nova-gift-heading"><div><h1>Подарки</h1><div class="muted">Коллекционные подарки Nova в визуальном стиле Telegram / Slasher</div></div><span class="tag">${NOVA_GIFTS.length} коллекционных</span></div>
-    <div class="card col" style="padding:14px"><div class="muted" style="font-size:12px">Нажми на подарок — откроется карточка с большой визуализацией, номером коллекции и атрибутами.</div></div>
-    <div class="nova-gift-grid">${NOVA_GIFTS.map(giftCard).join('')}</div>
-  </div>`;
-  v.onclick=e=>{const b=e.target.closest('[data-gift-open]');if(b)renderGiftModal(b.dataset.giftOpen);};
+  try{
+    await fetchNovaGiftData();
+    const owned=(novaGiftInstancesCache||[]).filter(x=>x.owner_id===me.id).length;
+    const upgraded=(novaGiftInstancesCache||[]).filter(x=>x.owner_id===me.id && x.upgraded_at).length;
+    v.innerHTML=`<div class="nova-gift-page">
+      <div class="nova-gift-heading"><div><h1>Подарки</h1><div class="muted">Сначала голый подарок · после покупки владельцем становится пользователь · улучшение стоит 100 GR.</div></div><span class="tag">У вас: ${owned} · улучшено: ${upgraded}</span></div>
+      <div class="card col" style="padding:14px"><div class="row wrapr" style="gap:8px"><b>Как это работает</b><span class="muted">Подарки уже полностью выпущены. Редкости нет до улучшения. После покупки назначается серийный номер, затем за 100 GR запускается анимация выпадения модели, узора и фона.</span></div></div>
+      <div class="nova-gift-grid">${(novaGiftCatalogCache||[]).map(giftCard).join('')}</div>
+    </div>`;
+    v.onclick=async e=>{const b=e.target.closest('[data-gift-open]');if(b)await openGiftByKey(b.dataset.giftOpen);};
+  }catch(e){
+    v.innerHTML=`<div class="nova-gift-page"><div class="card col"><h1>Подарки ещё не подключены</h1><div class="muted">Интерфейс готов, но в Supabase пока нет таблиц nova_gift_catalog / nova_gift_instances. Выполните SQL-файл, который идёт вместе с этой версией.</div></div></div>`;
+  }
+}
+
+async function loadUserGifts(u){
+  const box=document.getElementById('pgifts'); if(!box)return;
+  try{
+    const {data:rows,error}=await sb.from('nova_gift_instances').select('id,gift_type,serial,owner_id,sender_id,purchased_at,upgraded_at,model,model_rarity,pattern,pattern_rarity,backdrop,backdrop_rarity').eq('owner_id',u.id).order('purchased_at',{ascending:false});
+    if(error)throw error;
+    if(!rows || !rows.length){box.innerHTML='';return;}
+    const types=[...new Set(rows.map(x=>x.gift_type))];
+    const {data:cats,error:ce}=await sb.from('nova_gift_catalog').select('id,name,subtitle,supply,tone1,tone2,art').in('id',types);
+    if(ce)throw ce;
+    const map=giftTypeMap(cats||[]);
+    box.innerHTML=`<div class="nova-gift-profile"><div class="nova-gift-profile-head"><h2 style="margin:0">Подарки</h2><span class="muted">${rows.length}</span></div><div class="nova-gift-profile-grid">${rows.map(r=>{const c=map[r.gift_type];if(!c)return '';return `<button class="nova-gift-profile-card" data-profile-gift="${esc(r.id)}"><div class="nova-gift-profile-art" style="background:linear-gradient(145deg,${c.tone1},${c.tone2})">${giftSvg(c.art,true)}</div><div class="mini-title">${esc(c.name)} #${r.serial}</div><div class="mini-sub">${r.upgraded_at?esc(r.model)+' · '+formatRarity(r.model_rarity):'Голый · можно улучшить'}</div></button>`}).join('')}</div></div>`;
+    box.onclick=async e=>{const b=e.target.closest('[data-profile-gift]');if(b)await openGiftByKey('inst:'+b.dataset.profileGift);};
+  }catch(e){box.innerHTML='';}
 }
 
 /* ---------- Маркет: юзернеймы и номера за GR ---------- */
