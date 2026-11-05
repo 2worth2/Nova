@@ -78,66 +78,6 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .file{position:relative;overflow:hidden}
 .file input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .nm-rose{--c:#C2255C}.nm-blue{--c:#1C5FD4}.nm-violet{--c:#6741D9}.nm-gold{--c:#8A5A00}
-
-/* ===== NOVA NICKNAME PICKER ===== */
-.nick-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
-.nick-option{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;min-height:104px;padding:14px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,var(--surface),var(--surface2));cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;overflow:hidden;text-align:left}
-.nick-option:hover:not(:disabled){transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent),var(--line) 45%);box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.nick-option.sel{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent),transparent 72%),0 10px 28px rgba(0,0,0,.14);background:linear-gradient(145deg,color-mix(in srgb,var(--accent),var(--surface) 92%),var(--surface2))}
-.nick-option:disabled{opacity:.52;cursor:not-allowed;filter:saturate(.7)}
-.nick-option .nick-demo{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.nick-option .nick-label{font-size:12px;font-weight:650;color:var(--text);margin-top:9px}
-.nick-option .nick-type{font-size:11px;color:var(--muted);margin-top:2px}
-.nick-option .nick-check{position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:13px;font-weight:900;opacity:0;transform:scale(.7);transition:.18s}
-.nick-option.sel .nick-check{opacity:1;transform:scale(1)}
-.nick-lock{position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--surface3,var(--surface2));color:var(--muted);font-size:11px}
-.nick-picker-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
-.nick-picker-current{font-size:13px;color:var(--muted);text-align:right}
-.nick-picker-current b{color:var(--text)}
-@media(max-width:900px){.nick-picker{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.nick-picker{grid-template-columns:1fr 1fr;gap:8px}.nick-option{min-height:96px;padding:12px}.nick-option .nick-demo{font-size:16px}}
-@media(prefers-reduced-motion:reduce){.nick-option{transition:none!important}}
-
-
-/* ===== NOVA NICKNAME STUDIO ===== */
-.nick-studio{position:relative;overflow:hidden;background:linear-gradient(145deg,var(--surface),color-mix(in srgb,var(--accent),var(--surface) 96%));}
-.nick-studio:before{content:"";position:absolute;inset:-120px auto auto 55%;width:280px;height:280px;border-radius:50%;background:color-mix(in srgb,var(--accent),transparent 84%);filter:blur(55px);pointer-events:none}
-.nick-studio-title{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.16em;color:var(--accent)}
-.nick-prem-badge{font-size:10px;font-weight:900;letter-spacing:.08em;padding:7px 10px;border:1px solid color-mix(in srgb,var(--accent),var(--line) 45%);border-radius:999px;color:var(--accent);background:color-mix(in srgb,var(--accent),transparent 92%);white-space:nowrap}
-.nick-live{position:relative;min-height:190px;margin-top:18px;border:1px solid var(--line);border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--accent),transparent 88%),transparent 55%),linear-gradient(145deg,var(--surface2),var(--surface));box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
-.nick-live:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 25%,rgba(255,255,255,.06) 50%,transparent 75%);transform:translateX(-100%);animation:nickSheen 5s ease-in-out infinite;pointer-events:none}
-.nick-live-glow{position:absolute;width:220px;height:90px;border-radius:50%;background:color-mix(in srgb,var(--accent),transparent 75%);filter:blur(42px);opacity:.45}.nick-live-caption{position:relative;z-index:1;font-size:9px;letter-spacing:.2em;font-weight:900;color:var(--muted);margin-bottom:12px}
-.nick-live-name{position:relative;z-index:1;font-size:clamp(28px,5vw,46px);font-weight:900;letter-spacing:-.04em;text-align:center;line-height:1.05;padding:0 18px;max-width:100%;word-break:break-word}.nick-live-name .name{display:inline-flex;align-items:center;gap:6px}.nick-live-name svg{width:18px;height:18px}.nick-live-meta{position:relative;z-index:1;display:flex;gap:7px;align-items:center;margin-top:14px;font-size:11px;color:var(--muted)}
-.nick-cats{display:flex;gap:7px;overflow-x:auto;padding:14px 0 9px;scrollbar-width:none}.nick-cats::-webkit-scrollbar{display:none}.nick-cat{border:1px solid var(--line);background:var(--surface2);color:var(--muted);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;transition:.18s}.nick-cat:hover{color:var(--text);border-color:color-mix(in srgb,var(--accent),var(--line) 50%)}.nick-cat.active{color:#fff;background:var(--accent);border-color:var(--accent);box-shadow:0 6px 18px color-mix(in srgb,var(--accent),transparent 72%)}
-.nick-picker{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:5px}.nick-option{min-height:112px}.nick-hint{margin-top:12px;font-size:11px;color:var(--muted);text-align:center}
-@keyframes nickSheen{0%,55%{transform:translateX(-110%)}80%,100%{transform:translateX(110%)}}
-@media(max-width:900px){.nick-picker{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.nick-studio-title{flex-direction:column;gap:9px}.nick-prem-badge{align-self:flex-start}.nick-live{min-height:165px}.nick-picker{grid-template-columns:1fr 1fr;gap:8px}.nick-option{min-height:100px}.nick-live-name{font-size:30px}}
-/* ===== NOVA NICKNAME EFFECTS ===== */
-.nm-rose{color:#C2255C;animation:nmRose 3s ease-in-out infinite}
-.nm-blue{color:#2563EB;animation:nmBlue 3.5s ease-in-out infinite}
-.nm-violet{color:#7C3AED;animation:nmViolet 3.5s ease-in-out infinite}
-.nm-gold{color:#B7791F;animation:nmGold 3s ease-in-out infinite}
-.nm-ocean,.nm-aurora,.nm-sunset,.nm-rainbow,.nm-fire,.nm-ice{background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:nmFlow 4s linear infinite}
-.nm-ocean{background-image:linear-gradient(90deg,#0EA5E9,#2563EB,#06B6D4,#60A5FA,#0EA5E9)}
-.nm-aurora{background-image:linear-gradient(90deg,#34D399,#22D3EE,#6366F1,#A855F7,#34D399)}
-.nm-sunset{background-image:linear-gradient(90deg,#F97316,#EC4899,#F59E0B,#EF4444,#F97316)}
-.nm-rainbow{background-image:linear-gradient(90deg,#EF4444,#F59E0B,#10B981,#06B6D4,#6366F1,#EC4899,#EF4444);animation:nmFlow 3.5s linear infinite}
-.nm-fire{background-image:linear-gradient(90deg,#EF4444,#F97316,#FACC15,#EF4444);animation:nmFlow 1.8s linear infinite}
-.nm-ice{background-image:linear-gradient(90deg,#BAE6FD,#38BDF8,#E0F2FE,#60A5FA,#BAE6FD);animation:nmFlow 4s linear infinite}
-.nm-neon{color:#22D3EE;text-shadow:0 0 4px #22D3EE,0 0 10px rgba(34,211,238,.75),0 0 22px rgba(34,211,238,.45);animation:nmNeon 1.8s ease-in-out infinite}
-.nm-glitch{color:#fff;position:relative;text-shadow:2px 0 #ff1744,-2px 0 #00e5ff;animation:nmGlitch 2.2s steps(1,end) infinite}
-.nm-pulse{color:var(--accent);text-shadow:0 0 0 rgba(99,102,241,0);animation:nmPulse 1.8s ease-in-out infinite}
-@keyframes nmFlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
-@keyframes nmRose{0%,100%{color:#C2255C}50%{color:#F43F7A}}
-@keyframes nmBlue{0%,100%{color:#1D4ED8}50%{color:#38BDF8}}
-@keyframes nmViolet{0%,100%{color:#6D28D9}50%{color:#A78BFA}}
-@keyframes nmGold{0%,100%{color:#8A5A00;text-shadow:0 0 0 transparent}50%{color:#F59E0B;text-shadow:0 0 8px rgba(245,158,11,.35)}}
-@keyframes nmNeon{0%,100%{opacity:1;filter:brightness(1)}50%{opacity:.82;filter:brightness(1.35)}}
-@keyframes nmPulse{0%,100%{transform:scale(1);text-shadow:0 0 0 transparent}50%{transform:scale(1.025);text-shadow:0 0 10px color-mix(in srgb,var(--accent),transparent 45%)}}
-@keyframes nmGlitch{0%,86%,100%{transform:none;opacity:1}88%{transform:translateX(1px);opacity:.8}90%{transform:translateX(-1px);opacity:1}92%{transform:none}}
-@media (prefers-reduced-motion:reduce){.name [class*="nm-"]{animation:none!important;transform:none!important}}
-
 .nm-rose,.nm-blue,.nm-violet,.nm-gold{color:color-mix(in srgb,var(--c),#fff var(--lt))}
 .nm-grad{background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:nmshift 4s linear infinite}
 .nm-aurora{background-image:linear-gradient(90deg,#34D399,#3B82F6,#8B5CF6,#34D399)}
@@ -182,7 +122,7 @@ body{overflow:hidden;background:#eef1f6}
 .nova-content>.wrap{width:100%;max-width:1100px;min-height:100%;box-sizing:border-box;margin:0 auto;padding:24px 28px 60px}
 .nova-content>.wrap:after{content:"";display:block;height:1px}
 .nova-content>.wrap>h1{display:none}
-.nova-chat-shell{grid-template-columns:76px 310px minmax(0,1fr) 300px;background:var(--surface2)}
+.nova-chat-shell{grid-template-columns:76px 310px minmax(0,1fr) 300px}
 .nova-chat-list{background:var(--surface);border-right:1px solid var(--line);min-width:0;display:flex;flex-direction:column;overflow:hidden}
 .nova-list-head{height:64px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 12px}
 .nova-list-head>div{flex:1;display:flex;flex-direction:column}
@@ -194,12 +134,12 @@ body{overflow:hidden;background:#eef1f6}
 .nova-mini-convs{overflow:auto;padding:4px 8px}
 .nova-mini-convs .item{border:0;border-radius:12px;margin:2px 0}
 .nova-mini-convs .item:hover{background:var(--surface2)}
-.nova-chat-main{min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--surface2)}
+.nova-chat-main{min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--bg)}
 .nova-chat-head{height:64px;flex:none;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 18px}
 .nova-chat-head small{color:var(--muted);font-size:12px}
 .nova-head-btn{width:38px;height:38px;border:0;background:var(--surface2);border-radius:12px;font-size:20px}
 .nova-mobile-back{display:none;border:0;background:transparent;font-size:22px}
-.nova-chat-main .msgs{padding:24px clamp(18px,4vw,70px);gap:10px;background:var(--surface2)}
+.nova-chat-main .msgs{padding:24px clamp(18px,4vw,70px);gap:10px}
 .nova-chat-main .composer{padding:14px 24px 18px;background:var(--surface);border-top:1px solid var(--line)}
 .nova-chat-main .composer .in{height:46px;border-radius:15px}
 .nova-attach{width:44px;height:44px;border:0;border-radius:14px;background:var(--surface2);font-size:24px}
@@ -221,7 +161,7 @@ body{overflow:hidden;background:#eef1f6}
 .nova-empty span{font-size:13px}
 @media(max-width:1050px){.nova-chat-shell{grid-template-columns:76px 290px minmax(0,1fr)}.nova-info{display:none}}
 @media(max-width:760px){body{overflow:hidden}.nova-shell{display:block;height:100dvh;min-height:0}.nova-sidebar{position:fixed;left:0;right:0;bottom:0;width:100%;height:66px;display:flex;flex-direction:row;padding:5px 10px;border-right:0;border-top:1px solid var(--line)}.nova-brand,.nova-user{display:none}.nova-nav{flex-direction:row;gap:3px}.nova-nav button{height:56px;flex:1;flex-direction:column}.nova-main{height:calc(100dvh - 66px);min-height:0}.nova-top{height:58px;min-height:58px;padding:0 16px}.nova-content{height:0;min-height:0;overflow-y:auto;overflow-x:hidden}.nova-content>.wrap{min-height:max-content;padding:16px 12px 90px}.nova-chat-shell{display:flex;height:100dvh}.nova-chat-shell .nova-sidebar,.nova-chat-shell .nova-info{display:none}.nova-chat-list{display:none}.nova-chat-main{width:100%;height:100dvh}.nova-mobile-back{display:block}.nova-chat-main .msgs{padding:16px}.nova-chat-main .composer{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}.nova-chat-main .composer .in{min-width:0}.nova-attach{display:none}}
-</style>
+\n/* ===== NOVA NICKNAME STUDIO ===== */\n.nova-name-studio{background:linear-gradient(145deg,var(--surface),var(--surface2));border:1px solid var(--line);border-radius:22px;padding:18px;overflow:hidden}\n.nova-name-hero{position:relative;min-height:170px;border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 20%,color-mix(in srgb,var(--accent),transparent 75%),transparent 55%),var(--surface2);border:1px solid var(--line)}\n.nova-name-hero:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 90deg,color-mix(in srgb,var(--accent),transparent 90%),color-mix(in srgb,var(--accent),transparent 55%),transparent 70%);animation:studioSpin 12s linear infinite}\n.nova-name-hero-content{position:relative;text-align:center;z-index:1}.nova-name-hero-label{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:12px}.nova-name-big{font-size:clamp(28px,5vw,48px);font-weight:800;line-height:1.1;display:inline-block}.nova-name-sub{margin-top:10px;color:var(--muted);font-size:12px}.nova-name-tabs{display:flex;gap:8px;overflow:auto;padding:14px 2px 8px;scrollbar-width:none}.nova-name-tabs::-webkit-scrollbar{display:none}.nova-name-tab{white-space:nowrap;border:1px solid var(--line);background:var(--surface2);color:var(--muted);border-radius:12px;padding:9px 13px;font:inherit;cursor:pointer;transition:.18s}.nova-name-tab:hover{transform:translateY(-1px);color:var(--ink)}.nova-name-tab.active{background:color-mix(in srgb,var(--accent),var(--surface) 88%);border-color:color-mix(in srgb,var(--accent),var(--line) 35%);color:var(--accent);font-weight:700}.nova-name-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.nova-name-card{position:relative;min-height:96px;border:1px solid var(--line);background:var(--surface2);border-radius:16px;padding:12px;cursor:pointer;text-align:left;transition:.18s;overflow:hidden}.nova-name-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent),var(--line) 40%);box-shadow:0 10px 25px rgba(0,0,0,.08)}.nova-name-card.sel{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent),transparent 80%)}.nova-name-card .demo{display:block;font-size:19px;font-weight:800;min-height:27px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nova-name-card .title{display:block;margin-top:9px;font-size:12px;font-weight:700}.nova-name-card .desc{display:block;margin-top:3px;font-size:10px;color:var(--muted)}.nova-name-check{position:absolute;right:9px;top:9px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;display:none;align-items:center;justify-content:center;font-size:11px}.nova-name-card.sel .nova-name-check{display:flex}.nova-name-lock{position:absolute;right:9px;top:9px;font-size:12px;opacity:.8}.nova-name-editor{margin-top:14px;border:1px solid var(--line);border-radius:18px;padding:14px;background:var(--surface2);display:grid;gap:12px}.nova-editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.nova-editor-field{display:flex;align-items:center;gap:10px;min-width:0}.nova-editor-field>span{font-size:12px;color:var(--muted);width:76px;flex:none}.nova-editor-field input,.nova-editor-field select{flex:1;min-width:0}.nova-color{height:38px;width:100%;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.nova-editor-actions{display:flex;gap:8px;flex-wrap:wrap}.nova-font-select{width:100%;padding:9px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}\n@keyframes studioSpin{to{transform:rotate(360deg)}}\n@media(max-width:760px){.nova-name-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nova-editor-grid{grid-template-columns:1fr}.nova-name-hero{min-height:145px}}\n/* custom studio effects */\n.nsc-glitch{position:relative;color:var(--ink);animation:nscJitter 2.6s steps(1) infinite}.nsc-glitch:before,.nsc-glitch:after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden}.nsc-glitch:before{color:#F43F5E;animation:nscG1 2.6s steps(1) infinite}.nsc-glitch:after{color:#22D3EE;animation:nscG2 2.6s steps(1) infinite}.nsc-wave span{display:inline-block;animation:nscWave 1.4s ease-in-out infinite,nscHue 3s linear infinite}.nsc-spark{position:relative;color:#F59E0B;text-shadow:0 0 10px rgba(245,158,11,.35)}.nsc-spark:before,.nsc-spark:after{content:'✦';position:absolute;font-size:.55em;animation:nscTw 1.5s ease-in-out infinite}.nsc-spark:before{left:-.4em;top:-.45em}.nsc-spark:after{right:-.4em;bottom:-.45em;animation-delay:.7s}.nsc-echo{color:#A78BFA;text-shadow:3px 3px 0 rgba(167,139,250,.4),6px 6px 0 rgba(167,139,250,.2);animation:nscEcho 2.4s ease-in-out infinite}.nsc-matrix{font-family:ui-monospace,monospace;color:#4ADE80;text-shadow:0 0 8px rgba(74,222,128,.45)}.nsc-gradient{background-size:300% 100%;background-image:linear-gradient(var(--nsc-angle,90deg),var(--nsc-c1),var(--nsc-c2),var(--nsc-c1));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:nscFlow var(--nsc-speed,3s) linear infinite}.nsc-neon{color:var(--nsc-c1);text-shadow:0 0 4px var(--nsc-c1),0 0 12px var(--nsc-c1),0 0 24px color-mix(in srgb,var(--nsc-c1),transparent 35%);animation:nscNeon var(--nsc-speed,1.8s) ease-in-out infinite}.nsc-pulse{color:var(--nsc-c1);animation:nscPulse var(--nsc-speed,1.8s) ease-in-out infinite;text-shadow:0 0 12px color-mix(in srgb,var(--nsc-c1),transparent 45%)}\n@keyframes nscFlow{to{background-position:300% 50%}}@keyframes nscNeon{50%{filter:brightness(1.35);opacity:.82}}@keyframes nscPulse{50%{transform:scale(1.035)}}@keyframes nscWave{50%{transform:translateY(-5px)}}@keyframes nscHue{to{filter:hue-rotate(360deg)}}@keyframes nscTw{50%{opacity:1;transform:scale(1.2) rotate(90deg)}0%,100%{opacity:0;transform:scale(.3)}}@keyframes nscEcho{50%{text-shadow:-3px 3px 0 rgba(167,139,250,.4),-6px 6px 0 rgba(167,139,250,.2)}}@keyframes nscJitter{87%{transform:translate(-2px,1px) skewX(-8deg)}90%{transform:translate(2px,-1px) skewX(6deg)}93%{transform:translate(-1px,0)}0%,86%,96%,100%{transform:none}}@keyframes nscG1{0%,85%,100%{opacity:0}86%{opacity:1;transform:translate(-3px);clip-path:inset(10% 0 55%)}89%{opacity:1;transform:translate(3px);clip-path:inset(60% 0 5%)}95%{opacity:0}}@keyframes nscG2{0%,85%,100%{opacity:0}87%{opacity:1;transform:translate(3px);clip-path:inset(50% 0 10%)}90%{opacity:1;transform:translate(-3px);clip-path:inset(5% 0 65%)}96%{opacity:0}}\n</style>
 </head>
 <body>
 <div id="app"></div>
@@ -235,12 +175,42 @@ const COLORS = ['#0F766E', '#1C5FD4', '#6741D9', '#C2255C', '#C2410C', '#8A5A00'
 const colorOf = (n) => COLORS[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % COLORS.length];
 const EMAIL = (u) => u.toLowerCase() + '@nova.example.com';
 const PCOLS = 'id,username,display_name,bio,music_url,music_title,avatar_url,banner_url,banner_x,banner_y,banner_zoom,banner_color,name_color,frame,hide_online,gr_public,last_seen,is_admin,is_premium,is_verified,title,is_banned,gr';
-const NAMEFX = { default: ['Обычный', ''], rose: ['Розовый · плавный', 'nm-rose'], blue: ['Ocean · переливается', 'nm-ocean'], violet: ['Violet · переливается', 'nm-violet'], gold: ['Gold · металлический', 'nm-gold'], aurora: ['Aurora · переливается', 'nm-aurora'], sunset: ['Sunset · переливается', 'nm-sunset'], neon: ['Neon · свечение', 'nm-neon'], rainbow: ['Rainbow · все цвета', 'nm-rainbow'], fire: ['Fire · пламя', 'nm-fire'], ice: ['Ice · холодный', 'nm-ice'], glitch: ['Glitch · RGB', 'nm-glitch'], pulse: ['Pulse · пульсация', 'nm-pulse'] };
+const NAMEFX = { default: ['Обычный', ''], rose: ['Розовый', 'nm-rose'], blue: ['Синий', 'nm-blue'], violet: ['Фиолетовый', 'nm-violet'], gold: ['Золотой', 'nm-gold'], aurora: ['Аврора · переливается', 'nm-grad nm-aurora'], sunset: ['Закат · переливается', 'nm-grad nm-sunset'], neon: ['Неон · свечение', 'nm-neon'] };
+const NAME_STUDIO_KEY = 'nova_name_studio_v2';
+const NAME_STUDIO = {
+  presets:{
+    ice:{cat:'gradient',title:'Ледяной',desc:'холодный градиент',c1:'#7DD3FC',c2:'#1E3A8A',angle:226,speed:4,glow:2,font:'Comfortaa',weight:700},
+    fire:{cat:'gradient',title:'Синий огонь',desc:'яркий контраст',c1:'#0A84FF',c2:'#000000',angle:262,speed:2,glow:6,font:'Ruslan Display',weight:400},
+    sunset2:{cat:'gradient',title:'Закат',desc:'теплый перелив',c1:'#F97316',c2:'#EC4899',angle:90,speed:3,glow:4,font:'Pacifico',weight:400},
+    toxic:{cat:'gradient',title:'Токсик',desc:'кислотный стиль',c1:'#84CC16',c2:'#06B6D4',angle:120,speed:2.5,glow:5,font:'Unbounded',weight:800},
+    gold2:{cat:'gradient',title:'Золото',desc:'металлический блеск',c1:'#F59E0B',c2:'#92400E',angle:100,speed:3.5,glow:3,font:'Playfair Display',weight:800},
+    retro:{cat:'special',title:'Ретро',desc:'пиксельный стиль',c1:'#F43F5E',c2:'#8B5CF6',angle:0,speed:2,glow:4,font:'Press Start 2P',weight:400},
+    rainbow:{cat:'gradient',title:'Rainbow',desc:'все цвета',c1:'#EF4444',c2:'#8B5CF6',angle:90,speed:3,glow:2,font:'Comfortaa',weight:700},
+    ocean:{cat:'gradient',title:'Ocean',desc:'синий океан',c1:'#06B6D4',c2:'#2563EB',angle:90,speed:3.5,glow:2,font:'Comfortaa',weight:700},
+    rose:{cat:'color',title:'Розовый',desc:'плавный цвет',c1:'#C2255C',c2:'#F43F7A',angle:90,speed:3,glow:1,font:'system-ui',weight:700},
+    violet:{cat:'color',title:'Фиолетовый',desc:'мягкий цвет',c1:'#6D28D9',c2:'#A78BFA',angle:90,speed:3,glow:1,font:'system-ui',weight:700},
+    neonCyan:{cat:'neon',title:'Cyan Neon',desc:'неоновое свечение',c1:'#22D3EE',c2:'#22D3EE',angle:90,speed:1.8,glow:9,font:'Unbounded',weight:700},
+    neonPink:{cat:'neon',title:'Pink Neon',desc:'розовый неон',c1:'#F472B6',c2:'#F472B6',angle:90,speed:1.8,glow:9,font:'Unbounded',weight:700},
+    glitch:{cat:'animation',title:'Глитч+',desc:'RGB-сбои',effect:'glitch',c1:'#F43F5E',c2:'#22D3EE',angle:90,speed:2.6,glow:0,font:'Russo One',weight:700},
+    wave:{cat:'animation',title:'Волна',desc:'прыгающие буквы',effect:'wave',c1:'#F43F5E',c2:'#8B5CF6',angle:90,speed:1.4,glow:0,font:'Comfortaa',weight:800},
+    spark:{cat:'special',title:'Искры',desc:'искрящиеся детали',effect:'spark',c1:'#F59E0B',c2:'#FDE68A',angle:90,speed:1.6,glow:3,font:'Playfair Display',weight:800},
+    echo:{cat:'special',title:'Эхо',desc:'объемный след',effect:'echo',c1:'#A78BFA',c2:'#7C3AED',angle:90,speed:2.4,glow:0,font:'Comfortaa',weight:800},
+    matrix:{cat:'special',title:'Матрица',desc:'код стекает',effect:'matrix',c1:'#4ADE80',c2:'#15803D',angle:90,speed:1.8,glow:4,font:'monospace',weight:700},
+    pulse:{cat:'animation',title:'Pulse',desc:'мягкая пульсация',c1:'#6366F1',c2:'#A78BFA',angle:90,speed:1.8,glow:4,font:'Comfortaa',weight:800}
+  },
+  cats:{color:'Цвета',gradient:'Градиенты',animation:'Анимации',neon:'Неон',special:'Особые'}
+};
+const studioGet=()=>{try{return JSON.parse(localStorage.getItem(NAME_STUDIO_KEY)||'null')}catch(e){return null}};
+const studioSave=(o)=>localStorage.setItem(NAME_STUDIO_KEY,JSON.stringify(o));
+const studioStyle=(o)=>`--nsc-c1:${o.c1};--nsc-c2:${o.c2};--nsc-angle:${o.angle||90}deg;--nsc-speed:${o.speed||3}s;--nsc-glow:${o.glow||0}px;font-family:'${o.font||'system-ui'}',system-ui;font-weight:${o.weight||700}`;
+function studioHTML(text,o,cls=''){const e=o.effect;if(e==='glitch')return `<span class="${cls} nsc-glitch" data-t="${esc(text)}" style="${studioStyle(o)}">${esc(text)}</span>`;if(e==='wave')return `<span class="${cls} nsc-wave" style="${studioStyle(o)}">${[...text].map((c,i)=>`<span style="animation-delay:${i*.12}s,${i*-.35}s">${esc(c)}</span>`).join('')}</span>`;if(e==='spark')return `<span class="${cls} nsc-spark" style="${studioStyle(o)}">${esc(text)}</span>`;if(e==='echo')return `<span class="${cls} nsc-echo" style="${studioStyle(o)}">${esc(text)}</span>`;if(e==='matrix')return `<span class="${cls} nsc-matrix" style="${studioStyle(o)}">${esc(text)}</span>`;if(o.cat==='neon')return `<span class="${cls} nsc-neon" style="${studioStyle(o)}">${esc(text)}</span>`;if(o.cat==='color'||o.cat==='gradient'||o.cat==='special')return `<span class="${cls} nsc-gradient" style="${studioStyle(o)}">${esc(text)}</span>`;return `<span class="${cls}">${esc(text)}</span>`;}
+
 const FRAMES = { none: ['Без рамки', 0], gold: ['Золотая', 0], rose: ['Розовая', 0], blue: ['Синяя', 0], violet: ['Фиолетовая', 0], double: ['Двойная', 1], neon: ['Неон', 1], rainbow: ['Радужная', 1] };
 const BANNERS = { sky: ['linear-gradient(135deg,#7DB4F5,#4B7BEC)', 0], mint: ['linear-gradient(135deg,#6EE7B7,#0F9488)', 0], lilac: ['linear-gradient(135deg,#C4B5FD,#7C5CE0)', 0], sunset: ['linear-gradient(135deg,#FDBA74,#EC4899)', 0], sand: ['linear-gradient(135deg,#E9D8A6,#C9A227)', 0], aurora: ['linear-gradient(135deg,#34D399,#7C5CE0)', 1] };
 const prem = (p) => !!p.is_premium;
 const nameOf = (p) => p.display_name || p.username;
 const nameCls = (p) => (prem(p) && NAMEFX[p.name_color] ? NAMEFX[p.name_color][1] : '');
+const nameHtml = (p) => { const custom = p && me && p.id === me.id && p.name_color === 'custom' ? studioGet() : null; return custom ? studioHTML(nameOf(p), custom) : `<span class="${nameCls(p)}">${esc(nameOf(p))}</span>`; };
 const frameCls = (p) => (p.frame && p.frame !== 'none' && FRAMES[p.frame] && (!FRAMES[p.frame][1] || prem(p)) ? 'fr-' + p.frame : '');
 const bannerImg = (p, id = '') => p.banner_url ? `<img ${id ? `id="${id}"` : ''} src="${esc(p.banner_url)}" alt="" style="${bannerPos(p.banner_x, p.banner_y, p.banner_zoom)}">` : '';
 const bannerPos = (x = 50, y = 50, z = 1) => `object-position:${x}% ${y}%;transform:scale(${z});transform-origin:${x}% ${y}%`;
@@ -251,7 +221,7 @@ const av = (p, s = 44) => `<span class="avw ${isOnline(p) ? 'on' : ''}" data-uid
 const convAv = (c, s = 44) => `<span class="ava" style="width:${s}px;height:${s}px;border-radius:30%;font-size:${Math.round(s * .4)}px;background:${colorOf(c.title)}">${c.avatar_url ? `<img src="${esc(c.avatar_url)}" alt="">` : esc([...c.title][0].toUpperCase())}</span>`;
 const SVG_OK = '<svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="Подтверждённый профиль" style="flex:none;color:var(--accent)"><circle cx="12" cy="12" r="11" fill="currentColor"/><polyline points="7 12.5 10.5 16 17 9" style="fill:none;stroke:var(--on-accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"/></svg>';
 const SVG_STAR = '<svg width="16" height="16" viewBox="0 0 24 24" role="img" aria-label="Premium" style="flex:none;color:var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="currentColor"/></svg>';
-const nm = (p) => `<span class="name"><span class="${nameCls(p)}">${esc(nameOf(p))}</span>${p.is_verified ? SVG_OK : ''}${prem(p) ? SVG_STAR : ''}</span>`;
+const nm = (p) => `<span class="name">${nameHtml(p)}${p.is_verified ? SVG_OK : ''}${prem(p) ? SVG_STAR : ''}</span>`;
 const hm = (d) => d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
 const timeStr = (iso) => {
   const d = new Date(iso), now = new Date();
@@ -709,18 +679,11 @@ function renderSettings() {
     <div class="opts">${Object.keys(BANNERS).map((k) => `<button class="opt ${me.banner_color === k ? 'sel' : ''}" data-bn="${k}" ${lock(BANNERS[k][1]) ? 'disabled' : ''}><span style="width:44px;height:24px;border-radius:8px;background:${BANNERS[k][0]}"></span>${k}${BANNERS[k][1] ? ' · Premium' : ''}</button>`).join('')}</div></div>
   <div class="card col"><h2>Рамка аватара <span class="muted">· часть рамок — Premium</span></h2>
     <div class="opts">${Object.keys(FRAMES).map((k) => `<button class="opt ${(me.frame || 'none') === k ? 'sel' : ''}" data-fr="${k}" ${lock(FRAMES[k][1]) ? 'disabled' : ''}><span class="ava ${k === 'none' ? '' : 'fr-' + k}" style="background:${colorOf(me.username)}">${esc(me.username[0].toUpperCase())}</span>${FRAMES[k][0]}</button>`).join('')}</div></div>
-  <div class="card col nick-studio">
-    <div class="nick-studio-title"><div><div class="eyebrow">NOVA • NICKNAME STUDIO</div><h2 style="margin:4px 0 5px">Оформление ника</h2><div class="muted">Настрой внешний вид ника — он будет одинаково отображаться в профиле, чатах и сообщениях.</div></div><div class="nick-prem-badge">${prem(me) ? '✦ PREMIUM' : 'PREMIUM'}</div></div>
-    <div class="nick-live" id="nickLive">
-      <div class="nick-live-glow"></div><div class="nick-live-caption">ПРЕДПРОСМОТР</div>
-      <div class="nick-live-name"><span id="nickLiveName" class="${nameCls(me)}">${esc(nameOf(me))}</span>${me.is_verified ? SVG_OK : ''}${prem(me) ? SVG_STAR : ''}</div>
-      <div class="nick-live-meta"><span id="nickLiveStyle">${esc((NAMEFX[me.name_color] || NAMEFX.default)[0])}</span><span>•</span><span>Профиль · Чаты · Сообщения</span></div>
-    </div>
-    <div class="nick-cats" role="tablist">
-      <button class="nick-cat active" data-nickcat="colors">🎨 Цвета</button><button class="nick-cat" data-nickcat="gradients">🌈 Градиенты</button><button class="nick-cat" data-nickcat="animations">✨ Анимации</button><button class="nick-cat" data-nickcat="neon">⚡ Неон</button><button class="nick-cat" data-nickcat="special">💎 Особые</button>
-    </div>
-    <div class="nick-picker" id="nickPicker"></div>
-    <div class="nick-hint">${prem(me) ? 'Premium открыт — все эффекты доступны.' : 'Открой Premium, чтобы получить анимации, градиенты и специальные эффекты.'}</div>
+  <div class="card col nova-name-studio"><div class="row" style="justify-content:space-between;align-items:flex-start"><div><h2 style="margin:0">Студия ника</h2><div class="muted">Создай свой стиль и сразу увидь результат</div></div><span class="tag">Premium</span></div>
+    <div class="nova-name-hero"><div class="nova-name-hero-content"><div class="nova-name-hero-label">Живое превью</div><div id="nameStudioPreview" class="nova-name-big"></div><div id="nameStudioSub" class="nova-name-sub"></div></div></div>
+    <div class="nova-name-tabs" id="nameStudioTabs">${Object.entries(NAME_STUDIO.cats).map(([k,t],i)=>`<button class="nova-name-tab ${i===0?'active':''}" data-cat="${k}">${t}</button>`).join('')}</div>
+    <div class="nova-name-grid" id="nameStudioGrid"></div>
+    <div class="nova-name-editor" id="nameStudioEditor"><div class="muted">Выбери эффект выше — здесь появятся настройки.</div></div>
   </div>
   <div class="card col"><h2>Оформление</h2>
     <div class="opts">${[['auto', 'Как в системе'], ['light', 'Светлая'], ['dark', 'Тёмная']].map(([k, t]) => `<button class="opt ${theme.m === k ? 'sel' : ''}" data-tm="${k}">${t}</button>`).join('')}</div>
@@ -771,31 +734,23 @@ function renderSettings() {
     document.getElementById('brs').onclick = () => { x = 50; y = 50; z = 1; zs.value = 1; apply(); };
   }
   [['ra', 'avatar_url', 'Аватар убран'], ['rb', 'banner_url', 'Баннер убран']].forEach(([id, f, t]) => { const b = document.getElementById(id); if (b) b.onclick = async () => { if (await saveMe({ [f]: null }, t)) renderSettings(); }; });
-  const nickCats = { colors: ['default','rose','blue','violet','gold'], gradients: ['ocean','aurora','sunset','rainbow'], animations: ['pulse','glitch'], neon: ['neon'], special: ['fire','ice'] };
-  const nickPicker = document.getElementById('nickPicker');
-  const nickLiveName = document.getElementById('nickLiveName');
-  const nickLiveStyle = document.getElementById('nickLiveStyle');
-  const renderNickCat = (cat) => {
-    if (!nickPicker) return;
-    nickPicker.innerHTML = (nickCats[cat] || []).filter(k => NAMEFX[k]).map(k => {
-      const locked = k !== 'default' && !prem(me); const parts = NAMEFX[k][0].split(' · ');
-      return `<button type="button" class="nick-option ${me.name_color === k ? 'sel' : ''}" data-nc="${k}"><span class="nick-demo ${NAMEFX[k][1]}">${esc(nameOf(me))}</span><span class="nick-label">${esc(parts[0])}</span><span class="nick-type">${esc(parts[1] || 'Классический')}</span>${locked ? '<span class="nick-lock">🔒</span>' : '<span class="nick-check">✓</span>'}</button>`;
-    }).join('');
-    nickPicker.querySelectorAll('[data-nc]').forEach(b => {
-      const k = b.dataset.nc;
-      b.addEventListener('mouseenter', () => { if (!NAMEFX[k]) return; nickLiveName.className=NAMEFX[k][1]; nickLiveName.textContent=nameOf(me); nickLiveStyle.textContent=NAMEFX[k][0]; });
-      b.addEventListener('mouseleave', () => { const cur=me.name_color || 'default'; nickLiveName.className=nameCls(me); nickLiveName.textContent=nameOf(me); nickLiveStyle.textContent=(NAMEFX[cur] || NAMEFX.default)[0]; });
-      b.addEventListener('click', async () => {
-        if (k !== 'default' && !prem(me)) { toast('Этот эффект доступен с Premium', true); return; }
-        if (me.name_color === k) return;
-        b.classList.add('sel');
-        const ok = await saveMe({ name_color: k }, 'Эффект ника сохранён');
-        if (ok) renderSettings(); else b.classList.remove('sel');
-      });
-    });
-  };
-  document.querySelectorAll('[data-nickcat]').forEach(b => b.onclick = () => { document.querySelectorAll('[data-nickcat]').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderNickCat(b.dataset.nickcat); });
-  renderNickCat('colors');
+  /* ---------- студия ника ---------- */
+  const studioBox = document.getElementById('nameStudioGrid');
+  const studioPrev = document.getElementById('nameStudioPreview');
+  const studioSub = document.getElementById('nameStudioSub');
+  const studioEditor = document.getElementById('nameStudioEditor');
+  const studioTabs = document.getElementById('nameStudioTabs');
+  if (studioBox && studioPrev && studioEditor) {
+    let studioCat = 'color';
+    let custom = studioGet();
+    let selected = me.name_color === 'custom' && custom ? 'custom' : (Object.keys(NAME_STUDIO.presets).includes(me.name_color) ? me.name_color : 'rose');
+    const renderPreview=()=>{let o=selected==='custom'&&custom?custom:NAME_STUDIO.presets[selected]||NAME_STUDIO.presets.rose;studioPrev.innerHTML=studioHTML(nameOf(me),o);studioSub.textContent=(selected==='custom'?'Мой стиль · сохраняется в этом браузере':(o.title+' · '+o.desc));};
+    const renderGrid=()=>{studioBox.innerHTML=Object.entries(NAME_STUDIO.presets).filter(([k,o])=>o.cat===studioCat).map(([k,o])=>`<button type="button" class="nova-name-card ${selected===k?'sel':''}" data-studio="${k}"><span class="nova-name-check">✓</span><span class="demo">${studioHTML(nameOf(me),o)}</span><span class="title">${o.title}</span><span class="desc">${o.desc}</span></button>`).join('')};
+    const editor=()=>{const o=selected==='custom'&&custom?custom:NAME_STUDIO.presets[selected]; if(!o||!prem(me)){studioEditor.innerHTML='<div class="muted">Эти эффекты доступны с Premium.</div>';return;} const fonts=['system-ui','Comfortaa','Ruslan Display','Pacifico','Press Start 2P','Caveat','Playfair Display','Unbounded','Rubik Mono One','Marck Script','Russo One'];studioEditor.innerHTML=`<div class="row" style="justify-content:space-between"><b>Тонкая настройка</b><button type="button" class="btn ghost sm" id="studioCustom">Изменять свой стиль</button></div><div class="nova-editor-grid"><label class="nova-editor-field"><span>Шрифт</span><select class="nova-font-select" data-studio-k="font">${fonts.map(f=>`<option ${o.font===f?'selected':''}>${f}</option>`).join('')}</select></label><label class="nova-editor-field"><span>Жирность</span><select class="nova-font-select" data-studio-k="weight"><option value="400" ${+o.weight===400?'selected':''}>Обычный</option><option value="700" ${+o.weight===700?'selected':''}>Жирный</option><option value="800" ${+o.weight===800?'selected':''}>Очень жирный</option></select></label><label class="nova-editor-field"><span>Цвет 1</span><input class="nova-color" type="color" data-studio-k="c1" value="${o.c1}"></label><label class="nova-editor-field"><span>Цвет 2</span><input class="nova-color" type="color" data-studio-k="c2" value="${o.c2}"></label><label class="nova-editor-field"><span>Угол</span><input type="range" data-studio-k="angle" min="0" max="360" value="${o.angle||90}"></label><label class="nova-editor-field"><span>Скорость</span><input type="range" data-studio-k="speed" min="1" max="8" step=".5" value="${o.speed||3}"></label><label class="nova-editor-field"><span>Свечение</span><input type="range" data-studio-k="glow" min="0" max="12" value="${o.glow||0}"></label></div><div class="nova-editor-actions"><button type="button" class="btn" id="studioApply">${selected==='custom'?'Сохранить стиль':'Применить эффект'}</button><button type="button" class="btn ghost" id="studioReset">Сбросить</button></div>`; const applyVal=()=>{studioPrev.innerHTML=studioHTML(nameOf(me),o);studioSub.textContent='Предпросмотр в реальном времени'};studioEditor.querySelectorAll('[data-studio-k]').forEach(el=>el.oninput=el.onchange=async()=>{const k=el.dataset.studioK;o[k]=['weight','angle','speed','glow'].includes(k)?+el.value:el.value; if(selected!=='custom'){custom={...o};selected='custom';}applyVal();renderGrid();});document.getElementById('studioCustom').onclick=()=>{custom={...o};selected='custom';studioSave(custom);editor();renderGrid();renderPreview();};document.getElementById('studioApply').onclick=async()=>{if(selected==='custom'){studioSave(custom||o);if(await saveMe({name_color:'custom'},'Стиль ника сохранён')){getProfile(me.id,true);renderSettings();}}else{if(await saveMe({name_color:selected},'Эффект ника применён')){getProfile(me.id,true);renderSettings();}}};document.getElementById('studioReset').onclick=()=>{custom=null;localStorage.removeItem(NAME_STUDIO_KEY);selected='rose';renderGrid();renderPreview();editor();};};
+    studioTabs.onclick=(e)=>{const b=e.target.closest('[data-cat]');if(!b)return;studioCat=b.dataset.cat;studioTabs.querySelectorAll('.nova-name-tab').forEach(x=>x.classList.toggle('active',x===b));renderGrid();};
+    studioBox.onclick=(e)=>{const b=e.target.closest('[data-studio]');if(!b)return;selected=b.dataset.studio;renderGrid();renderPreview();editor();};
+    renderGrid();renderPreview();editor();
+  }
   $app.querySelectorAll('[data-bn],[data-fr],[data-nc],[data-sw]').forEach((b) => {
     b.onclick = async () => {
       const d = b.dataset; let patch;
