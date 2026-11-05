@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nova</title>
 <style>
-:root{--bg:#F3F5F9;--surface:#fff;--surface2:#EEF1F6;--line:#DDE2EC;--ink:#121A2D;--muted:#566077;--danger:#B42318;--gold:#B7791F;--glass:rgba(255,255,255,.6);--glass-line:rgba(255,255,255,.75);--shadow:0 8px 24px rgba(18,26,45,.14);--lt:0%;--accent:#0F766E;--on-accent:#fff;--accent-soft:rgba(15,118,110,.14);--accent-ink:#0F766E;--neon:var(--accent);--neon-glow:rgba(15,118,110,.5)}
+:root{--bg:#F3F5F9;--surface:#fff;--surface2:#EEF1F6;--line:#DDE2EC;--ink:#121A2D;--muted:#566077;--danger:#B42318;--gold:#B7791F;--glass:rgba(255,255,255,.6);--glass-line:rgba(255,255,255,.75);--shadow:0 8px 24px rgba(18,26,45,.14);--lt:0%;--accent:#0F766E;--on-accent:#fff;--accent-soft:color-mix(in srgb,var(--accent) 16%,var(--surface));--accent-ink:color-mix(in srgb,var(--accent),var(--ink) 35%);--neon:var(--accent-ink);--neon-glow:color-mix(in srgb,var(--accent) 50%,transparent)}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 button,input,textarea{font:inherit;color:inherit}
@@ -43,11 +43,10 @@ textarea.in{resize:vertical;min-height:80px}
 .auth .card{width:100%;max-width:400px;padding:32px;display:flex;flex-direction:column;gap:16px;border-radius:20px}
 .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
 .logo i{width:40px;height:40px;border-radius:12px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-style:normal}
-nav{position:fixed;left:0;right:0;bottom:0;width:100%;height:calc(68px + env(safe-area-inset-bottom));padding:6px 12px env(safe-area-inset-bottom);pointer-events:none;z-index:1000;transform:translateZ(0)}
-nav div{pointer-events:auto;width:min(520px,100%);height:56px;display:flex;gap:4px;margin:0 auto;padding:4px;border-radius:20px;background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);overflow:hidden}
-nav button{flex:1 1 0;min-width:0;min-height:48px;height:48px;border:none;border-radius:16px;background:transparent;color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .18s,color .18s,transform .18s}
-nav button.on{flex:1 1 0;background:var(--accent-soft);color:var(--accent-ink)}
-nav button:active{transform:scale(.96)}
+nav{position:fixed;left:0;right:0;bottom:0;padding:0 12px calc(12px + env(safe-area-inset-bottom));pointer-events:none;z-index:20}
+nav div{pointer-events:auto;display:flex;gap:2px;max-width:420px;margin:0 auto;padding:5px;border-radius:28px;background:var(--glass);border:1px solid var(--glass-line);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6)}
+nav button{flex:1;min-height:48px;border:none;border-radius:22px;background:transparent;color:var(--muted);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;transition:flex .2s,background .2s}
+nav button.on{flex:2;background:var(--accent-soft);color:var(--accent-ink)}
 nav svg{width:24px;height:24px;flex:none}
 .chat{display:flex;flex-direction:column;height:100dvh;max-width:720px;margin:0 auto}
 .chat-head{padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);background:var(--surface)}
@@ -99,53 +98,6 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 #toast{position:fixed;left:0;right:0;bottom:84px;display:flex;justify-content:center;pointer-events:none;z-index:30;padding:0 16px}
 #toast span{background:rgba(15,23,42,.88);color:#fff;padding:10px 16px;border-radius:14px;font-weight:600;max-width:420px}
 #toast span.bad{background:rgba(180,35,24,.92)}
-
-@media (max-width:760px){
-  html,body{width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
-  #app{width:100%;height:100dvh;min-height:0}
-  .wrap{width:100%;max-width:none;height:100dvh;min-height:0;overflow-y:auto;overflow-x:hidden;padding:16px 12px calc(92px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
-  nav{height:calc(68px + env(safe-area-inset-bottom));padding:5px 10px env(safe-area-inset-bottom)}
-  nav div{height:58px;width:100%;max-width:560px;border-radius:21px;padding:4px}
-  nav button{height:50px;min-height:50px;border-radius:16px;font-size:11px}
-  nav svg{width:21px;height:21px}
-  .card{border-radius:14px}
-  .chat{height:100dvh;width:100%;max-width:none}
-}
-@supports not (height:100dvh){
-  #app{height:100vh}
-  .wrap{height:100vh}
-  .chat{height:100vh}
-}
-
-/* ===== NOVA BEAUTIFUL UI — visual only, logic untouched ===== */
-:root{--bg:#f5f7fb;--surface:rgba(255,255,255,.82);--surface2:#eef2f7;--line:rgba(31,41,55,.09);--shadow:0 14px 45px rgba(15,23,42,.09)}
-html,body{background:radial-gradient(circle at 10% 0%,rgba(15,118,110,.08),transparent 28%),radial-gradient(circle at 100% 20%,rgba(103,65,217,.07),transparent 30%),var(--bg)}
-body{letter-spacing:-.01em}
-.wrap{max-width:780px;padding-top:28px}
-.card{border-radius:22px;background:var(--surface);border:1px solid rgba(255,255,255,.72);box-shadow:0 10px 35px rgba(15,23,42,.06);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .2s,box-shadow .2s,border-color .2s}
-.card:hover{box-shadow:0 16px 45px rgba(15,23,42,.09)}
-.btn{border-radius:14px;box-shadow:0 7px 18px color-mix(in srgb,var(--accent),transparent 78%);transition:transform .16s,filter .16s,box-shadow .16s}
-.btn:hover{filter:brightness(1.04);transform:translateY(-1px)}
-.btn:active{transform:translateY(0) scale(.98)}
-.btn.ghost{background:rgba(255,255,255,.7);box-shadow:none}
-.in{border-radius:14px;background:rgba(255,255,255,.72);transition:border-color .18s,box-shadow .18s,background .18s}
-.in:focus{outline:none;border-color:color-mix(in srgb,var(--accent),transparent 45%);box-shadow:0 0 0 4px var(--accent-soft);background:#fff}
-h1{font-size:30px;letter-spacing:-.035em}
-h2{font-size:17px;letter-spacing:-.02em}
-.logo i{border-radius:14px;box-shadow:0 10px 25px color-mix(in srgb,var(--accent),transparent 72%)}
-nav{padding-bottom:max(6px,env(safe-area-inset-bottom));}
-nav div{background:rgba(255,255,255,.72);border-color:rgba(255,255,255,.85);box-shadow:0 16px 45px rgba(15,23,42,.14);border-radius:24px}
-nav button{border-radius:18px;transition:all .2s ease}
-nav button.on{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent),transparent 80%)}
-.item{padding:14px 16px;transition:background .18s,transform .18s}
-.item:hover{background:var(--accent-soft)}
-.ava{box-shadow:0 5px 18px rgba(15,23,42,.12)}
-.banner{border-radius:0 0 24px 24px}
-.lift .ava{box-shadow:0 8px 25px rgba(15,23,42,.18)}
-.tag{border-radius:999px}
-.pop{border-radius:16px;box-shadow:0 12px 30px rgba(15,23,42,.08)}
-@media (prefers-color-scheme:dark){:root{--bg:#0b1020;--surface:rgba(18,25,42,.82);--surface2:#111827;--line:rgba(255,255,255,.09);--ink:#f4f7fb;--muted:#9aa6bb;--glass:rgba(18,25,42,.76);--glass-line:rgba(255,255,255,.1);--shadow:0 14px 45px rgba(0,0,0,.28)}html,body{background:radial-gradient(circle at 10% 0%,rgba(15,118,110,.13),transparent 28%),radial-gradient(circle at 100% 20%,rgba(103,65,217,.12),transparent 30%),var(--bg)}.in,.btn.ghost{background:rgba(20,28,46,.8)}.in:focus{background:#151d30}.card{border-color:rgba(255,255,255,.07)}nav div{background:rgba(18,25,42,.78);border-color:rgba(255,255,255,.1)}}
-@media (max-width:760px){.wrap{padding-top:18px}.card{border-radius:18px}.wrap>.card:first-child{box-shadow:0 8px 28px rgba(15,23,42,.06)}nav div{border-radius:22px}.item{padding:13px 12px}}
 </style>
 </head>
 <body>
@@ -211,33 +163,12 @@ let theme = { m: 'auto', a: null };
 try { Object.assign(theme, JSON.parse(localStorage.getItem('nova_theme'))); } catch (e) {}
 const mq = matchMedia('(prefers-color-scheme:dark)');
 const lum = (h) => { const n = parseInt(h.slice(1), 16); const [r, g, b] = [n >> 16, (n >> 8) & 255, n & 255].map((v) => { v /= 255; return v <= .04 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * r + .7152 * g + .0722 * b; };
-function hexRgb(h){
-  const x=String(h||'').replace('#','');
-  const v=x.length===3?x.split('').map(c=>c+c).join(''):x;
-  const n=parseInt(v,16);
-  return {r:(n>>16)&255,g:(n>>8)&255,b:n&255};
-}
 function applyTheme() {
-  const k = theme.m === 'dark' || (theme.m === 'auto' && mq.matches) ? 'dark' : 'light';
-  const s = document.documentElement.style;
-  const a = /^#[0-9a-f]{6}$/i.test(theme.a||'') ? theme.a : PAL[k].a;
+  const k = theme.m === 'dark' || (theme.m === 'auto' && mq.matches) ? 'dark' : 'light', s = document.documentElement.style, a = theme.a || PAL[k].a;
   Object.keys(PAL[k]).forEach((n) => { if (n[0] === '-') s.setProperty(n, PAL[k][n]); });
-  const rgb=hexRgb(a);
-  s.setProperty('--accent', a);
-  s.setProperty('--accent-ink', a);
-  s.setProperty('--accent-soft', `rgba(${rgb.r},${rgb.g},${rgb.b},${k==='dark'?'.20':'.13'})`);
-  s.setProperty('--neon', a);
-  s.setProperty('--neon-glow', `rgba(${rgb.r},${rgb.g},${rgb.b},.48)`);
-  s.setProperty('--on-accent', lum(a) > .48 ? '#0B1220' : '#fff');
-  s.colorScheme = k;
+  s.setProperty('--accent', a); s.setProperty('--on-accent', lum(a) > .4 ? '#0B1220' : '#fff'); s.colorScheme = k;
 }
-function setTheme(p) {
-  if (p && p.a) p.a=String(p.a).toUpperCase();
-  Object.assign(theme, p||{});
-  try { localStorage.setItem('nova_theme', JSON.stringify(theme)); } catch (e) {}
-  applyTheme();
-}
-
+function setTheme(p) { Object.assign(theme, p); try { localStorage.setItem('nova_theme', JSON.stringify(theme)); } catch (e) {} applyTheme(); }
 mq.addEventListener('change', applyTheme); applyTheme();
 
 const CFG = window.NOVA || {};
@@ -684,19 +615,8 @@ function renderSettings() {
       if (await saveMe(patch, 'Сохранено')) renderSettings();
     };
   });
-  $app.querySelectorAll('[data-tm],[data-ta]').forEach((b) => {
-    b.onclick = () => {
-      if (b.dataset.tm) setTheme({ m: b.dataset.tm });
-      if (b.dataset.ta) setTheme({ a: b.dataset.ta });
-      renderSettings();
-      requestAnimationFrame(() => { const el=document.getElementById('tc'); if(el) el.value=theme.a || PAL.light.a; });
-    };
-  });
-  const tc=document.getElementById('tc');
-  if(tc){
-    tc.addEventListener('input',(e)=>{ setTheme({ a:e.target.value }); });
-    tc.addEventListener('change',()=>renderSettings());
-  }
+  $app.querySelectorAll('[data-tm],[data-ta]').forEach((b) => { b.onclick = () => { setTheme(b.dataset.tm ? { m: b.dataset.tm } : { a: b.dataset.ta }); renderSettings(); }; });
+  document.getElementById('tc').onchange = (e) => { setTheme({ a: e.target.value }); renderSettings(); };
   document.getElementById('tr').onclick = () => { setTheme({ m: 'auto', a: null }); renderSettings(); };
   document.getElementById('unb').onclick = async () => {
     const v = document.getElementById('un').value.trim().replace(/^@/, '');
