@@ -779,11 +779,19 @@ function renderSettings() {
     if (!nickPicker) return;
     nickPicker.innerHTML = (nickCats[cat] || []).filter(k => NAMEFX[k]).map(k => {
       const locked = k !== 'default' && !prem(me); const parts = NAMEFX[k][0].split(' · ');
-      return `<button class="nick-option ${me.name_color === k ? 'sel' : ''}" data-nc="${k}" ${locked ? 'disabled' : ''}><span class="nick-demo ${NAMEFX[k][1]}">${esc(nameOf(me))}</span><span class="nick-label">${esc(parts[0])}</span><span class="nick-type">${esc(parts[1] || 'Классический')}</span>${locked ? '<span class="nick-lock">◆</span>' : '<span class="nick-check">✓</span>'}</button>`;
+      return `<button type="button" class="nick-option ${me.name_color === k ? 'sel' : ''}" data-nc="${k}"><span class="nick-demo ${NAMEFX[k][1]}">${esc(nameOf(me))}</span><span class="nick-label">${esc(parts[0])}</span><span class="nick-type">${esc(parts[1] || 'Классический')}</span>${locked ? '<span class="nick-lock">🔒</span>' : '<span class="nick-check">✓</span>'}</button>`;
     }).join('');
     nickPicker.querySelectorAll('[data-nc]').forEach(b => {
-      b.addEventListener('mouseenter', () => { const k=b.dataset.nc; if (!NAMEFX[k]) return; nickLiveName.className=NAMEFX[k][1]; nickLiveName.textContent=nameOf(me); nickLiveStyle.textContent=NAMEFX[k][0]; });
-      b.addEventListener('mouseleave', () => { const k=me.name_color || 'default'; nickLiveName.className=nameCls(me); nickLiveName.textContent=nameOf(me); nickLiveStyle.textContent=(NAMEFX[k] || NAMEFX.default)[0]; });
+      const k = b.dataset.nc;
+      b.addEventListener('mouseenter', () => { if (!NAMEFX[k]) return; nickLiveName.className=NAMEFX[k][1]; nickLiveName.textContent=nameOf(me); nickLiveStyle.textContent=NAMEFX[k][0]; });
+      b.addEventListener('mouseleave', () => { const cur=me.name_color || 'default'; nickLiveName.className=nameCls(me); nickLiveName.textContent=nameOf(me); nickLiveStyle.textContent=(NAMEFX[cur] || NAMEFX.default)[0]; });
+      b.addEventListener('click', async () => {
+        if (k !== 'default' && !prem(me)) { toast('Этот эффект доступен с Premium', true); return; }
+        if (me.name_color === k) return;
+        b.classList.add('sel');
+        const ok = await saveMe({ name_color: k }, 'Эффект ника сохранён');
+        if (ok) renderSettings(); else b.classList.remove('sel');
+      });
     });
   };
   document.querySelectorAll('[data-nickcat]').forEach(b => b.onclick = () => { document.querySelectorAll('[data-nickcat]').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderNickCat(b.dataset.nickcat); });
