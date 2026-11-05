@@ -226,6 +226,136 @@ body{overflow:hidden;background:#eef1f6}
 
 .gift-render{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;border-radius:inherit}.gift-render.mini{position:relative;width:100%;height:100%}.gift-render>.nova-gift-svg{width:88%;height:88%;z-index:2;position:relative}.gift-pattern{position:absolute;inset:8%;z-index:4;pointer-events:none;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;color:rgba(255,255,255,.45)}.gift-pattern.neon{filter:drop-shadow(0 0 8px #26f7ff);color:#62fff2}.gift-pattern.neon i{position:absolute;width:90%;height:5px;border-radius:5px;background:#62fff2;transform:rotate(-18deg)}.gift-pattern.neon i:nth-child(2){transform:rotate(18deg);opacity:.65}.gift-pattern.neon i:nth-child(3){transform:rotate(3deg);opacity:.35}.gift-pattern.glitch i{position:absolute;width:75%;height:7px;background:#ff4fd8;transform:translateX(-20px)}.gift-pattern.glitch i:nth-child(2){transform:translateX(22px) translateY(30px);background:#42e9ff}.gift-pattern.glitch i:nth-child(3){transform:translateY(-28px);opacity:.5}.gift-pattern.pulse{font-size:46px;color:#8ffcff;filter:drop-shadow(0 0 7px #40eaff)}.gift-pattern.prism{color:#fff;filter:drop-shadow(0 0 8px #b7a5ff)}.gift-pattern.stars{font-size:32px;line-height:2;color:#fff;filter:drop-shadow(0 0 8px #fff)}.gift-model{position:absolute;z-index:5;pointer-events:none}.epic-mask,.legend-mask{inset:0}.epic-mask:before,.legend-mask:before{content:'';position:absolute;left:50%;top:24%;width:180px;height:22px;transform:translateX(-50%);border-radius:50%;background:rgba(255,255,255,.32);filter:blur(3px)}.epic-mask span,.legend-mask span{position:absolute;top:37%;width:28px;height:28px;border-radius:50%;border:5px solid #d9b8ff;box-shadow:0 0 14px #b76cff}.epic-mask span:first-child,.legend-mask span:first-child{left:32%}.epic-mask span:last-child,.legend-mask span:last-child{right:32%}.legend-mask span{border-color:#ffe07a;box-shadow:0 0 18px #ffd34d}.legend-mask:after{content:'◆';position:absolute;left:50%;top:16%;transform:translateX(-50%);font-size:24px;color:#ffe07a;text-shadow:0 0 14px #ffd34d}.rare-mask{inset:14%;border:5px solid #9ed5ff;border-radius:48% 48% 42% 42%;box-shadow:0 0 18px rgba(110,190,255,.6)}.legendary-generic,.epic-generic{left:50%;top:15%;transform:translateX(-50%);font-size:30px;color:#ffe07a;text-shadow:0 0 15px #ffd34d}.epic-generic{color:#d9b8ff;text-shadow:0 0 15px #b76cff}.nova-gift-svg.rarity-3{filter:drop-shadow(0 0 14px rgba(193,123,255,.35))}.nova-gift-svg.rarity-4{filter:drop-shadow(0 0 22px rgba(255,205,70,.45))}
 </style>
+
+<style id="nova-beautiful-ui">
+/* ===== NOVA BEAUTIFUL UI v1 ===== */
+:root{
+  --bg:#080a10 !important;
+  --surface:#0f121a !important;
+  --surface2:#171b26 !important;
+  --line:rgba(255,255,255,.075) !important;
+  --ink:#f4f6fb !important;
+  --muted:#8e97aa !important;
+  --danger:#ff667a !important;
+  --gold:#f4c86b !important;
+  --glass:rgba(15,18,26,.72) !important;
+  --glass-line:rgba(255,255,255,.09) !important;
+  --shadow:0 24px 70px rgba(0,0,0,.35) !important;
+  --accent:#7c5cff !important;
+  --accent-ink:#a994ff !important;
+  --accent-soft:rgba(124,92,255,.13) !important;
+  --on-accent:#fff !important;
+}
+html,body{background:#080a10!important;color:#f4f6fb!important}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;background:
+ radial-gradient(circle at 12% 0%,rgba(124,92,255,.16),transparent 30%),
+ radial-gradient(circle at 92% 8%,rgba(54,211,255,.10),transparent 25%),
+ #080a10!important}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.55),transparent 80%)}
+.nova-shell,.nova-chat-shell{background:transparent!important}
+.nova-sidebar{width:82px!important;background:rgba(10,12,18,.82)!important;border-right:1px solid rgba(255,255,255,.07)!important;box-shadow:16px 0 45px rgba(0,0,0,.18)!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:18px 11px!important}
+.nova-brand{margin-bottom:28px!important;color:#8f98ab!important;gap:5px!important}
+.nova-brand span{width:46px!important;height:46px!important;border-radius:15px!important;background:linear-gradient(145deg,#8b6cff,#6244e9)!important;box-shadow:0 10px 30px rgba(124,92,255,.34),inset 0 1px 0 rgba(255,255,255,.25)!important;font-size:23px!important}
+.nova-nav{gap:9px!important}
+.nova-nav button{height:58px!important;border-radius:16px!important;color:#737d92!important;transition:transform .18s,background .18s,color .18s,box-shadow .18s!important}
+.nova-nav button:hover{background:rgba(255,255,255,.045)!important;color:#e8ebf4!important;transform:translateY(-1px)}
+.nova-nav button.on{background:linear-gradient(145deg,rgba(124,92,255,.22),rgba(124,92,255,.08))!important;color:#b8a9ff!important;box-shadow:inset 0 0 0 1px rgba(124,92,255,.13),0 8px 25px rgba(0,0,0,.12)!important}
+.nova-nav button.on svg{filter:drop-shadow(0 0 8px rgba(151,125,255,.5))}
+.nova-user{padding:7px!important;border-radius:15px!important;background:rgba(255,255,255,.025)!important}
+.nova-main{background:transparent!important}
+.nova-top{height:72px!important;min-height:72px!important;padding:0 30px!important;background:rgba(8,10,16,.68)!important;border-bottom:1px solid rgba(255,255,255,.065)!important;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);position:relative;z-index:5}
+.nova-top:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(124,92,255,.35),transparent)}
+.nova-top-title{font-size:21px!important;letter-spacing:-.02em!important;color:#f7f8fc!important}
+.nova-circle{width:42px!important;height:42px!important;background:rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 8px 25px rgba(0,0,0,.18)!important}
+.nova-circle:hover{background:rgba(255,255,255,.09)!important;transform:translateY(-1px)}
+.nova-content{background:transparent!important}
+.nova-content>.wrap{max-width:1180px!important;padding:30px 34px 70px!important}
+.card{background:linear-gradient(145deg,rgba(20,24,34,.94),rgba(12,15,22,.94))!important;border:1px solid rgba(255,255,255,.075)!important;border-radius:20px!important;box-shadow:0 18px 60px rgba(0,0,0,.18)!important}
+.btn{background:linear-gradient(135deg,#866cff,#6446e8)!important;border:1px solid rgba(255,255,255,.10)!important;box-shadow:0 10px 28px rgba(100,70,232,.22)!important;border-radius:13px!important}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.ghost{background:rgba(255,255,255,.045)!important;color:#eef0f6!important;border-color:rgba(255,255,255,.09)!important;box-shadow:none!important}
+.in{background:rgba(255,255,255,.035)!important;border-color:rgba(255,255,255,.09)!important;color:#f4f6fb!important;border-radius:13px!important;outline:none!important}
+.in:focus{border-color:rgba(133,108,255,.7)!important;box-shadow:0 0 0 4px rgba(124,92,255,.12)!important}
+.muted{color:#8f98aa!important}
+.tag{background:rgba(124,92,255,.13)!important;color:#b7a8ff!important;border:1px solid rgba(124,92,255,.16)}
+.item{border-bottom-color:rgba(255,255,255,.055)!important}
+.item:hover{background:rgba(255,255,255,.035)!important}
+/* feed / generic cards */
+.nova-content .post,.nova-content .card{backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+/* chat */
+.nova-chat-list{background:rgba(10,12,18,.76)!important;border-right:1px solid rgba(255,255,255,.065)!important;backdrop-filter:blur(22px)}
+.nova-list-head,.nova-chat-head{background:rgba(12,15,22,.78)!important;border-color:rgba(255,255,255,.065)!important;backdrop-filter:blur(20px)}
+.nova-mini-convs .item{border-radius:14px!important}
+.nova-mini-convs .item:hover{background:rgba(255,255,255,.045)!important}
+.nova-chat-main{background:transparent!important}
+.nova-chat-main .msgs{background:radial-gradient(circle at 50% 20%,rgba(124,92,255,.035),transparent 40%)}
+.nova-chat-main .composer{background:rgba(10,12,18,.8)!important;border-color:rgba(255,255,255,.065)!important;backdrop-filter:blur(22px)}
+.b.me{background:linear-gradient(135deg,#7959f5,#5b40d8)!important;box-shadow:0 8px 24px rgba(91,64,216,.18)}
+.b.it{background:rgba(18,22,31,.9)!important;border:1px solid rgba(255,255,255,.07)!important}
+.nova-head-btn,.nova-attach{background:rgba(255,255,255,.045)!important;color:#dfe3eb!important;border:1px solid rgba(255,255,255,.07)!important}
+.nova-send{background:linear-gradient(135deg,#866cff,#6446e8)!important;box-shadow:0 8px 25px rgba(100,70,232,.25)}
+/* profile */
+.banner{filter:saturate(.92);border-radius:0!important}
+.nova-info{background:rgba(10,12,18,.82)!important;border-color:rgba(255,255,255,.065)!important}
+.nova-info-cover{background:#151a26!important}
+.nova-info-body .ava{border-color:#10131b!important}
+/* gifts */
+.nova-gift-page{gap:22px!important}
+.nova-gift-heading{padding:2px 2px 4px}
+.nova-gift-heading h1{font-size:30px!important;letter-spacing:-.035em!important}
+.nova-gift-heading .muted{margin-top:6px!important;max-width:720px}
+.nova-gift-grid{gap:15px!important}
+.nova-gift-card{background:linear-gradient(145deg,rgba(20,24,34,.96),rgba(11,14,21,.96))!important;border:1px solid rgba(255,255,255,.07)!important;border-radius:20px!important;padding:7px!important;box-shadow:0 16px 40px rgba(0,0,0,.18)!important}
+.nova-gift-card:hover{border-color:rgba(145,123,255,.45)!important;box-shadow:0 22px 55px rgba(0,0,0,.32),0 0 0 1px rgba(124,92,255,.10)!important}
+.nova-gift-card .nova-gift-thumb{height:230px!important;background:radial-gradient(circle at 50% 25%,rgba(139,111,255,.22),transparent 30%),linear-gradient(145deg,#171d2a,#0e121b)!important}
+.nova-gift-card .nova-gift-thumb:before{background:radial-gradient(circle at 25% 20%,rgba(255,255,255,.10),transparent 25%),radial-gradient(circle at 80% 12%,rgba(124,92,255,.12),transparent 25%),linear-gradient(135deg,rgba(255,255,255,.035),transparent 42%,rgba(0,0,0,.15))!important}
+.nova-gift-card .nova-gift-thumb:after{opacity:.10!important}
+.nova-gift-meta{padding:11px 7px 7px!important}
+.nova-gift-name{font-size:14px!important;color:#f1f3f8}
+.nova-gift-number{color:#747e91!important}
+.nova-gift-state{color:#a49aff!important}
+.nova-gift-owned-badge{background:rgba(124,92,255,.28)!important;border-color:rgba(255,255,255,.13)!important}
+/* gift modal */
+.nova-gift-modal{background:rgba(1,3,7,.76)!important;backdrop-filter:blur(16px)!important}
+.nova-gift-sheet{background:#090b10!important;border-color:rgba(255,255,255,.10)!important;border-radius:22px!important;box-shadow:0 35px 120px rgba(0,0,0,.65)!important}
+.nova-gift-art{background:radial-gradient(circle at 50% 28%,rgba(130,104,255,.22),transparent 32%),linear-gradient(145deg,#1a2030,#0d111a)!important}
+.nova-gift-art:before{background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.09),transparent 25%),radial-gradient(circle at 80% 15%,rgba(124,92,255,.13),transparent 25%)!important}
+.nova-gift-close,.nova-gift-share{background:rgba(255,255,255,.075)!important;border-color:rgba(255,255,255,.10)!important}
+.nova-gift-close:hover,.nova-gift-share:hover{background:rgba(255,255,255,.13)!important}
+.nova-gift-details{background:#080a0e!important}
+.nova-gift-table{border-color:rgba(255,255,255,.08)!important;background:#080a0e!important}
+.nova-gift-row{border-color:rgba(255,255,255,.065)!important}
+.nova-gift-label{background:#13161d!important;border-color:rgba(255,255,255,.065)!important}
+.nova-gift-value{color:#dce1ea!important}
+.nova-gift-rate{background:rgba(124,92,255,.20)!important;color:#c7bcff!important;border:1px solid rgba(124,92,255,.16)}
+/* upgrade */
+.nova-upgrade-overlay{background:rgba(0,0,0,.78)!important;backdrop-filter:blur(16px)!important}
+.nova-upgrade-box{background:linear-gradient(145deg,#11151e,#090b10)!important;border-color:rgba(255,255,255,.09)!important;box-shadow:0 35px 120px rgba(0,0,0,.68)!important}
+.nova-upgrade-art{background:radial-gradient(circle at 50% 30%,rgba(124,92,255,.20),transparent 35%),linear-gradient(145deg,#1b2130,#0d1118)!important}
+.nova-roll-cell{background:#13161d!important;border-color:rgba(255,255,255,.075)!important}
+.nova-roll-cell.done{border-color:rgba(124,92,255,.35)!important;background:rgba(124,92,255,.09)!important}
+/* scrollbars */
+*{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.14) transparent}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px}
+*::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.20)}
+/* auth */
+.auth{background:transparent!important}
+.auth .card{background:linear-gradient(145deg,rgba(18,22,31,.97),rgba(9,12,18,.97))!important;box-shadow:0 30px 100px rgba(0,0,0,.45)!important}
+.logo i{background:linear-gradient(145deg,#8b6cff,#6244e9)!important;box-shadow:0 10px 30px rgba(124,92,255,.30)}
+/* mobile */
+@media(max-width:760px){
+  .nova-sidebar{height:70px!important;background:rgba(9,11,17,.90)!important;border-top:1px solid rgba(255,255,255,.08)!important;box-shadow:0 -14px 40px rgba(0,0,0,.30)!important}
+  .nova-main{height:calc(100dvh - 70px)!important}
+  .nova-top{height:62px!important;min-height:62px!important;padding:0 15px!important}
+  .nova-content>.wrap{padding:18px 13px 92px!important}
+  .nova-nav button{height:58px!important}
+  .nova-gift-card .nova-gift-thumb{height:185px!important}
+  .nova-gift-heading h1{font-size:26px!important}
+}
+</style>
+
 </head>
 <body>
 <div id="app"></div>
