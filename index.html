@@ -225,6 +225,33 @@ body{overflow:hidden;background:#eef1f6}
 
 
 .gift-render{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;border-radius:inherit}.gift-render.mini{position:relative;width:100%;height:100%}.gift-render>.nova-gift-svg{width:88%;height:88%;z-index:2;position:relative}.gift-pattern{position:absolute;inset:8%;z-index:4;pointer-events:none;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;color:rgba(255,255,255,.45)}.gift-pattern.neon{filter:drop-shadow(0 0 8px #26f7ff);color:#62fff2}.gift-pattern.neon i{position:absolute;width:90%;height:5px;border-radius:5px;background:#62fff2;transform:rotate(-18deg)}.gift-pattern.neon i:nth-child(2){transform:rotate(18deg);opacity:.65}.gift-pattern.neon i:nth-child(3){transform:rotate(3deg);opacity:.35}.gift-pattern.glitch i{position:absolute;width:75%;height:7px;background:#ff4fd8;transform:translateX(-20px)}.gift-pattern.glitch i:nth-child(2){transform:translateX(22px) translateY(30px);background:#42e9ff}.gift-pattern.glitch i:nth-child(3){transform:translateY(-28px);opacity:.5}.gift-pattern.pulse{font-size:46px;color:#8ffcff;filter:drop-shadow(0 0 7px #40eaff)}.gift-pattern.prism{color:#fff;filter:drop-shadow(0 0 8px #b7a5ff)}.gift-pattern.stars{font-size:32px;line-height:2;color:#fff;filter:drop-shadow(0 0 8px #fff)}.gift-model{position:absolute;z-index:5;pointer-events:none}.epic-mask,.legend-mask{inset:0}.epic-mask:before,.legend-mask:before{content:'';position:absolute;left:50%;top:24%;width:180px;height:22px;transform:translateX(-50%);border-radius:50%;background:rgba(255,255,255,.32);filter:blur(3px)}.epic-mask span,.legend-mask span{position:absolute;top:37%;width:28px;height:28px;border-radius:50%;border:5px solid #d9b8ff;box-shadow:0 0 14px #b76cff}.epic-mask span:first-child,.legend-mask span:first-child{left:32%}.epic-mask span:last-child,.legend-mask span:last-child{right:32%}.legend-mask span{border-color:#ffe07a;box-shadow:0 0 18px #ffd34d}.legend-mask:after{content:'◆';position:absolute;left:50%;top:16%;transform:translateX(-50%);font-size:24px;color:#ffe07a;text-shadow:0 0 14px #ffd34d}.rare-mask{inset:14%;border:5px solid #9ed5ff;border-radius:48% 48% 42% 42%;box-shadow:0 0 18px rgba(110,190,255,.6)}.legendary-generic,.epic-generic{left:50%;top:15%;transform:translateX(-50%);font-size:30px;color:#ffe07a;text-shadow:0 0 15px #ffd34d}.epic-generic{color:#d9b8ff;text-shadow:0 0 15px #b76cff}.nova-gift-svg.rarity-3{filter:drop-shadow(0 0 14px rgba(193,123,255,.35))}.nova-gift-svg.rarity-4{filter:drop-shadow(0 0 22px rgba(255,205,70,.45))}
+
+/* ===== NOVA ACCENT THEMING ===== */
+:root{
+  --nova-accent:var(--accent,#7C3AED);
+  --nova-accent-2:color-mix(in srgb,var(--nova-accent) 72%,#ffffff);
+  --nova-accent-soft:color-mix(in srgb,var(--nova-accent) 18%,transparent);
+  --nova-accent-faint:color-mix(in srgb,var(--nova-accent) 8%,transparent);
+  --nova-accent-border:color-mix(in srgb,var(--nova-accent) 32%,transparent);
+  --nova-accent-glow:color-mix(in srgb,var(--nova-accent) 35%,transparent);
+}
+.nova-nav button.on{background:linear-gradient(145deg,var(--nova-accent-soft),var(--nova-accent-faint))!important;color:var(--nova-accent-2)!important;box-shadow:inset 0 0 0 1px var(--nova-accent-border),0 8px 25px rgba(0,0,0,.12)!important}
+.nova-nav button.on svg{filter:drop-shadow(0 0 8px var(--nova-accent-glow))}
+.btn{background:linear-gradient(135deg,var(--nova-accent-2),var(--nova-accent))!important;box-shadow:0 10px 28px var(--nova-accent-glow)!important}
+.btn.ghost{background:rgba(255,255,255,.045)!important;color:#eef0f6!important}
+.in:focus{border-color:var(--nova-accent)!important;box-shadow:0 0 0 4px var(--nova-accent-faint)!important}
+.tag{background:var(--nova-accent-soft)!important;color:var(--nova-accent-2)!important;border-color:var(--nova-accent-border)!important}
+.b.me{background:linear-gradient(135deg,var(--nova-accent-2),var(--nova-accent))!important;box-shadow:0 8px 24px var(--nova-accent-glow)!important}
+.nova-send{background:linear-gradient(135deg,var(--nova-accent-2),var(--nova-accent))!important;box-shadow:0 8px 25px var(--nova-accent-glow)!important}
+.nova-top:after{background:linear-gradient(90deg,transparent,var(--nova-accent-border),transparent)!important}
+.nova-gift-page,.nova-gift-modal,.nova-upgrade-overlay{display:none!important}
+/* Settings color palette */
+.nova-color-palette{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:9px}
+.nova-color{height:42px;border-radius:13px;border:2px solid transparent;padding:0;position:relative;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 6px 16px rgba(0,0,0,.18);transition:.16s transform,.16s box-shadow,.16s border-color}
+.nova-color:hover{transform:translateY(-2px)}
+.nova-color.active{border-color:#fff;box-shadow:0 0 0 2px var(--nova-accent),0 8px 20px rgba(0,0,0,.22)}
+.nova-color.active:after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-weight:900;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+@media(max-width:760px){.nova-color-palette{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 
 <style id="nova-beautiful-ui">
@@ -583,7 +610,7 @@ const IC = {
   gifts: '<path d="M20 12v9H4v-9"/><path d="M2 8h20v4H2z"/><path d="M12 8v13"/><path d="M12 8H8.5A2.5 2.5 0 1 1 11 5.5L12 8z"/><path d="M12 8h3.5A2.5 2.5 0 1 0 13 5.5L12 8z"/>'
 };
 const icon = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
-const TABS = [['feed', 'Лента'], ['chats', 'Чаты'], ['gifts', 'Подарки'], ['market', 'Маркет'], ['profile', 'Профиль']];
+const TABS = [['feed', 'Лента'], ['chats', 'Чаты'], ['market', 'Маркет'], ['profile', 'Профиль']];
 function go(t, arg) {
   if (t === 'user' && arg && arg.id === me.id) t = 'profile';
   if (['feed', 'chats', 'market', 'profile'].indexOf(t) !== -1) back = t;
@@ -598,14 +625,13 @@ function go(t, arg) {
       <div class="nova-nav">${TABS.map((x) => `<button data-t="${x[0]}" class="${x[0] === cur ? 'on' : ''}">${icon(x[0])}<span>${x[1]}</span></button>`).join('')}</div>
       <div class="nova-user" data-me="1">${av(me,40)}<div class="grow ell"><b>${esc(nameOf(me))}</b><small>@${esc(me.username)}</small></div></div>
     </aside>
-    <main class="nova-main"><div class="nova-top"><div class="nova-top-title">${cur === 'feed' ? 'Лента' : cur === 'chats' ? 'Чаты' : cur === 'gifts' ? 'Подарки' : cur === 'market' ? 'Маркет' : 'Профиль'}</div><div class="nova-top-actions"><button class="nova-circle" id="top-profile">${av(me,32)}</button></div></div><div class="nova-content"><div class="wrap" id="view"></div></div></main>
+    <main class="nova-main"><div class="nova-top"><div class="nova-top-title">${cur === 'feed' ? 'Лента' : cur === 'chats' ? 'Чаты' : cur === 'market' ? 'Маркет' : 'Профиль'}</div><div class="nova-top-actions"><button class="nova-circle" id="top-profile">${av(me,32)}</button></div></div><div class="nova-content"><div class="wrap" id="view"></div></div></main>
   </div>`;
   $app.querySelectorAll('.nova-nav button').forEach((b) => { b.onclick = () => go(b.dataset.t); });
   const mp = document.getElementById('top-profile'); if (mp) mp.onclick = () => go('profile');
   const mu = $app.querySelector('.nova-user'); if (mu) mu.onclick = () => go('profile');
   if (t === 'feed') loadFeed();
   else if (t === 'chats') loadChats();
-  else if (t === 'gifts') renderGifts();
   else if (t === 'market') renderMarket();
   else if (t === 'profile') renderProfile(me, true);
   else if (t === 'user') renderProfile(arg, false);
@@ -804,10 +830,10 @@ function renderProfile(p, isMe) {
       ${u.bio ? `<div class="post-body" style="margin:0">${esc(u.bio)}</div>` : ''}
       ${showGr ? `<div class="muted">Баланс: <b>${Number(u.gr).toLocaleString('ru-RU')} GR</b>${isMe && !u.gr_public ? ' · скрыт от других' : ''}</div>` : ''}
     </div></div></div>
-  ${u.music_url ? player(u) : ''}<div id="pgifts" class="col" style="gap:16px"></div><div id="pas" class="col" style="gap:16px"></div><div id="ptl" class="col" style="gap:16px"></div>`;
+  ${u.music_url ? player(u) : ''}<div id="pas" class="col" style="gap:16px"></div><div id="ptl" class="col" style="gap:16px"></div>`;
   if (isMe) document.getElementById('st').onclick = () => go('settings');
   else { document.getElementById('dm').onclick = () => go('chat', u); document.getElementById('bk').onclick = () => go(back); }
-  loadUserGifts(u); loadUserPosts(u); loadUserAssets(u);
+  loadUserPosts(u); loadUserAssets(u);
 }
 async function loadUserPosts(u) {
   const { data } = await sb.from('posts').select('id,body,image_url,created_at').eq('author', u.id).order('created_at', { ascending: false }).limit(20);
@@ -847,11 +873,13 @@ function renderSettings() {
     <div class="opts">${Object.keys(FRAMES).map((k) => `<button class="opt ${(me.frame || 'none') === k ? 'sel' : ''}" data-fr="${k}" ${lock(FRAMES[k][1]) ? 'disabled' : ''}><span class="ava ${k === 'none' ? '' : 'fr-' + k}" style="background:${colorOf(me.username)}">${esc(me.username[0].toUpperCase())}</span>${FRAMES[k][0]}</button>`).join('')}</div></div>
   <div class="card col"><h2>Цвет и эффекты имени <span class="muted">· Premium</span></h2>
     <div class="opts">${Object.keys(NAMEFX).map((k) => `<button class="opt ${me.name_color === k ? 'sel' : ''}" data-nc="${k}" ${k !== 'default' && !prem(me) ? 'disabled' : ''}><b class="${NAMEFX[k][1]}" style="font-size:17px">Аа</b>${NAMEFX[k][0]}</button>`).join('')}</div></div>
-  <div class="card col"><h2>Оформление</h2>
-    <div class="opts">${[['auto', 'Как в системе'], ['light', 'Светлая'], ['dark', 'Тёмная']].map(([k, t]) => `<button class="opt ${theme.m === k ? 'sel' : ''}" data-tm="${k}">${t}</button>`).join('')}</div>
-    <div class="muted">Цвет акцента</div>
-    <div class="row wrapr" style="gap:8px">${ACCS.map((c) => `<button class="opt sq ${theme.a === c ? 'sel' : ''}" data-ta="${c}" style="background:${c}" aria-label="Цвет ${c}"></button>`).join('')}<label class="row muted" style="gap:6px">Свой <input type="color" id="tc" value="${theme.a || PAL.light.a}"></label><button class="btn ghost sm" id="tr">Сбросить</button></div>
-    <div class="muted">Оформление хранится в этом браузере.</div></div>
+  <div class="card col"><h2>Цвет интерфейса</h2>
+    <div class="muted">Выбери основной цвет Nova. Он меняет кнопки, активные разделы, выделения и элементы чата.</div>
+    <div class="nova-color-palette">${ACCS.map((c) => `<button class="nova-color ${theme.a === c ? 'active' : ''}" data-ta="${c}" style="background:${c}" aria-label="Выбрать цвет ${c}"></button>`).join('')}</div>
+    <div class="row wrapr" style="gap:10px;align-items:center"><label class="btn ghost sm" style="position:relative;overflow:hidden">Свой цвет <input type="color" id="tc" value="${theme.a || PAL.light.a}" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer"></label><button class="btn ghost sm" id="tr">Сбросить</button></div>
+    <div class="muted">Цвет сохраняется в браузере и применяется сразу.</div></div>
+  <div class="card col"><h2>Режим интерфейса</h2>
+    <div class="opts">${[['auto', 'Как в системе'], ['light', 'Светлая'], ['dark', 'Тёмная']].map(([k, t]) => `<button class="opt ${theme.m === k ? 'sel' : ''}" data-tm="${k}">${t}</button>`).join('')}</div></div>
   <div class="card"><h2>Приватность</h2>
     <div class="sw" style="margin-top:8px"><div><div><b>Показывать, что я в сети</b></div><div class="muted">Если выключить, другие увидят «был(а) недавно»</div></div><button data-sw="hide_online" data-inv="1" class="${me.hide_online ? '' : 'on'}" aria-label="Показывать, что я в сети"></button></div>
     <div class="sw"><div><div><b>Показывать баланс GR всем</b></div><div class="muted">Если выключить, баланс виден только вам</div></div><button data-sw="gr_public" class="${me.gr_public ? 'on' : ''}" aria-label="Показывать баланс GR"></button></div></div>
