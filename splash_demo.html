@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nova · варианты экрана запуска</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Rubik:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#070709;color:#F7F7F7;font-family:Rubik,sans-serif;padding:28px 18px 60px}
+  h1{font-family:Unbounded,sans-serif;font-size:22px;letter-spacing:.02em;margin-bottom:6px}
+  body > p{color:#8A8F98;font-size:14px;max-width:640px;margin-bottom:26px}
+  .grid{display:flex;flex-wrap:wrap;gap:22px}
+  .cell{width:300px}
+  .cell h2{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:#4AA8FF;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+  .stage{position:relative;height:520px;border-radius:22px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,#101014,#070709 70%);border:1px solid rgba(255,255,255,.07);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  /* общая надпись */
+  .name{position:absolute;left:0;right:0;bottom:64px;text-align:center;font-family:Unbounded,sans-serif;font-weight:800;font-size:26px;letter-spacing:.34em;text-indent:.34em;color:#F7F7F7}
+  .sub{position:absolute;left:0;right:0;bottom:40px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:#5B8FC7}
+  .mark{position:absolute;top:34%;left:50%;translate:-50% -50%;font-family:Unbounded,sans-serif;font-weight:800;font-size:64px;color:#F7F7F7}
+
+  /* 1. Пульс-ядро */
+  .v1 .core{position:absolute;top:30%;left:50%;translate:-50% -50%;width:54px;height:54px;border-radius:50%;background:#4AA8FF;box-shadow:0 0 22px 5px rgba(74,168,255,.55),0 0 60px 14px rgba(74,168,255,.2);animation:v1pulse 2.6s ease-in-out infinite}
+  .v1 .ring{position:absolute;top:30%;left:50%;translate:-50% -50%;width:54px;height:54px;border-radius:50%;border:2px solid rgba(74,168,255,.75);animation:v1ring 2.6s ease-out infinite}
+  .v1 .ring:nth-of-type(1){animation-delay:.85s}
+  .v1 .ring:nth-of-type(2){animation-delay:1.7s}
+  @keyframes v1pulse{0%,100%{transform:scale(.92)}50%{transform:scale(1.06)}}
+  @keyframes v1ring{0%{transform:scale(1);opacity:.85}100%{transform:scale(3.4);opacity:0}}
+
+  /* 2. Меркурий-капли */
+  .v2 i{position:absolute;display:block;border-radius:50%;filter:blur(1px)}
+  .v2 b{position:absolute;top:30%;left:50%;translate:-50% -50%;font-family:Unbounded,sans-serif;font-weight:800;font-size:40px;background:linear-gradient(135deg,#7EC8FF,#22D3EE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .blob1{width:64px;height:64px;background:#183B66;top:calc(30% - 6px);left:calc(50% - 42px);animation:b1 4.2s ease-in-out infinite}
+  .blob2{width:44px;height:44px;background:#22D3EE;top:calc(30% + 26px);left:calc(50% + 14px);opacity:.8;animation:b2 4.2s ease-in-out infinite}
+  .blob3{width:26px;height:26px;background:#7EC8FF;top:calc(30% - 44px);left:calc(50% + 34px);opacity:.65;animation:b3 4.2s ease-in-out infinite}
+  .blob4{width:18px;height:18px;background:#2D6FA8;top:calc(30% - 20px);left:calc(50% - 74px);opacity:.6;animation:b4 4.2s ease-in-out infinite}
+  @keyframes b1{0%,100%{transform:translate(0,0) scale(1);border-radius:50%}40%{transform:translate(6px,-10px) scale(1.08);border-radius:46% 54% 52% 48%}70%{transform:translate(-4px,6px) scale(.97);border-radius:54% 46% 48% 52%}}
+  @keyframes b2{0%,100%{transform:translate(0,0) scale(1)}35%{transform:translate(-8px,-14px) scale(.92)}70%{transform:translate(5px,8px) scale(1.06)}}
+  @keyframes b3{0%,100%{transform:translate(0,0)}50%{transform:translate(-16px,18px)}}
+  @keyframes b4{0%,100%{transform:translate(0,0)}60%{transform:translate(18px,-14px)}}
+
+  /* 3. Буквы-сборка */
+  .v3 .mark span{display:inline-block;opacity:0;animation:v3in 3.6s ease forwards;text-shadow:0 0 18px rgba(74,168,255,.4)}
+  .v3 .mark span:nth-child(1){animation-delay:.15s}
+  .v3 .mark span:nth-child(2){animation-delay:.5s}
+  .v3 .mark span:nth-child(3){animation-delay:.85s}
+  .v3 .mark span:nth-child(4){animation-delay:1.2s}
+  .v3 .dotline{position:absolute;top:calc(30% + 52px);left:50%;translate:-50% 0;width:130px;height:2px;background:linear-gradient(90deg,transparent,#4AA8FF,transparent);animation:v3line 3.6s ease forwards;opacity:0}
+  @keyframes v3in{0%{opacity:0;transform:translateY(16px) scale(.8);filter:blur(8px)}30%{opacity:1;transform:none;filter:blur(0)}85%{opacity:1}100%{opacity:.25}}
+  @keyframes v3line{0%,14%{opacity:0;width:0}38%{opacity:1}80%{opacity:1;width:130px}100%{opacity:.2;width:130px}}
+
+  /* 4. Орбита */
+  .v4 .orbit{position:absolute;top:30%;left:50%;translate:-50% -50%;width:150px;height:150px;border-radius:50%;border:1px solid rgba(255,255,255,.09);animation:v4spin 6s linear infinite}
+  .v4 .orbit::before{content:'';position:absolute;top:-4px;left:calc(50% - 4px);width:8px;height:8px;border-radius:50%;background:#22D3EE;box-shadow:0 0 10px 2px rgba(34,211,238,.7)}
+  .v4 .orbit.o2{width:104px;height:104px;animation-duration:3.4s;animation-direction:reverse}
+  .v4 .orbit.o2::before{background:#4AA8FF;box-shadow:0 0 10px 2px rgba(74,168,255,.7)}
+  .v4 .orbit.o3{width:196px;height:196px;animation-duration:9s}
+  .v4 .orbit.o3::before{width:5px;height:5px;background:#F7F7F7;box-shadow:0 0 8px 1px rgba(247,247,247,.6)}
+  @keyframes v4spin{to{rotate:360deg}}
+
+  /* 5. Электрическая дуга */
+  .v5 .mark{background:linear-gradient(90deg,#4AA8FF 40%,#EAF6FF 50%,#4AA8FF 60%);background-size:280% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:v5sweep 2.8s linear infinite;filter:drop-shadow(0 0 14px rgba(74,168,255,.45))}
+  .v5 .arc{position:absolute;top:calc(30% - 78px);left:50%;translate:-50% 0;width:150px;height:2px;background:linear-gradient(90deg,transparent,#22D3EE 30%,#fff 50%,#22D3EE 70%,transparent);animation:v5flick 2.8s linear infinite;opacity:.9}
+  .v5 .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(74,168,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(74,168,255,.05) 1px,transparent 1px);background-size:34px 34px}
+  @keyframes v5sweep{0%{background-position:150% 0}100%{background-position:-150% 0}}
+  @keyframes v5flick{0%,88%,100%{opacity:0;transform:scaleX(.2)}90%{opacity:1;transform:scaleX(1)}94%{opacity:.4}96%{opacity:1}}
+
+  /* 6. Мобильный: полоса загрузки */
+  .v6 .bar{position:absolute;top:calc(30% + 58px);left:50%;translate:-50% 0;width:140px;height:3px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}
+  .v6 .bar i{display:block;height:100%;width:40%;border-radius:99px;background:linear-gradient(90deg,#4AA8FF,#22D3EE);animation:v6load 2.2s ease-in-out infinite}
+  .v6 .pct{position:absolute;top:calc(30% + 76px);left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#5B8FC7;letter-spacing:.2em}
+  @keyframes v6load{0%{margin-left:-40%}100%{margin-left:100%}}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none !important}}
+</style>
+</head>
+<body>
+<h1>Nova · Экран запуска</h1>
+<p>Шесть направлений в фирменных цветах. Каждый блок — зацикленная демонстрация: вживую это будет 1,5–2 секунды при запуске браузера или при холодном старте приложения.</p>
+<div class="grid">
+
+  <div class="cell v1"><h2>01 · Пульс-ядро</h2><div class="stage">
+    <div class="core"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    <div class="name">NOVA</div><div class="sub">SECURE MESSENGER</div>
+  </div></div>
+
+  <div class="cell v2"><h2>02 · Меркурий</h2><div class="stage">
+    <i class="blob1"></i><i class="blob2"></i><i class="blob3"></i><i class="blob4"></i>
+    <b>N</b>
+    <div class="name">NOVA</div><div class="sub">FLUID · ALIVE</div>
+  </div></div>
+
+  <div class="cell v3"><h2>03 · Буквы-сборка</h2><div class="stage">
+    <div class="mark"><span>N</span><span>O</span><span>V</span><span>A</span></div>
+    <div class="dotline"></div>
+    <div class="name" style="opacity:0"></div><div class="sub">WELCOME BACK</div>
+  </div></div>
+
+  <div class="cell v4"><h2>04 · Орбита</h2><div class="stage">
+    <div class="mark" style="font-size:44px">N</div>
+    <div class="orbit o2"></div><div class="orbit o1"></div><div class="orbit o3"></div>
+    <div class="name">NOVA</div><div class="sub">LOADING ORBIT</div>
+  </div></div>
+
+  <div class="cell v5"><h2>05 · Электрик-дуга</h2><div class="stage">
+    <div class="grid"></div><div class="arc"></div>
+    <div class="mark">NOVA</div>
+    <div class="name" style="opacity:0"></div><div class="sub">SIGNAL ESTABLISHED</div>
+  </div></div>
+
+  <div class="cell v6"><h2>06 · Мобильный + прогресс</h2><div class="stage">
+    <div class="mark" style="font-size:50px">N</div>
+    <div class="bar"><i></i></div><div class="pct">ЗАГРУЗКА…</div>
+    <div style="position:absolute;top:calc(30% + 120px);left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3D4A5C;letter-spacing:.24em">PREVIEW · V 0.9</div>
+  </div></div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nova · сплэш второй генерации</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Rubik:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#050507;color:#F7F7F7;font-family:Rubik,sans-serif;padding:28px 18px 60px}
+  h1{font-family:Unbounded,sans-serif;font-size:22px;margin-bottom:6px}
+  body>p{color:#8A8F98;font-size:14px;max-width:660px;margin-bottom:26px}
+  .grid{display:flex;flex-wrap:wrap;gap:22px}
+  .cell{width:308px}
+  .cell h2{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:#4AA8FF;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+  .stage{position:relative;height:540px;border-radius:22px;overflow:hidden;background:radial-gradient(130% 110% at 50% -10%,#101016,#050507 72%);border:1px solid rgba(255,255,255,.07);box-shadow:0 24px 70px rgba(0,0,0,.55)}
+  .name{position:absolute;left:0;right:0;bottom:66px;text-align:center;font-family:Unbounded,sans-serif;font-weight:800;font-size:27px;letter-spacing:.34em;text-indent:.34em;color:#F7F7F7;z-index:5}
+  .sub{position:absolute;left:0;right:0;bottom:42px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:#5B8FC7;z-index:5}
+  canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .vig{position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(90% 70% at 50% 42%,transparent 55%,rgba(5,5,7,.75) 100%)}
+  .noise{position:absolute;inset:0;z-index:6;pointer-events:none;opacity:.05}
+
+  /* 1. Ядро + мульт-стройка */
+  .v1 .nmark{position:absolute;top:31%;left:50%;translate:-50% -50%;z-index:5;font-family:Unbounded,sans-serif;font-weight:800;font-size:58px;color:#F7F7F7;text-shadow:0 0 26px rgba(74,168,255,.55)}
+
+  /* 2. Меркурий-слияние */
+  .v2 #goo{position:absolute;inset:0;z-index:1}
+  .v2 .ndrop{position:absolute;top:28%;left:50%;translate:-50% -50%;z-index:2;font-family:Unbounded,sans-serif;font-weight:800;font-size:96px;color:#7EC8FF;opacity:.14;filter:blur(2px)}
+  @keyframes mb1{0%,100%{transform:translate(-46px,-6px) scale(1)}30%{transform:translate(-10px,-4px) scale(1.5)}60%{transform:translate(-34px,-14px) scale(.9)}}
+  @keyframes mb2{0%,100%{transform:translate(22px,26px) scale(.8)}35%{transform:translate(-8px,2px) scale(1.6)}70%{transform:translate(28px,20px) scale(.75)}}
+  @keyframes mb3{0%,100%{transform:translate(58px,-40px) scale(.6)}45%{transform:translate(2px,-2px) scale(1.35)}}
+  @keyframes mb4{0%,100%{transform:translate(-70px,-30px) scale(.5)}55%{transform:translate(-6px,-4px) scale(1.25)}}
+  .v2 .b{position:absolute;top:28%;left:50%;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%}
+  .v2 .b1{background:#16406E;animation:mb1 5s ease-in-out infinite}
+  .v2 .b2{background:#22D3EE;animation:mb2 5s ease-in-out infinite;opacity:.85}
+  .v2 .b3{background:#7EC8FF;animation:mb3 5s ease-in-out infinite;opacity:.6}
+  .v2 .b4{background:#3B82F6;animation:mb4 5s ease-in-out infinite;opacity:.7}
+
+  /* 3. Электрик + глитч */
+  .v3 .nmark{position:absolute;top:30%;left:50%;translate:-50% -50%;z-index:5;font-family:Unbounded,sans-serif;font-weight:800;font-size:64px;color:#EAF6FF;animation:glit 3.2s steps(1) infinite}
+  @keyframes glit{
+    0%,84%,100%{text-shadow:0 0 22px rgba(74,168,255,.5);transform:translate(calc(-50% + 0px),-50%)}
+    85%{text-shadow:-3px 0 0 rgba(236,72,153,.9),3px 0 0 rgba(34,211,238,.9),0 0 22px rgba(74,168,255,.6);transform:translate(calc(-50% + 2px),-50%)}
+    87%{text-shadow:3px 0 0 rgba(236,72,153,.9),-3px 0 0 rgba(34,211,238,.9);transform:translate(calc(-50% - 2px),calc(-50% + 2px))}
+    89%{text-shadow:0 0 22px rgba(74,168,255,.5);transform:translate(-50%,-50%)}
+    91%{text-shadow:-2px 0 0 rgba(34,211,238,.9),2px 0 0 rgba(236,72,153,.9)}
+  }
+  .v3 .scan{position:absolute;inset:0;z-index:3;background-image:repeating-linear-gradient(180deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px)}
+  .v3 .sweep{position:absolute;left:0;right:0;top:-8%;height:8%;z-index:3;background:linear-gradient(180deg,transparent,rgba(74,168,255,.14),transparent);animation:sweep 3.4s linear infinite}
+  @keyframes sweep{to{top:108%}}
+
+  /* 4. Сверхновая */
+  .v4 .nmark{position:absolute;top:31%;left:50%;translate:-50% -50%;z-index:5;font-family:Unbounded,sans-serif;font-weight:800;font-size:54px;color:#fff;text-shadow:0 0 34px rgba(148,197,255,.65);animation:revz 4.6s ease-in-out infinite}
+  @keyframes revz{0%,100%{transform:translate(-50%,-50%) scale(.6);opacity:.25}55%{transform:translate(-50%,-50%) scale(1);opacity:1}75%{transform:translate(-50%,-50%) scale(1.04)}}
+
+  /* 5. Жидкий градиент */
+  .v5 .blob{position:absolute;top:24%;left:50%;translate:-50% -50%;width:230px;height:230px;border-radius:50%;filter:blur(30px) saturate(1.25);opacity:.9;
+    background:conic-gradient(from 0deg,#4AA8FF,#22D3EE,#8B5CF6,#E0457B,#4AA8FF);animation:spinbg 9s linear infinite}
+  @keyframes spinbg{to{rotate:360deg}}
+  .v5 .sheen{position:absolute;inset:0;z-index:3;background:radial-gradient(60% 40% at 50% 30%,rgba(255,255,255,.08),transparent 70%)}
+  .v5 .name{animation:liquid 5s ease-in-out infinite}
+  @keyframes liquid{0%,100%{filter:url(#wob) blur(0)}50%{filter:url(#wob) blur(.4px)}}
+
+  /* 6. Голограмма */
+  .v6 .name{color:transparent;background:linear-gradient(100deg,#4AA8FF 20%,#BFEFFF 45%,#4AA8FF 60%,#22D3EE 90%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;animation:holo 3.6s linear infinite;text-shadow:none}
+  @keyframes holo{to{background-position:220% 0}}
+  .v6 .halo{position:absolute;top:30%;left:50%;translate:-50% -50%;width:190px;height:190px;border-radius:50%;z-index:1;
+    background:conic-gradient(from 90deg,transparent 0 40%,rgba(74,168,255,.5) 46%,rgba(224,240,255,.9) 50%,rgba(34,211,238,.5) 56%,transparent 62% 100%);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));
+    animation:spinbg 5.2s linear infinite}
+  .v6 .halo.h2{width:150px;height:150px;animation-duration:3.6s;animation-direction:reverse;filter:hue-rotate(40deg)}
+  .v6 .halo.h3{width:230px;height:230px;animation-duration:7.5s;opacity:.6}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none !important}}
+</style>
+</head>
+<body>
+<h1>Nova · сплэш второй генерации</h1>
+<p>Шесть кинематографичных вариантов в фирменном языке. Определяйся по номеру — встрою его в старт приложения с плавным растворением за 1.6 сек.</p>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="14" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 24 -12" result="g"/><feComposite in="SourceGraphic" in2="g" operator="atop"/></filter>
+    <filter id="wob"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.05" numOctaves="2" seed="7" result="n"><animate attributeName="baseFrequency" dur="9s" values="0.012 0.05;0.016 0.062;0.012 0.05" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter>
+  </defs>
+</svg>
+<div class="grid">
+
+  <div class="cell v1"><h2>07 · Ядро и свита</h2><div class="stage">
+    <canvas id="c1"></canvas><div class="vig"></div>
+    <div class="nmark">N</div>
+    <div class="name">NOVA</div><div class="sub">ELECTRIC CORE</div>
+  </div></div>
+
+  <div class="cell v2"><h2>08 · Меркурий: слияние в N</h2><div class="stage">
+    <div id="goo" style="filter:url(#goo)">
+      <i class="b b1"></i><i class="b b2"></i><i class="b b3"></i><i class="b b4"></i>
+    </div>
+    <div class="ndrop">N</div>
+    <div class="name">NOVA</div><div class="sub">FLUID MERCURY</div>
+  </div></div>
+
+  <div class="cell v3"><h2>09 · Электрик-глитч</h2><div class="stage">
+    <canvas id="c3"></canvas><div class="scan"></div><div class="sweep"></div><div class="vig"></div>
+    <div class="nmark">N</div>
+    <div class="name" style="bottom:70px">NOVA</div>
+  </div></div>
+
+  <div class="cell v4"><h2>10 · Сверхновая</h2><div class="stage">
+    <canvas id="c4"></canvas><div class="vig"></div>
+    <div class="nmark">NOVA</div>
+    <div class="sub">INTO ORBIT</div>
+  </div></div>
+
+  <div class="cell v5"><h2>11 · Жидкий градиент</h2><div class="stage">
+    <div class="blob"></div><div class="sheen"></div><div class="vig"></div>
+    <div style="position:absolute;top:29%;left:50%;translate:-50% -50%;z-index:5;font-family:Unbounded,sans-serif;font-weight:800;font-size:62px;color:#fff;mix-blend-mode:overlay">N</div>
+    <div class="name">NOVA</div><div class="sub">MOLTEN COLOR</div>
+  </div></div>
+
+  <div class="cell v6"><h2>12 · Голограмма-радуга</h2><div class="stage">
+    <canvas id="c6"></canvas><div class="vig"></div>
+    <div class="halo"></div><div class="halo h2"></div><div class="halo h3"></div>
+    <div style="position:absolute;top:29%;left:50%;translate:-50% -50%;z-index:5;font-family:Unbounded,sans-serif;font-weight:800;font-size:46px;color:#EAF6FF;text-shadow:0 0 18px rgba(74,168,255,.6)">N</div>
+    <div class="name">NOVA</div><div class="sub">AURORA SIGNAL</div>
+  </div></div>
+
+</div>
+<script>
+/* ---------- 07: ядро + рой частиц ---------- */
+(function(){
+  const cv = document.getElementById('c1');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+  const rs = () => { const r = cv.getBoundingClientRect(); W = cv.width = r.width * 2; H = cv.height = r.height * 2; };
+  rs(); addEventListener('resize', rs);
+  const P = [];
+  for (let i = 0; i < 110; i++) P.push({ r0: 60 + Math.random() * 240, a: Math.random() * Math.PI * 2, sp: (0.0016 + Math.random() * 0.003) * (Math.random() < .5 ? 1 : -1), bz: 12 + Math.random() * 60, hue: Math.random() });
+  function frame(){
+    if (!document.body || !document.body.contains(cv)) return;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W / 2, cy = H * 0.31;
+    t += 1;
+    const pul = 1 + Math.sin(t * 0.045) * 0.08;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 190 * pul);
+    g.addColorStop(0, 'rgba(74,168,255,.30)'); g.addColorStop(.4, 'rgba(74,168,255,.10)'); g.addColorStop(1, 'rgba(74,168,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(cx - 200, cy - 200, 400, 400);
+    for (const p of P) {
+      p.a += p.sp;
+      const rr = (p.r0 + Math.sin(t * 0.01 + p.bz) * p.bz * 0.35) * pul;
+      const x = cx + Math.cos(p.a) * rr * 1.15, y = cy + Math.sin(p.a) * rr * 0.62;
+      const s = 1.6 + p.hue * 2.6;
+      ctx.beginPath();
+      ctx.fillStyle = p.hue > .72 ? 'rgba(224,240,255,.9)' : p.hue > .38 ? 'rgba(74,168,255,.85)' : 'rgba(34,211,238,.8)';
+      ctx.arc(x, y, s, 0, 6.283); ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ---------- 09: молнии ---------- */
+(function(){
+  const cv = document.getElementById('c3');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  let W, H;
+  const rs = () => { const r = cv.getBoundingClientRect(); W = cv.width = r.width * 2; H = cv.height = r.height * 2; };
+  rs(); addEventListener('resize', rs);
+  let bolt = null, life = 0;
+  const mk = () => {
+    const cx = W / 2, cy = H * 0.30;
+    const pts = [[cx, cy]];
+    let a = Math.random() < .5 ? -1 : 1;
+    for (let i = 0; i < 7; i++) { a += (Math.random() - .5) * 0.9; pts.push([pts[i][0] + Math.cos(Math.random() * 6.28) * 60, pts[i][1] + 34 + Math.random() * 26]); }
+    bolt = { pts, branch: pts[3].slice() }; life = 8;
+  };
+  function frame(){
+    if (!document.body || !document.body.contains(cv)) return;
+    ctx.clearRect(0, 0, W, H);
+    if (life <= 0 && Math.random() < 0.018) mk();
+    if (life > 0 && bolt) {
+      life--;
+      const al = life / 8;
+      ctx.globalAlpha = al;
+      ctx.strokeStyle = 'rgba(190,225,255,.95)'; ctx.lineWidth = 2.4;
+      ctx.shadowColor = 'rgba(74,168,255,.9)'; ctx.shadowBlur = 18;
+      ctx.beginPath();
+      bolt.pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]));
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(74,168,255,.7)'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(bolt.branch[0], bolt.branch[1]);
+      ctx.lineTo(bolt.branch[0] + (Math.random() < .5 ? 46 : -46), bolt.branch[1] + 40); ctx.stroke();
+      ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+    } else if (Math.random() < 0.01) { ctx.globalAlpha = .5; ctx.fillStyle = '#101318'; }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ---------- 10: warp-звёзды ---------- */
+(function(){
+  const cv = document.getElementById('c4');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  let W, H;
+  const rs = () => { const r = cv.getBoundingClientRect(); W = cv.width = r.width * 2; H = cv.height = r.height * 2; };
+  rs(); addEventListener('resize', rs);
+  const S = [];
+  for (let i = 0; i < 150; i++) reset(i, true);
+  function reset(i, init){
+    S[i] = { x: (Math.random() - .5) * 1800, y: (Math.random() - .5) * 1800, z: init ? Math.random() * 1800 + 60 : 1800, c: Math.random() };
+  }
+  function frame(){
+    if (!document.body || !document.body.contains(cv)) return;
+    ctx.fillStyle = 'rgba(5,5,7,.42)'; ctx.fillRect(0, 0, W, H);
+    const cx = W / 2, cy = H * 0.31, f = 420;
+    for (let i = 0; i < S.length; i++){
+      const s = S[i]; s.z -= 7 + (s.c * 4);
+      if (s.z <= 6) reset(i);
+      const k = f / s.z, x = cx + s.x * k, y = cy + s.y * k * 0.72, r = Math.max(.4, 2.6 * k);
+      const x2 = cx + s.x * (f / (s.z + 60)), y2 = cy + s.y * 0.72 * (f / (s.z + 60));
+      ctx.strokeStyle = s.c > .8 ? 'rgba(224,240,255,.95)' : s.c > .45 ? 'rgba(148,197,255,.9)' : 'rgba(34,211,238,.85)';
+      ctx.lineWidth = r;
+      ctx.beginPath(); ctx.moveTo(x2, y2); ctx.lineTo(x, y); ctx.stroke();
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ---------- 12: пыль вокруг голограммы ---------- */
+(function(){
+  const cv = document.getElementById('c6');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  let W, H, t = 0;
+  const rs = () => { const r = cv.getBoundingClientRect(); W = cv.width = r.width * 2; H = cv.height = r.height * 2; };
+  rs(); addEventListener('resize', rs);
+  const D = [];
+  for (let i = 0; i < 70; i++) D.push({ a: Math.random() * 6.28, r: 150 + Math.random() * 210, sp: .002 + Math.random() * .004, c: Math.random() });
+  function frame(){
+    if (!document.body || !document.body.contains(cv)) return;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W / 2, cy = H * 0.30; t++;
+    for (const d of D){
+      d.a += d.sp;
+      const rr = d.r , y = cy + Math.sin(d.a) * rr * 0.8, x = cx + Math.cos(d.a) * rr;
+      const tw = .35 + .65 * Math.abs(Math.sin(t * .02 + d.r));
+      ctx.beginPath();
+      ctx.fillStyle = d.c > .6 ? 'rgba(224,240,255,' + (0.7 * tw) + ')' : 'rgba(74,168,255,' + (0.8 * tw) + ')';
+      ctx.arc(x, y, 1.5 + d.c * 1.6, 0, 6.283); ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>

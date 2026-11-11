@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nova · жидкий морф текста</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(130% 100% at 50% 0%,#0B0B10,#050507 72%);overflow:hidden}
+  .stage{position:relative;width:min(92vw,480px);height:min(70vh,560px);display:flex;align-items:center;justify-content:center;border-radius:26px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 90px rgba(0,0,0,.55);
+    background:radial-gradient(120% 100% at 50% -10%,#101018,#060608 74%)}
+  canvas.dust{position:absolute;inset:0;width:100%;height:100%}
+  svg.words{position:relative;z-index:5;width:100%;height:66%;overflow:visible}
+  svg.words text{font-family:Unbounded,sans-serif;font-weight:800;font-size:44px;letter-spacing:.06em;fill:#EAF6FF;opacity:0;
+    filter:url(#liq) drop-shadow(0 0 18px rgba(74,168,255,.45))}
+  svg.words text.hot{fill:url(#gradN)}
+  .dots{position:absolute;bottom:26px;left:0;right:0;display:flex;justify-content:center;gap:10px;z-index:7}
+  .dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);transition:background .3s,box-shadow .3s}
+  .dots i.on{background:#4AA8FF;box-shadow:0 0 8px 1px rgba(74,168,255,.7)}
+  .vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(100% 80% at 50% 42%,transparent 50%,rgba(4,4,6,.8) 100%)}
+  .tagline{position:absolute;bottom:56px;left:0;right:0;text-align:center;z-index:7;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:#6FA8DC}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gradN" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#BFEFFF"/>
+      <stop offset=".45" stop-color="#FFFFFF"/>
+      <stop offset=".75" stop-color="#7EC8FF"/><stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <filter id="liq" x="-40%" y="-40%" width="180%" height="180%">
+      <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.015 0.09" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap id="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="stage" id="stg">
+  <canvas class="dust" id="dust"></canvas>
+  <svg class="words" id="ws">
+    <defs></defs>
+    <text id="tA" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"></text>
+    <text id="tB" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"></text>
+  </svg>
+  <div class="tagline">NOVA · MESSENGER</div>
+  <div class="dots" id="dots"></div>
+  <div class="vig"></div>
+</div>
+
+<script>
+(function(){
+  const WORDS = ['Nova', 'Плавно', 'Живёт', 'NOVA'];
+  const CYCLE = 2.6;           /* секунд на слово */
+  const stg = document.getElementById('stg');
+  const tA = document.getElementById('tA'), tB = document.getElementById('tB');
+  const turb = document.getElementById('turb'), disp = document.getElementById('disp');
+  const dotsBox = document.getElementById('dots');
+
+  /* точки-индикаторы */
+  WORDS.forEach((w, i) => { const d = document.createElement('i'); d.textContent = ''; dotsBox.appendChild(d); });
+  const dots = [...dotsBox.children];
+
+  tA.textContent = WORDS[0];
+  let cur = 0;
+  function setDot(idx){ dots.forEach((d, k) => d.classList.toggle('on', k === idx)); }
+  setDot(0);
+
+  /* пыль на фоне */
+  const cv = document.getElementById('dust'), ctx = cv.getContext('2d');
+  let W, H, mx = 0, my = 0, tx = 0, ty = 0, t0 = performance.now();
+  function rs(){ const r = stg.getBoundingClientRect(); cv.width = r.width * 2; cv.height = r.height * 2; W = cv.width; H = cv.height; }
+  rs(); addEventListener('resize', rs);
+  stg.addEventListener('pointermove', (e) => { const r = stg.getBoundingClientRect(); tx = (e.clientX - r.left) / r.width - .5; ty = (e.clientY - r.top) / r.height - .5; });
+  stg.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
+  const D = [];
+  for (let i = 0; i < 70; i++) D.push({ a: Math.random() * 6.28, r: 60 + Math.random() * 300, sp: .0008 + Math.random() * .0016, s: .8 + Math.random() * 2, c: Math.random(), z: Math.random() });
+
+  function step(now){
+    mx += (tx - mx) * .06; my += (ty - my) * .06;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W / 2 + mx * 46, cy = H / 2 + my * 34;
+    for (const d of D){
+      d.a += d.sp;
+      const x = cx + Math.cos(d.a) * d.r * 1.4, y = cy + Math.sin(d.a) * d.r * 0.85;
+      const tw = .25 + .75 * Math.abs(Math.sin(now * .002 + d.r));
+      ctx.beginPath();
+      ctx.fillStyle = d.c > .6 ? 'rgba(224,240,255,' + (.45 * tw * d.z + .05) + ')' : 'rgba(74,168,255,' + (.5 * tw * d.z + .05) + ')';
+      ctx.arc(x, y, d.s * (.6 + d.z), 0, 6.283); ctx.fill();
+    }
+    /* морф: конверт 0→1→0 за CYCLE, пик в середине */
+    const el = ((now - t0) / 1000) % CYCLE;
+    const k = el / CYCLE;
+    const env = Math.sin(Math.PI * k);            /* 0..1..0 */
+    const envE = env * env * (3 - 2 * env);        /* smoothstep-конверт */
+    /* переключение слов в конверт-нулях */
+    const idx = Math.floor(((now - t0) / 1000) / CYCLE) % WORDS.length;
+    if (idx !== cur) {
+      cur = idx;
+      tA.textContent = WORDS[cur]; tB.textContent = WORDS[(cur + 1) % WORDS.length];
+      setDot(cur);
+    }
+    /* жидкость: смещение нарастает в середине цикла */
+    disp.setAttribute('scale', (envE * 46).toFixed(2));
+    turb.setAttribute('seed', String(3 + ((now / 350) | 0) % 17));
+    /* кроссфейд + лёгкий zoom */
+    const mix = envE;
+    tA.style.opacity = (1 - mix).toFixed(3);
+    tB.style.opacity = mix.toFixed(3);
+    const sA = 1 - mix * .06, sB = .94 + mix * .06;
+    tA.setAttribute('transform', 'scale(' + sA.toFixed(4) + ')');
+    tB.setAttribute('transform', 'scale(' + sB.toFixed(4) + ')');
+  }
+  /* rAF основной + запасной тикер: работает даже в «спящих» окнах */
+  let last = 0;
+  function tickLoop(){ const now = performance.now(); if (now - last >= 26) { last = now; step(now); } requestAnimationFrame(tickLoop); }
+  requestAnimationFrame(tickLoop);
+  setInterval(() => { if (performance.now() - last > 80) { last = performance.now(); step(last); } }, 40);
+})();
+</script>
+</body>
+</html>

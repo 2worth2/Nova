@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nova · флагманский сплэш</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(120% 100% at 50% 0%,#0B0B10,#050507 70%);font-family:Rubik,sans-serif;color:#F7F7F7}
+  .stage{position:relative;width:380px;height:660px;border-radius:28px;overflow:hidden;cursor:crosshair;
+    background:radial-gradient(140% 110% at 50% -8%,#101018,#060608 72%);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 90px rgba(0,0,0,.6)}
+  /* туманные слои с параллаксом */
+  .fog{position:absolute;border-radius:50%;filter:blur(46px);pointer-events:none;will-change:transform}
+  .fog.f1{width:420px;height:420px;top:-120px;left:-110px;background:radial-gradient(closest-side,rgba(74,168,255,.16),transparent 72%)}
+  .fog.f2{width:360px;height:360px;bottom:-90px;right:-120px;background:radial-gradient(closest-side,rgba(34,211,238,.12),transparent 72%)}
+  .fog.f3{width:300px;height:300px;top:34%;left:34%;background:radial-gradient(closest-side,rgba(139,92,246,.10),transparent 72%)}
+  canvas{position:absolute;inset:0;width:100%;height:100%}
+  .vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(95% 75% at 50% 40%,transparent 52%,rgba(4,4,6,.8) 100%)}
+  .scanl{position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:repeating-linear-gradient(180deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px)}
+  /* фаза 1: слияние в N */
+  .goo{position:absolute;inset:0;filter:url(#goo)}
+  .goo .b{position:absolute;top:38%;left:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;
+    background:radial-gradient(circle at 34% 30%,#7EC8FF,#16406E 68%)}
+  .goo .b1{animation:mb1 6s ease-in-out infinite;opacity:.92}
+  .goo .b2{background:radial-gradient(circle at 40% 32%,#22D3EE,#0E5A5E 70%);animation:mb2 6s ease-in-out infinite;opacity:.9}
+  .goo .b3{width:52px;height:52px;background:radial-gradient(circle at 40% 32%,#3B82F6,#12285C 70%);animation:mb3 6s ease-in-out infinite;opacity:.85}
+  .goo .b4{width:44px;height:44px;background:radial-gradient(circle at 40% 32%,#8AB6FF,#1A3470 70%);animation:mb4 6s ease-in-out infinite;opacity:.8}
+  @keyframes mb1{0%{transform:translate(-120px,-120px) scale(.7)}
+    34%{transform:translate(-8px,-4px) scale(1.45)}
+    46%,100%{transform:translate(0,0) scale(1)}}
+  @keyframes mb2{0%{transform:translate(130px,-90px) scale(.6)}
+    36%{transform:translate(4px,-2px) scale(1.5)}
+    50%,100%{transform:translate(0,4px) scale(.96)}}
+  @keyframes mb3{0%{transform:translate(-150px,70px) scale(.5)}
+    40%{transform:translate(2px,0) scale(1.3)}
+    54%,100%{transform:translate(-2px,0) scale(.9)}}
+  @keyframes mb4{0%{transform:translate(160px,120px) scale(.45)}
+    44%{transform:translate(-2px,2px) scale(1.25)}
+    58%,100%{transform:translate(2px,-2px) scale(.86)}}
+  /* буква N: активируется после слияния */
+  .nmark{position:absolute;top:37.5%;left:50%;translate:-50% -50%;z-index:6;font-family:Unbounded,sans-serif;font-weight:800;font-size:96px;line-height:1;color:#EAF6FF;
+    opacity:0;animation:nup 6s ease infinite;
+    text-shadow:0 0 30px rgba(74,168,255,.5),0 0 80px rgba(74,168,255,.28)}
+  @keyframes nup{0%,52%{opacity:0;transform:translate(-50%,-50%) scale(.72);filter:blur(14px)}
+    60%{opacity:1;transform:translate(-50%,-50%) scale(1.03);filter:blur(0)}
+    64%{transform:translate(-50%,-50%) scale(.99)}
+    86%,100%{opacity:.92}}
+  /* хроматический шиммер по N */
+  .nchrom{position:absolute;top:37.5%;left:50%;translate:-50% -50%;z-index:7;font-family:Unbounded,sans-serif;font-weight:800;font-size:96px;line-height:1;
+    background:linear-gradient(100deg,transparent 42%,rgba(234,246,255,.95) 50%,transparent 58%);background-size:260% auto;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    opacity:0;animation:chrom 6s ease infinite}
+  @keyframes chrom{0%,58%{opacity:0;background-position:130% 0}62%{opacity:1}92%,100%{opacity:.25;background-position:-130% 0}}
+  /* кольца-орбиты */
+  .ring{position:absolute;top:37.5%;left:50%;translate:-50% -50%;border-radius:50%;z-index:3;
+    border:1px solid rgba(74,168,255,.35);opacity:0;animation:rz 6s cubic-bezier(.2,.7,.2,1) infinite}
+  .ring.r1{width:230px;height:230px;animation-delay:.0s}
+  .ring.r2{width:310px;height:310px;border-color:rgba(34,211,238,.24)}
+  .ring.r3{width:390px;height:390px;border-color:rgba(139,92,246,.16)}
+  @keyframes rz{0%,56%{opacity:0;transform:translate(-50%,-50%) scale(.55)}
+    72%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    96%,100%{opacity:0;transform:translate(-50%,-50%) scale(1.14)}}
+  /* бегунок-искра по орбите */
+  .spark{position:absolute;top:37.5%;left:50%;translate:-50% -50%;z-index:4;width:300px;height:300px;opacity:0;animation:spk 6s linear infinite}
+  .spark::before{content:'';position:absolute;top:-3px;left:calc(50% - 3px);width:6px;height:6px;border-radius:50%;
+    background:#fff;box-shadow:0 0 12px 3px rgba(224,240,255,.9),0 0 30px 8px rgba(34,211,238,.5)}
+  @keyframes spk{0%,54%{opacity:0;rotate:0deg}58%{opacity:1}90%,100%{opacity:0;rotate:760deg}}
+  /* название + подпись */
+  .banner{position:absolute;left:0;right:0;bottom:96px;text-align:center;z-index:7;font-family:Unbounded,sans-serif;font-weight:800;font-size:34px;letter-spacing:.5em;text-indent:.5em;color:transparent;
+    background:linear-gradient(90deg,#BFEFFF,#fff 40%,#7EC8FF 60%,#22D3EE);background-size:200% auto;-webkit-background-clip:text;background-clip:text;
+    opacity:0;animation:bnup 6s ease infinite}
+  @keyframes bnup{0%,62%{opacity:0;letter-spacing:.9em;transform:scale(.94);filter:blur(8px)}
+    70%{opacity:1;letter-spacing:.5em;transform:scale(1);filter:blur(0)}
+    86%,100%{opacity:.95}}
+  .tagline{position:absolute;left:0;right:0;bottom:70px;text-align:center;z-index:7;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.32em;color:#6FA8DC;opacity:0;animation:tgup 6s ease infinite}
+  .tagline::after{content:'';position:absolute;top:50%;left:calc(50% + 52px);width:34px;height:1px;background:linear-gradient(90deg,#4AA8FF,transparent);animation:tmline 6s ease infinite}
+  @keyframes tgup{0%,66%{opacity:0;letter-spacing:.6em}73%,100%{opacity:.9;letter-spacing:.32em}}
+  /* фазовый микротекст */
+  .phase{position:absolute;bottom:34px;left:0;right:0;text-align:center;z-index:7;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.26em;color:#3F5A78}
+  .phase span{position:absolute;left:0;right:0;animation:ph 6s linear infinite}
+  .ph1 span:nth-child(1){animation-name:ph}
+  .ph1 span:nth-child(2){animation-name:ph2}
+  .ph1 span:nth-child(3){animation-name:ph3}
+  @keyframes ph{0%,4%{opacity:.7}18%,100%{opacity:0}}
+  @keyframes ph2{0%,20%{opacity:.7}36%,100%{opacity:0}}
+  @keyframes ph3{0%,38%{opacity:.7}58%,100%{opacity:0}}
+  /* вспышка-бум в конце */
+  .boom{position:absolute;top:37.5%;left:50%;translate:-50% -50%;z-index:8;width:30px;height:30px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(234,246,255,.95),rgba(74,168,255,.35) 40%,transparent 70%);opacity:0;animation:bm 6s ease-out infinite}
+  @keyframes bm{0%,88%{opacity:0;transform:translate(-50%,-50%) scale(.2)}
+    92%{opacity:.9;transform:translate(-50%,-50%) scale(3)}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(7)}}
+  .cap{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:#5B8FC7}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="16" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 26 -13" result="g"/><feComposite in="SourceGraphic" in2="g" operator="atop"/></filter>
+  </defs>
+</svg>
+
+<div class="stage" id="stg">
+  <div class="fog f1" id="fx1"></div><div class="fog f2" id="fx2"></div><div class="fog f3" id="fx3"></div>
+  <canvas id="cv"></canvas>
+  <!-- фаза I: капли -->
+  <div class="goo"><i class="b b1"></i><i class="b b2"></i><i class="b b3"></i><i class="b b4"></i></div>
+  <!-- фаза II: рождение N + хроматический блик -->
+  <div class="nmark">N</div><div class="nchrom">N</div>
+  <!-- фаза III: орбиты -->
+  <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+  <div class="spark"></div>
+  <!-- фаза IV: баннер -->
+  <div class="banner">NOVA</div>
+  <div class="tagline">MESSENGER · evolves with you</div>
+  <div class="phase ph1"><span>INITIALIZING</span><span>MERGING CORES</span><span>ORBIT LOCKED</span></div>
+  <div class="boom"></div>
+  <div class="vig"></div><div class="scanl"></div>
+</div>
+
+<div class="cap" id="cap">двигай мышкой по экрану — слои отвечают параллаксом</div>
+
+<script>
+(function(){
+  const stg = document.getElementById('stg'), cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+  let W, H, mx = 0, my = 0, tx = 0, ty = 0, t = 0;
+  function rs(){ const r = stg.getBoundingClientRect(); cv.width = r.width * 2; cv.height = r.height * 2; W = cv.width; H = cv.height; }
+  rs(); addEventListener('resize', rs);
+  stg.addEventListener('.pointermove' in stg ? 'pointermove' : 'mousemove', (e) => {
+    const r = stg.getBoundingClientRect();
+    tx = (e.clientX - r.left) / r.width - .5; ty = (e.clientY - r.top) / r.height - .5;
+  });
+  stg.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
+  const fog1 = document.getElementById('fx1'), fog2 = document.getElementById('fx2'), fog3 = document.getElementById('fx3');
+  /* пыль: два плана глубины */
+  const D = [];
+  for (let i = 0; i < 90; i++) D.push({ z: Math.random(), a: Math.random() * 6.28, r: 80 + Math.random() * 340, sp: .0009 + Math.random() * .0018, s: .8 + Math.random() * 2.2, c: Math.random() });
+  function frame(){
+    mx += (tx - mx) * .06; my += (ty - my) * .06;
+    fog1.style.transform = 'translate(' + (mx * -34) + 'px,' + (my * -26) + 'px)';
+    fog2.style.transform = 'translate(' + (mx * 44) + 'px,' + (my * 32) + 'px)';
+    fog3.style.transform = 'translate(' + (mx * -70) + 'px,' + (my * -50) + 'px)';
+    ctx.clearRect(0, 0, W, H);
+    t++;
+    const cx = W / 2, cy = H * 0.375;
+    for (const d of D){
+      d.a += d.sp;
+      const px = (mx * (d.z * 90 - 36)), py = (my * (d.z * 70 - 28));
+      const x = cx + Math.cos(d.a) * d.r * 1.3 + px, y = cy + Math.sin(d.a) * d.r * 0.9 + py;
+      const tw = .25 + .75 * Math.abs(Math.sin(t * .017 + d.r));
+      ctx.beginPath();
+      ctx.fillStyle = d.c > .66 ? 'rgba(224,240,255,' + (.65 * tw * d.z + .08) + ')' : d.c > .33 ? 'rgba(74,168,255,' + (.7 * tw * d.z + .08) + ')' : 'rgba(34,211,238,' + (.6 * tw * d.z + .08) + ')';
+      ctx.arc(x, y, d.s * (0.6 + d.z), 0, 6.283); ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
